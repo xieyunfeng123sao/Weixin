@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="style_wel_button">
+        <item name="android:layout_width">130dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:layout_margin">15dp</item>
+    </style>
+
+</resources>

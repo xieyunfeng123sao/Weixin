@@ -1,7 +1,15 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">微信</string>
     <string name="radio_weixin">微信</string>
     <string name="radio_comm">通讯录</string>
     <string name="radio_find">发现</string>
     <string name="radio_me">我</string>
+    <string name="phone_num">手机号</string>
+    <string name="password">密码</string>
+    <string name="input_phoneNum">请输入手机号</string>
+    <string name="input_password">请输入密码</string>
+    <string name="input_nickname">例:慢嗨</string>
+    <string name="login">登录</string>
+    <string name="add_user">注册</string>
+    <string name="nickname">昵称</string>
 </resources>

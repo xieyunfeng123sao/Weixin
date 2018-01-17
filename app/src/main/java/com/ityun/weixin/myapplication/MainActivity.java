@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
@@ -18,6 +19,13 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.wel_img)
     ImageView wel_img;
 
+    //登录按钮
+    @BindView(R.id.wel_login_button)
+    Button wel_login_button;
+    //注册按钮
+    @BindView(R.id.wel_add_button)
+    Button wel_add_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,15 +36,22 @@ public class MainActivity extends BaseActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         ImageLoadUtil.getInstance(App.context).getResouce(R.mipmap.we_2,wel_img);
-        wel_img.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent=new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent);
-
-            }
-        },800);
+//        wel_img.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent=new Intent(MainActivity.this, HomeActivity.class);
+//                startActivity(intent);
+//
+//            }
+//        },1000);
     }
+
+
+    private void  isNeedLogin()
+    {
+
+    }
+
 
 
 }

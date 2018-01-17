@@ -3,6 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="main_color">#2BA146</color>
-    <color name="text_color">#9C9C9C</color>
+    <color name="main_color">#1AAD19</color>
+    <color name="txt_color">#484848</color>
+    <color name="light_main_color">#A3DEA3</color>
+
+    <color name="gray_white">#F8F8F8</color>
+    <color name="white">#FFFFFF</color>
 </resources>

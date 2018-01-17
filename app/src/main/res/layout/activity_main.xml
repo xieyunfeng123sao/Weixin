@@ -8,7 +8,25 @@
     <ImageView
         android:id="@+id/wel_img"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
 
 
+    <Button
+        android:id="@+id/wel_login_button"
+        style="@style/style_wel_button"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/wel_left_button"
+        android:text="@string/login"
+        android:textColor="@color/white" />
+
+
+    <Button
+        android:id="@+id/wel_add_button"
+        style="@style/style_wel_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/wel_right_button"
+        android:text="@string/add_user"
+        android:textColor="@color/txt_color" />
 </RelativeLayout>
