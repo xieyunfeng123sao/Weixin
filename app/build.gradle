@@ -39,15 +39,15 @@ dependencies {
 
     //bmob-im：Bmob的即时通讯包，注意每个版本的im依赖特定版本的bmob-sdk，具体的依赖关系可查看下面注释[2]
     compile 'cn.bmob.android:bmob-im:2.0.5@aar'
-    compile 'cn.bmob.android:bmob-sdk:3.4.7-aar'
-
+//    compile 'cn.bmob.android:bmob-sdk:3.4.7-aar'
+    compile 'cn.bmob.android:bmob-sdk:3.5.8'
     //bmob-sms ：Bmob单独为短信服务提供的包
 //    compile 'cn.bmob.android:bmob-sms:1.0.1'
 
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
     compile 'com.android.support:support-v4:23.2.1'
 //    compile 'cn.bmob.android:http-legacy:1.0'
-    compile 'cn.bmob.android:bmob-sdk:3.5.8'
+
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     //注解

@@ -1,27 +1,19 @@
 package com.ityun.weixin.myapplication;
 
+import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-
 import com.ityun.weixin.myapplication.base.App;
-import com.ityun.weixin.myapplication.bean.User;
-import com.ityun.weixin.myapplication.listener.BmobTableListener;
-import com.ityun.weixin.myapplication.table.UserHelper;
+import com.ityun.weixin.myapplication.base.BaseActivity;
+import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
-import com.squareup.leakcanary.RefWatcher;
-
-import org.json.JSONArray;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bmob.v3.exception.BmobException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.wel_img)
     ImageView wel_img;
@@ -35,14 +27,16 @@ public class MainActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        ImageLoadUtil.getInstance(App.context).getResouce(R.mipmap.we_1,wel_img);
+        ImageLoadUtil.getInstance(App.context).getResouce(R.mipmap.we_2,wel_img);
+        wel_img.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent=new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(intent);
+
+            }
+        },800);
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        RefWatcher refWatcher = App.getRefWatcher(this);
-        refWatcher.watch(this);
-    }
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/activity_home_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/home_end"
+         />
+    <LinearLayout
+        android:id="@+id/home_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+         >
+        <RadioGroup
+            android:id="@+id/activity_home_radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/radio_weixin"
+                style="@style/style_home_radio"
+                android:drawableTop="@drawable/radio_weixin"
+                android:text="@string/radio_weixin" />
+            <RadioButton
+                android:id="@+id/radio_comm"
+                style="@style/style_home_radio"
+                android:drawableTop="@drawable/radio_comm"
+                android:text="@string/radio_comm" />
+            <RadioButton
+                android:id="@+id/radio_find"
+                style="@style/style_home_radio"
+                android:drawableTop="@drawable/radio_find"
+                android:text="@string/radio_find" />
+            <RadioButton
+                android:id="@+id/radio_me"
+                style="@style/style_home_radio"
+                android:drawableTop="@drawable/radio_me"
+                android:text="@string/radio_me" />
+        </RadioGroup>
+    </LinearLayout>
+
+
+</RelativeLayout>
