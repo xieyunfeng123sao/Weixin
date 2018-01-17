@@ -1,6 +1,11 @@
 package com.ityun.weixin.myapplication.base;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
+
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import cn.bmob.v3.Bmob;
 
@@ -8,13 +13,36 @@ import cn.bmob.v3.Bmob;
  * Created by Administrator on 2018/1/16.
  */
 
-public class App  extends Application{
+public class App  extends Application {
+
+    public  static  App app;
+
+    public static App getInstance()
+    {
+        if(app==null)
+            app=new App();
+        return  app;
+    }
+    public static RefWatcher getRefWatcher(Context context) {
+        App application = (App) context.getApplicationContext();
+        return application.refWatcher;
+    }
+    private RefWatcher refWatcher;
+
+    public  static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        context=getApplicationContext();
+        Log.e("insert","=========onCreate=========");
+        refWatcher = LeakCanary.install(this);
+        init();
     }
 
+    /**
+     * bomb云的初始化
+     */
     private void init()
     {
         //提供以下两种方式进行初始化操作：
