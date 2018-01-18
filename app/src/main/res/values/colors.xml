@@ -5,8 +5,13 @@
     <color name="colorAccent">#FF4081</color>
     <color name="main_color">#1AAD19</color>
     <color name="txt_color">#484848</color>
+    <color name="light_txt_color">#cdcdcd</color>
     <color name="light_main_color">#A3DEA3</color>
 
     <color name="gray_white">#F8F8F8</color>
     <color name="white">#FFFFFF</color>
+    <color name="tran">#00FFFFFF</color>
+
+
+    <color name="dialog_bg">#E22B2B2B</color>
 </resources>

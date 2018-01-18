@@ -2,8 +2,6 @@ package com.ityun.weixin.myapplication.base;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
-
 import com.ityun.weixin.myapplication.im.IMMessageHandler;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;

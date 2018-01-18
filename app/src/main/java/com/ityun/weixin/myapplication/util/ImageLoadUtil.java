@@ -32,7 +32,7 @@ public class ImageLoadUtil {
 
     public   void getResouce(int resId, ImageView imageView)
     {
-        Glide.with(App.context).load(resId).into(imageView);
+        Glide.with(App.context).load(resId).skipMemoryCache(true).into(imageView);
     }
 
 

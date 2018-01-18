@@ -1,5 +1,7 @@
 package com.ityun.weixin.myapplication;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,10 +11,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.ui.HomeActivity;
+import com.ityun.weixin.myapplication.ui.AddUserActivity;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
+import com.ityun.weixin.myapplication.view.LoadDialog;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
@@ -25,6 +30,8 @@ public class MainActivity extends BaseActivity {
     //注册按钮
     @BindView(R.id.wel_add_button)
     Button wel_add_button;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +51,32 @@ public class MainActivity extends BaseActivity {
 //
 //            }
 //        },1000);
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 
     private void  isNeedLogin()
     {
 
     }
 
+    @OnClick(R.id.wel_add_button)
+    public  void  addUserOnclick()
+    {
+        Intent intent=new Intent(this, AddUserActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.wel_login_button)
+    public   void   loginOnclick()
+    {
+
+    }
 
 
 }
