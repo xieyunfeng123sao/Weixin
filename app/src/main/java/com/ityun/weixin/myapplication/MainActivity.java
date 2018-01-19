@@ -1,7 +1,5 @@
 package com.ityun.weixin.myapplication;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,9 +9,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.ui.AddUserActivity;
+import com.ityun.weixin.myapplication.ui.adduser.AddUserActivity;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
-import com.ityun.weixin.myapplication.view.LoadDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

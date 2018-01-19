@@ -26,20 +26,14 @@ public class UserHelper {
 
     private static UserHelper userHelper;
 
-    private Context context;
-
-    public static UserHelper getInstance(Context context) {
+    public static UserHelper getInstance() {
         if (userHelper == null) {
-            userHelper = new UserHelper(context);
+            userHelper = new UserHelper();
         }
         return userHelper;
     }
 
 
-    public UserHelper(Context context)
-    {
-        this.context=context;
-    }
 
     /**
      *
@@ -47,8 +41,6 @@ public class UserHelper {
      * @param user
      */
     public void addUser(final User user,final  BmobTableListener listener) {
-
-
                 user.setCreateTime(new BmobDate(new Date()));
                 user.setUpdataTime(new BmobDate(new Date()));
                 user.save(new SaveListener<String>() {
@@ -69,7 +61,6 @@ public class UserHelper {
     {
         BmobQuery query =new BmobQuery(TableName.userTable);
         query.addWhereEqualTo("loginName", loginName);
-
         query.findObjectsByTable(new QueryListener<JSONArray>() {
             @Override
             public void done(JSONArray jsonArray, BmobException e) {

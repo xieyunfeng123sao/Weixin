@@ -15,4 +15,7 @@
     <string name="adding_user">正在注册</string>
     <string name="adding_login">正在登录</string>
 
+
+    <string name="error_num">请输入正确的手机号</string>
+    <string name="error_has_user">该手机已注册</string>
 </resources>

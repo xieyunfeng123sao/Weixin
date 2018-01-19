@@ -87,13 +87,14 @@
         </activity>
 
         <activity
-            android:name=".ui.AddUserActivity"
+            android:name=".ui.adduser.AddUserActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.DELETE" />
                 <category android:name="android.intent.ityun.weixin.AddUserActivity" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

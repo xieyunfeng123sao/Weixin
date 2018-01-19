@@ -1,4 +1,4 @@
-package com.ityun.weixin.myapplication.ui;
+package com.ityun.weixin.myapplication.ui.adduser;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -12,22 +12,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
+import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/1/17.
  */
 
-public class AddUserActivity extends BaseActivity {
+public class AddUserActivity extends BaseActivity implements AddUserContract.View{
 
     //返回
     @BindView(R.id.add_goback)
@@ -68,12 +69,15 @@ public class AddUserActivity extends BaseActivity {
 
     Dialog dialog;
 
+    private  AddUserPresenter presenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
         ButterKnife.bind(this);
         initListener();
+        presenter=new AddUserPresenter(this);
     }
 
     @OnClick(R.id.add_goback)
@@ -114,13 +118,16 @@ public class AddUserActivity extends BaseActivity {
     {
         if(!DecideUtil.isMobile(add_input_phonenum.getText().toString()))
         {
-            Toast(R.string.add_user);
+            Toast(R.string.error_num);
             return;
         }
         dialog= new LoadDialog(this).setText(R.string.adding_user).build();
         dialog.show();
-
-
+        User user=new User();
+        user.setUserName(add_input_nickname.getText().toString());
+        user.setLoginName(add_input_phonenum.getText().toString());
+        user.setPassword(add_input_password.getText().toString());
+        presenter.addUser(user);
     }
 
 
@@ -243,5 +250,26 @@ public class AddUserActivity extends BaseActivity {
         } else {
             view.setBackgroundResource(R.color.txt_color);
         }
+    }
+
+    @Override
+    public void addSucess() {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void addFail() {
+
+    }
+
+    @Override
+    public void addError(BmobException e) {
+
+    }
+
+    @Override
+    public void toastHasAdd() {
+        dialog.dismiss();
+        Toast(R.string.error_has_user);
     }
 }
