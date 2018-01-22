@@ -69,17 +69,27 @@
                     android:background="@color/txt_color" />
             </LinearLayout>
             <RelativeLayout
+                android:focusable="true"
                 android:clickable="true"
-                android:id="@+id/add_user_img"
+                android:id="@+id/add_user_img_rl"
                 android:background="@drawable/adduser_img"
                 android:layout_width="68dp"
                 android:layout_height="68dp">
 
-                <ImageButton
+                <ImageView
+                    android:clickable="false"
                     android:layout_centerInParent="true"
                     android:background="@mipmap/camare"
                     android:layout_width="22dp"
                     android:layout_height="22dp" />
+                <ImageView
+                    android:id="@+id/add_user_img"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout

@@ -1,6 +1,7 @@
 package com.ityun.weixin.myapplication.ui.adduser;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.ui.album.AlbumActivity;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
 
@@ -36,9 +38,7 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
     //昵称
     @BindView(R.id.add_input_nickname)
     EditText add_input_nickname;
-    //添加头像
-    @BindView(R.id.add_user_img)
-    RelativeLayout add_user_img;
+
     //昵称下面的线条
     @BindView(R.id.nickname_line)
     View nickname_line;
@@ -63,6 +63,12 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
     //注册
     @BindView(R.id.add_user_button)
     Button add_user_button;
+
+    @BindView(R.id.add_user_img_rl)
+    RelativeLayout add_user_img_rl;
+
+    @BindView(R.id.add_user_img)
+    ImageView add_user_img;
 
     //密码是否可见
     private boolean isLook;
@@ -128,6 +134,21 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
         user.setLoginName(add_input_phonenum.getText().toString());
         user.setPassword(add_input_password.getText().toString());
         presenter.addUser(user);
+    }
+
+    @OnClick({R.id.add_user_img_rl,R.id.add_user_img})
+    public  void addUserHeadPortrait(View v)
+    {
+        Intent intent;
+        switch (v.getId())
+        {
+            case R.id.add_user_img_rl:
+                intent=new Intent(AddUserActivity.this, AlbumActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
     }
 
 

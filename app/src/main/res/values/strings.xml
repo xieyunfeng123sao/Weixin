@@ -18,4 +18,6 @@
 
     <string name="error_num">请输入正确的手机号</string>
     <string name="error_has_user">该手机已注册</string>
+
+    <string name="pic">图片</string>
 </resources>
