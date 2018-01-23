@@ -13,10 +13,6 @@ import android.support.v4.content.ContextCompat;
 
 public class PermissionUtil {
 
-
-
-
-
     public static  int  readFile(Activity context, int permiss)
     {
         //第二个参数是需要申请的权限
@@ -25,10 +21,10 @@ public class PermissionUtil {
             ActivityCompat.requestPermissions(context,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, permiss);
             return  0;
-
         }else {
             //权限已经被授予，在这里直接写要执行的相应方法即可
             return 1;
         }
     }
+
 }

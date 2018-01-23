@@ -15,18 +15,12 @@ import java.io.File;
 
 public class ImageLoadUtil {
 
-    Context context;
-    public ImageLoadUtil(Context context)
-    {
-        this.context=context;
-    }
-
    private static ImageLoadUtil imageLoadUtil;
 
-    public static ImageLoadUtil getInstance(Context context)
+    public static ImageLoadUtil getInstance()
     {
         if(imageLoadUtil==null)
-            imageLoadUtil=new ImageLoadUtil(context);
+            imageLoadUtil=new ImageLoadUtil();
         return  imageLoadUtil;
     }
 
@@ -36,10 +30,10 @@ public class ImageLoadUtil {
     }
 
 
-    public    void  getFile(String path,ImageView imageView)
-    {
-        Glide.with(App.context).load(new File(path)).into(imageView);
-    }
+//    public    void  getFile(String path,ImageView imageView)
+//    {
+//        Glide.with(context).load(new File(path)).into(imageView);
+//    }
 
 
 }

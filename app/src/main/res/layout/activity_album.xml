@@ -1,39 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/black"
+   >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-<TextView
-    android:textColor="@color/gray_white"
-    android:paddingLeft="20dp"
-    android:textSize="12sp"
-    android:id="@+id/picture_date"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/picture_file_name">
+
+        <TextView
+            android:id="@+id/picture_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:textColor="@color/gray_white"
+            android:textSize="12sp" />
 
 
-     <GridView
-         android:numColumns="4"
-         android:id="@+id/picture_gridview"
-         android:listSelector="@color/white"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"></GridView>
+        <GridView
+            android:id="@+id/picture_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:columnWidth="90dp"
+            android:horizontalSpacing="3dp"
+            android:listSelector="@null"
+            android:numColumns="4"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="3dp" />
     </RelativeLayout>
 
     <TextView
-        android:background="@color/colorPrimary"
-        android:paddingLeft="10dp"
-        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
         android:id="@+id/picture_file_name"
-        android:textColor="@color/gray_white"
-        android:textSize="18sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textColor="@color/gray_white"
+        android:textSize="16sp" />
 
 
-</LinearLayout>
+</RelativeLayout>
