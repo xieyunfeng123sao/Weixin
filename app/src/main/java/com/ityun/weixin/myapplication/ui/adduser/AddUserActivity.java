@@ -8,29 +8,37 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.ui.album.AlbumActivity;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
+import com.orhanobut.logger.Logger;
+
+import org.json.JSONArray;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/1/17.
  */
 
-public class AddUserActivity extends BaseActivity implements AddUserContract.View{
+public class AddUserActivity extends BaseActivity implements AddUserContract.View {
 
     //返回
     @BindView(R.id.add_goback)
@@ -75,7 +83,13 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
 
     Dialog dialog;
 
-    private  AddUserPresenter presenter;
+    private AddUserPresenter presenter;
+
+    public int GET_USER_IMG = 10;
+
+    private String path = "";
+    User user;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,12 +97,11 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
         setContentView(R.layout.activity_add_user);
         ButterKnife.bind(this);
         initListener();
-        presenter=new AddUserPresenter(this);
+        presenter = new AddUserPresenter(this);
     }
 
     @OnClick(R.id.add_goback)
-    public void goBack()
-    {
+    public void goBack() {
         finish();
     }
 
@@ -120,37 +133,36 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
     }
 
     @OnClick(R.id.add_user_button)
-    public void addUser()
-    {
-        if(!DecideUtil.isMobile(add_input_phonenum.getText().toString()))
-        {
+    public void addUser() {
+        if (!DecideUtil.isMobile(add_input_phonenum.getText().toString())) {
             Toast(R.string.error_num);
             return;
         }
-        dialog= new LoadDialog(this).setText(R.string.adding_user).build();
+        dialog = new LoadDialog(this).setText(R.string.adding_user).build();
         dialog.show();
-        User user=new User();
+        user = new User();
         user.setUserName(add_input_nickname.getText().toString());
         user.setLoginName(add_input_phonenum.getText().toString());
         user.setPassword(add_input_password.getText().toString());
-        presenter.addUser(user);
+        presenter.selectUser(user.getLoginName());
     }
 
-    @OnClick({R.id.add_user_img_rl,R.id.add_user_img})
-    public  void addUserHeadPortrait(View v)
-    {
+    @OnClick({R.id.add_user_img_rl, R.id.add_user_img})
+    public void addUserHeadPortrait(View v) {
         Intent intent;
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.add_user_img_rl:
-                intent=new Intent(AddUserActivity.this, AlbumActivity.class);
-                startActivity(intent);
+                intent = new Intent(AddUserActivity.this, AlbumActivity.class);
+                startActivityForResult(intent, GET_USER_IMG);
+                break;
+            case R.id.add_user_img:
+                intent = new Intent(AddUserActivity.this, AlbumActivity.class);
+                startActivityForResult(intent, GET_USER_IMG);
                 break;
             default:
                 break;
         }
     }
-
 
 
     /**
@@ -273,24 +285,98 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
         }
     }
 
+
     @Override
-    public void addSucess() {
-        dialog.dismiss();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GET_USER_IMG) {
+            if (resultCode == RESULT_OK) {
+                path = data.getStringExtra("image");
+                Glide.with(AddUserActivity.this).load(new File(path)).into(add_user_img);
+                add_user_img.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
-    public void addFail() {
+    public void selectSucess(final Object object) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                JSONArray jsonArray = (JSONArray) object;
+                if (jsonArray.length() == 0) {
+                    //这个账号没有注册过
+                    if (path == null || !new File(path).exists()) {
+                        presenter.addUser(user);
+                    } else {
+                        presenter.addImage(path);
+                    }
+
+                } else {
+                    //这个账号已经存在了
+                    dialog.dismiss();
+                    Toast(R.string.error_has_user);
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void selectFail() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast(R.string.error_add_user);
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+    @Override
+    public void uploadSucess(final String url) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                user.setUserPic(url);
+                presenter.addUser(user);
+            }
+        });
+    }
+
+    @Override
+    public void uploadFail(final BmobException e) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                user.setUserPic("");
+                presenter.addUser(user);
+            }
+        });
+    }
+
+    @Override
+    public void addSucess(final Object object) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                user.setId(object.toString());
+                dialog.dismiss();
+            }
+        });
 
     }
 
     @Override
     public void addError(BmobException e) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast(R.string.error_add_user);
+                dialog.dismiss();
+            }
+        });
 
-    }
-
-    @Override
-    public void toastHasAdd() {
-        dialog.dismiss();
-        Toast(R.string.error_has_user);
     }
 }

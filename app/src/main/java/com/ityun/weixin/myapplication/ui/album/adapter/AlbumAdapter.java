@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.ityun.weixin.myapplication.R;
+import com.ityun.weixin.myapplication.util.DensityUtil;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 import com.ityun.weixin.myapplication.util.addpic.LocalMedia;
 import com.orhanobut.logger.Logger;
@@ -26,6 +27,7 @@ import static com.ityun.weixin.myapplication.base.App.context;
 public class AlbumAdapter extends BaseAdapter {
 
     Context context;
+
     List<LocalMedia> mlist;
 
     public AlbumAdapter(Context context) {
@@ -66,7 +68,18 @@ public class AlbumAdapter extends BaseAdapter {
         {
             holder= (Holder) convertView.getTag();
         }
-        Glide.with(context).load(new File(mlist.get(position).getPath())).thumbnail(0.2f).into(holder.imageView);
+        if(mlist.get(position).getType()==1)
+        {
+            int  padding= DensityUtil.dip2px(context,25);
+            holder.imageView.setPadding(padding,padding,padding,padding);
+            Glide.with(context).load(R.mipmap.camare).centerCrop().thumbnail(0.2f).into(holder.imageView);
+        }
+        else
+        {
+            holder.imageView.setPadding(0,0,0,0);
+            Glide.with(context).load(new File(mlist.get(position).getPath())).thumbnail(0.2f).into(holder.imageView);
+        }
+
         return convertView;
     }
 

@@ -18,7 +18,7 @@ public class User extends BmobObject {
     /**
      * 用户id
      */
-    private int  id;
+    private String   id;
     /**
      * 登录名
      */
@@ -36,7 +36,7 @@ public class User extends BmobObject {
     /**
      * 用户头像
      */
-    private BmobFile userPic;
+    private String userPic;
 
     /**
      * 创建时间
@@ -55,11 +55,11 @@ public class User extends BmobObject {
         this.setTableName(TableName.userTable);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -87,11 +87,11 @@ public class User extends BmobObject {
         this.userName = userName;
     }
 
-    public BmobFile getUserPic() {
+    public String getUserPic() {
         return userPic;
     }
 
-    public void setUserPic(BmobFile userPic) {
+    public void setUserPic(String userPic) {
         this.userPic = userPic;
     }
 

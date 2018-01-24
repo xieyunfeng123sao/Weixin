@@ -99,7 +99,6 @@ public class App extends Application {
     public void addActivity(Activity activity) {
         if (!activityList.contains(activity))
             activityList.add(activity);
-        Logger.e("addActivity=="+activity.getClass().getName());
     }
 
     /**
@@ -110,7 +109,6 @@ public class App extends Application {
         if (activityList.contains(activity)) {
             activityList.remove(activity);
         }
-        Logger.e("destoryActivity=="+activity.getClass().getName());
     }
 
     /**

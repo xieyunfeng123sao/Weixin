@@ -5,9 +5,6 @@ import android.support.annotation.NonNull;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;
 import com.ityun.weixin.myapplication.table.UserHelper;
-
-import org.json.JSONArray;
-
 import cn.bmob.v3.exception.BmobException;
 
 /**
@@ -28,18 +25,13 @@ public class AddUserPresenter implements AddUserContract.Presenter {
 
     }
 
+
     @Override
     public void addUser(User user) {
-        UserHelper.getInstance().queryLoginName(user.getLoginName(), new BmobTableListener() {
+        UserHelper.getInstance().addUser(user, new BmobTableListener() {
             @Override
             public void onSucess(Object object) {
-                JSONArray jsonArray = (JSONArray) object;
-                if (jsonArray.length() == 0) {
-                    //这个账号没有注册过
-                    view.addSucess();
-                } else {
-                    //这个账号已经存在了
-                }
+                view.addSucess(object);
             }
 
             @Override
@@ -47,6 +39,34 @@ public class AddUserPresenter implements AddUserContract.Presenter {
                 view.addError(e);
             }
         });
+    }
 
+    @Override
+    public void selectUser(String num) {
+        UserHelper.getInstance().queryLoginName(num, new BmobTableListener() {
+            @Override
+            public void onSucess(Object object) {
+                view.selectSucess(object);
+            }
+            @Override
+            public void onFail(BmobException e) {
+                view.selectFail();
+            }
+        });
+    }
+
+    @Override
+    public void addImage(String path) {
+        UserHelper.getInstance().addFile(path, new BmobTableListener() {
+            @Override
+            public void onSucess(Object object) {
+                view.uploadSucess(object.toString());
+            }
+
+            @Override
+            public void onFail(BmobException e) {
+                view.uploadFail(e);
+            }
+        });
     }
 }

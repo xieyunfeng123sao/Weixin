@@ -11,19 +11,27 @@ import cn.bmob.v3.exception.BmobException;
  */
 
 public interface AddUserContract {
-    interface View extends BaseView<Presenter>
-    {
-        void  addSucess();
+    interface View extends BaseView<Presenter> {
 
-        void  addFail();
+        void selectSucess(Object object);
 
-        void  addError(BmobException e);
+        void selectFail();
 
-        void  toastHasAdd();
+        void uploadSucess(String url);
+
+        void uploadFail(BmobException e);
+
+        void addSucess(Object object);
+
+        void addError(BmobException e);
     }
 
     interface Presenter extends BasePresenter {
-        void  addUser(User user);
+        void addUser(User user);
+
+        void selectUser(String num);
+
+        void addImage(String path);
     }
 
 }

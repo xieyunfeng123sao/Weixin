@@ -11,12 +11,16 @@
         android:layout_above="@+id/picture_file_name">
 
         <TextView
+            android:background="@color/tran_gray"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
             android:id="@+id/picture_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
+            android:paddingLeft="15dp"
             android:textColor="@color/gray_white"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
 
 
         <GridView
@@ -27,7 +31,7 @@
             android:layout_marginRight="2dp"
             android:columnWidth="90dp"
             android:horizontalSpacing="3dp"
-            android:listSelector="@null"
+            android:listSelector="@color/txt_color"
             android:numColumns="4"
             android:stretchMode="columnWidth"
             android:verticalSpacing="3dp" />

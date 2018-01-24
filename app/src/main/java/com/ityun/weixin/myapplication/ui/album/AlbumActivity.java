@@ -2,8 +2,10 @@ package com.ityun.weixin.myapplication.ui.album;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -12,20 +14,33 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
+import com.ityun.weixin.myapplication.conn.FileConstance;
+import com.ityun.weixin.myapplication.ui.adduser.AddUserActivity;
 import com.ityun.weixin.myapplication.ui.album.adapter.AlbumAdapter;
+import com.ityun.weixin.myapplication.util.DataUtils;
 import com.ityun.weixin.myapplication.util.PermissionUtil;
+import com.ityun.weixin.myapplication.util.PhotoUtil;
 import com.ityun.weixin.myapplication.util.addpic.LocalMedia;
 import com.ityun.weixin.myapplication.util.addpic.LocalMediaFolder;
 import com.ityun.weixin.myapplication.util.addpic.LocalMediaLoader;
+import com.ityun.weixin.myapplication.view.AlbumPopwindow;
+import com.orhanobut.logger.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,14 +70,22 @@ public class AlbumActivity extends BaseActivity {
 
     public int MY_PERMISSIONS_REQUEST_OPEN_ALBUM = 10;
 
+    public int MY_PERMISSIONS_REQUEST_OPEN_CAMARE = 20;
+
     private AlbumAdapter adapter;
+
+    private int REQUEST_CODE_PHONE_IMAGE = 22;
+
+    private PopupWindow mPopupWindow;
+
+    private AlbumPopwindow albumPopwindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
         ButterKnife.bind(this);
-        adapter=new AlbumAdapter(this);
+        adapter = new AlbumAdapter(this);
         picture_gridview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         initActionBar();
@@ -74,22 +97,38 @@ public class AlbumActivity extends BaseActivity {
     private void initView() {
         mediaFolderList = new ArrayList<>();
         localMediaList = new ArrayList<>();
+        albumPopwindow=new AlbumPopwindow(this);
+        albumPopwindow.setOnItemOnClick(new AlbumPopwindow.OnItemOnClick() {
+            @Override
+            public void onClick(int position) {
+
+            }
+        });
+        //获取本地所有图片
         new LocalMediaLoader(this, 0, false).loadAllImage(new LocalMediaLoader.LocalMediaLoadListener() {
             @Override
             public void loadComplete(List<LocalMediaFolder> folders) {
+                localMediaList.clear();
                 mediaFolderList.addAll(folders);
+                LocalMedia media = new LocalMedia();
+                media.setType(1);
+                media.setLastUpdateAt(new Date().getTime());
+                mediaFolderList.get(0).getImages().add(0, media);
                 localMediaList.addAll(mediaFolderList.get(sType).getImages());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (mediaFolderList.get(0).getImages() != null && mediaFolderList.get(0).getImages().size() > 1) {
+                            picture_date.setText(DataUtils.longToString(mediaFolderList.get(0).getImages().get(1).getLastUpdateAt(), "yyyy-MM-dd"));
+                        }
                         picture_file_name.setText(mediaFolderList.get(sType).getName());
                         adapter.setData(localMediaList);
+                        mPopupWindow=albumPopwindow.create(mediaFolderList);
                     }
                 });
-
             }
         });
-
+        //设置下面文件名显示的背景高度
         picture_file_name.post(new Runnable() {
             @Override
             public void run() {
@@ -98,19 +137,31 @@ public class AlbumActivity extends BaseActivity {
                 picture_file_name.setLayoutParams(params);
             }
         });
-        picture_gridview.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+        picture_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (localMediaList.get(position).getType() == 1) {
+                    //类型一 为拍照
+                    if (PermissionUtil.openCamare(AlbumActivity.this, MY_PERMISSIONS_REQUEST_OPEN_CAMARE) == 1) {
+                        PhotoUtil.getInstance().getImageFromPhone(AlbumActivity.this, REQUEST_CODE_PHONE_IMAGE);
+                    }
+                } else {
+                    //其他的 返回头像
+                    Intent intent = getIntent();
+                    intent.putExtra("image", localMediaList.get(position).getPath());
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
             }
         });
-
     }
 
+    private void initPoP()
+    {
+
+    }
 
     private void initActionBar() {
         actionBar = getSupportActionBar();
@@ -135,7 +186,32 @@ public class AlbumActivity extends BaseActivity {
                 initView();
             } else {
                 //授权失败
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.error_album, Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == MY_PERMISSIONS_REQUEST_OPEN_CAMARE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //授权成功
+                PhotoUtil.getInstance().getImageFromPhone(AlbumActivity.this, REQUEST_CODE_PHONE_IMAGE);
+            } else {
+                //授权失败
+                Toast.makeText(this, R.string.error_camare_pe, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PHONE_IMAGE) {
+            //拍照返回的数据
+            if (resultCode == RESULT_OK) {
+                Intent intent = getIntent();
+                intent.putExtra("image", PhotoUtil.getInstance().getPath());
+                setResult(RESULT_OK, intent);
+                finish();
+            } else {
+                PhotoUtil.getInstance().deleteFile();
             }
         }
     }
