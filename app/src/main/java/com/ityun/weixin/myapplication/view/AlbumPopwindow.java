@@ -2,6 +2,7 @@ package com.ityun.weixin.myapplication.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -10,11 +11,10 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-
 import com.ityun.weixin.myapplication.R;
+import com.ityun.weixin.myapplication.util.DensityUtil;
 import com.ityun.weixin.myapplication.util.addpic.LocalMediaFolder;
 import com.ityun.weixin.myapplication.view.adpter.AlbumPopAdapter;
-
 import java.util.List;
 
 /**
@@ -28,6 +28,8 @@ public class AlbumPopwindow {
     private PopupWindow mPopupWindow;
 
     private ListView album_file_list;
+
+
 
     private AlbumPopAdapter adapter;
 
@@ -47,12 +49,13 @@ public class AlbumPopwindow {
         adapter=new AlbumPopAdapter(context);
         album_file_list.setAdapter(adapter);
         adapter.setData(mediaFolderList);
-        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, 1000, true);
+        mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context,450), true);
         mPopupWindow.setTouchable(true);
         mPopupWindow.setOutsideTouchable(false);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable(context.getResources(), (Bitmap) null));
-        mPopupWindow.getContentView().setFocusableInTouchMode(true);
-        mPopupWindow.getContentView().setFocusable(true);
+        mPopupWindow.getContentView().setFocusableInTouchMode(false);
+        mPopupWindow.getContentView().setFocusable(false);
+        mPopupWindow.setAnimationStyle(R.style.showPopupAnimation);
         mPopupWindow.getContentView().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -71,7 +74,6 @@ public class AlbumPopwindow {
             public void onDismiss() {
             }
         });
-
         album_file_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -82,7 +84,6 @@ public class AlbumPopwindow {
                 }
             }
         });
-
         return mPopupWindow;
     }
 

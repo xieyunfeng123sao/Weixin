@@ -19,7 +19,9 @@ import com.bumptech.glide.Glide;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.ui.album.AlbumActivity;
+import com.ityun.weixin.myapplication.util.CacheUtils;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
 import com.orhanobut.logger.Logger;
@@ -311,7 +313,6 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
                     } else {
                         presenter.addImage(path);
                     }
-
                 } else {
                     //这个账号已经存在了
                     dialog.dismiss();
@@ -362,10 +363,13 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
             @Override
             public void run() {
                 user.setId(object.toString());
+                CacheUtils.getInstance(AddUserActivity.this).saveUser(user);
+                Intent intent = new Intent(AddUserActivity.this, HomeActivity.class);
+                intent.putExtra("userInfo",user);
+                startActivity(intent);
                 dialog.dismiss();
             }
         });
-
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -14,6 +15,9 @@ import android.support.v4.content.ContextCompat;
 public class PermissionUtil {
 
     public static int readFile(Activity context, int permiss) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return 1;
+        }
         //第二个参数是需要申请的权限
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //权限还没有授予，需要在这里写申请权限的代码
@@ -27,15 +31,17 @@ public class PermissionUtil {
     }
 
     public static int openCamare(Activity context, int permiss) {
+        //第二个参数是需要申请的权限
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return 1;
+        }
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             //申请WRITE_EXTERNAL_STORAGE权限
             ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.CAMERA},
                     permiss);
             return 0;
-        }
-        else
-        {
+        } else {
             return 1;
         }
     }

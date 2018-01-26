@@ -8,21 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/picture_file_name">
-
-        <TextView
-            android:background="@color/tran_gray"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:visibility="gone"
-            android:id="@+id/picture_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:textColor="@color/gray_white"
-            android:textSize="13sp" />
-
-
+        android:layout_above="@+id/picture_file_name_ll">
         <GridView
             android:id="@+id/picture_gridview"
             android:layout_width="match_parent"
@@ -35,18 +21,43 @@
             android:numColumns="4"
             android:stretchMode="columnWidth"
             android:verticalSpacing="3dp" />
+
+
+        <TextView
+            android:background="@color/tran_gray"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/picture_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:textColor="@color/gray_white"
+            android:textSize="13sp" />
+
     </RelativeLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_alignParentBottom="true"
-        android:id="@+id/picture_file_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/picture_file_name_ll"
         android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/picture_file_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textColor="@color/gray_white"
         android:textSize="16sp" />
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/text_indicator"
+            android:layout_width="10dp"
+            android:layout_height="10dp" />
 
+    </LinearLayout>
 
 </RelativeLayout>

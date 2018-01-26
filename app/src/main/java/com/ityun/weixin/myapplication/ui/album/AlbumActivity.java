@@ -1,18 +1,24 @@
 package com.ityun.weixin.myapplication.ui.album;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -45,6 +51,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2018/1/22 0022.
@@ -80,6 +87,16 @@ public class AlbumActivity extends BaseActivity {
 
     private AlbumPopwindow albumPopwindow;
 
+    private boolean isShowTime;
+
+    private Handler mHideHandler = new Handler();
+    private Runnable mHide = new Runnable() {
+        @Override
+        public void run() {
+            hideTime();
+        }
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,11 +114,16 @@ public class AlbumActivity extends BaseActivity {
     private void initView() {
         mediaFolderList = new ArrayList<>();
         localMediaList = new ArrayList<>();
-        albumPopwindow=new AlbumPopwindow(this);
+        albumPopwindow = new AlbumPopwindow(this);
         albumPopwindow.setOnItemOnClick(new AlbumPopwindow.OnItemOnClick() {
             @Override
             public void onClick(int position) {
-
+                sType = position;
+                localMediaList.clear();
+                localMediaList.addAll(mediaFolderList.get(sType).getImages());
+                picture_file_name.setText(mediaFolderList.get(sType).getName());
+                adapter.notifyDataSetChanged();
+                mPopupWindow.dismiss();
             }
         });
         //获取本地所有图片
@@ -112,7 +134,7 @@ public class AlbumActivity extends BaseActivity {
                 mediaFolderList.addAll(folders);
                 LocalMedia media = new LocalMedia();
                 media.setType(1);
-                media.setLastUpdateAt(new Date().getTime());
+                media.setLastUpdateAt(new Date().getTime()/1000);
                 mediaFolderList.get(0).getImages().add(0, media);
                 localMediaList.addAll(mediaFolderList.get(sType).getImages());
                 runOnUiThread(new Runnable() {
@@ -123,7 +145,7 @@ public class AlbumActivity extends BaseActivity {
                         }
                         picture_file_name.setText(mediaFolderList.get(sType).getName());
                         adapter.setData(localMediaList);
-                        mPopupWindow=albumPopwindow.create(mediaFolderList);
+                        mPopupWindow = albumPopwindow.create(mediaFolderList);
                     }
                 });
             }
@@ -135,6 +157,18 @@ public class AlbumActivity extends BaseActivity {
                 ViewGroup.LayoutParams params = picture_file_name.getLayoutParams();
                 params.height = actionBar.getHeight();
                 picture_file_name.setLayoutParams(params);
+            }
+        });
+
+        picture_gridview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                changeTime();
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                changeTime();
             }
         });
 
@@ -158,9 +192,19 @@ public class AlbumActivity extends BaseActivity {
         });
     }
 
-    private void initPoP()
-    {
-
+    @OnClick(R.id.picture_file_name)
+    public void PopShow() {
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+        } else {
+            int[] location = new int[2];
+            picture_file_name.getLocationOnScreen(location);
+            int x = location[0];
+            int y = location[1];
+            Display display = getWindowManager().getDefaultDisplay();
+           int m= display.getHeight()-mPopupWindow.getHeight()-picture_file_name.getHeight();
+            mPopupWindow.showAtLocation(picture_file_name, Gravity.NO_GRAVITY, 0,  m);
+        }
     }
 
     private void initActionBar() {
@@ -177,6 +221,47 @@ public class AlbumActivity extends BaseActivity {
         finish();
         return super.onSupportNavigateUp();
     }
+
+
+    /**
+     * 改变时间条显示的时间（显示图片列表中的第一个可见图片的时间）
+     */
+    private void changeTime() {
+        int firstVisibleItem = getFirstVisibleItem();
+        if (firstVisibleItem >= 0 && firstVisibleItem < localMediaList.size()) {
+            String time =DataUtils.longToString(localMediaList.get(firstVisibleItem).getLastUpdateAt()*1000,"yyyy-MM-dd");
+            picture_date.setText(time);
+            showTime();
+            mHideHandler.removeCallbacks(mHide);
+            mHideHandler.postDelayed(mHide, 1500);
+        }
+    }
+
+    private int getFirstVisibleItem() {
+        return picture_gridview.getFirstVisiblePosition();
+    }
+
+    /**
+     * 显示时间条
+     */
+    private void showTime() {
+        if (!isShowTime) {
+            ObjectAnimator.ofFloat(picture_date, "alpha", 0, 1).setDuration(300).start();
+            isShowTime = true;
+        }
+    }
+
+    /**
+     * 隐藏时间条
+     */
+    private void hideTime() {
+        if (isShowTime) {
+            ObjectAnimator.ofFloat(picture_date, "alpha", 1, 0).setDuration(300).start();
+            isShowTime = false;
+        }
+    }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

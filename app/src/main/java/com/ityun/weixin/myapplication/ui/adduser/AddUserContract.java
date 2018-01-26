@@ -28,7 +28,6 @@ public interface AddUserContract {
 
     interface Presenter extends BasePresenter {
         void addUser(User user);
-
         void selectUser(String num);
 
         void addImage(String path);

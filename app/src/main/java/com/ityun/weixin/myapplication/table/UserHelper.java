@@ -59,7 +59,11 @@ public class UserHelper {
 
     }
 
-
+    /**
+     * 通过用户名查询
+     * @param loginName
+     * @param listener
+     */
     public void queryLoginName(String loginName, final BmobTableListener listener) {
         BmobQuery query = new BmobQuery(TableName.userTable);
         query.addWhereEqualTo("loginName", loginName);
@@ -75,7 +79,36 @@ public class UserHelper {
         });
     }
 
+    /**
+     * 登录
+     * @param user
+     * @param listener
+     */
+    public void queryLoginUser(User user,final BmobTableListener listener)
+    {
+        BmobQuery query = new BmobQuery(TableName.userTable);
+        query.addWhereEqualTo("loginName", user.getLoginName());
+        query.addWhereEqualTo("password",user.getPassword());
+        query.findObjectsByTable(new QueryListener<JSONArray>() {
+            @Override
+            public void done(JSONArray jsonArray, BmobException e) {
+                if (e == null) {
+                    listener.onSucess(jsonArray);
+                } else {
+                    listener.onFail(e);
+                }
+            }
+        });
+    }
 
+
+
+
+    /**
+     * 上传图片
+     * @param path
+     * @param listener
+     */
     public void addFile(String path, final BmobTableListener listener) {
         final BmobFile file = new BmobFile(new File(path));
         file.upload(new UploadFileListener() {

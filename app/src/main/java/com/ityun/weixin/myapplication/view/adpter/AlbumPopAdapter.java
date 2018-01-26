@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ityun.weixin.myapplication.R;
@@ -63,10 +64,12 @@ public class AlbumPopAdapter extends BaseAdapter {
             holder = new Holder();
             holder.file_img = convertView.findViewById(R.id.item_album_first_img);
             holder.file_select = convertView.findViewById(R.id.item_album_first_img_selected);
+            holder.file_name=convertView.findViewById(R.id.file_name);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
         }
+        holder.file_name.setText(mediaFolderList.get(position).getName());
         Glide.with(context).load(new File(mediaFolderList.get(position).getFirstImagePath())).into(holder.file_img);
 
         if (selectedPosition == position) {
@@ -81,5 +84,7 @@ public class AlbumPopAdapter extends BaseAdapter {
     class Holder {
         ImageView file_img;
         ImageView file_select;
+
+        TextView file_name;
     }
 }

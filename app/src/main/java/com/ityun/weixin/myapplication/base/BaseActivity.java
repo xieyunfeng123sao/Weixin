@@ -30,4 +30,5 @@ public class BaseActivity extends AppCompatActivity {
     {
         Toast.makeText(this,resId,Toast.LENGTH_SHORT).show();
     }
+  
 }
