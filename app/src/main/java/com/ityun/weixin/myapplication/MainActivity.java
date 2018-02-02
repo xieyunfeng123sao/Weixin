@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.ityun.weixin.myapplication.base.App;
@@ -48,6 +50,8 @@ public class MainActivity extends BaseActivity implements LoginContract.View{
 
     private LoginPresenter presenter;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +63,12 @@ public class MainActivity extends BaseActivity implements LoginContract.View{
         }
         ImageLoadUtil.getInstance().getResouce(R.mipmap.we_2,wel_img);
         user= CacheUtils.getInstance(this).getCaCheUser();
-        if(user!=null&&user.getPassword()!=null)
+        if(user!=null)
         {
             wel_login_button.setVisibility(View.GONE);
             wel_add_button.setVisibility(View.GONE);
-
         }
+
     }
 
     @Override
