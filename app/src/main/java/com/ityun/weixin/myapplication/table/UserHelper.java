@@ -13,11 +13,13 @@ import org.json.JSONArray;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
@@ -61,6 +63,7 @@ public class UserHelper {
 
     /**
      * 通过用户名查询
+     *
      * @param loginName
      * @param listener
      */
@@ -81,31 +84,31 @@ public class UserHelper {
 
     /**
      * 登录
+     *
      * @param user
      * @param listener
      */
-    public void queryLoginUser(User user,final BmobTableListener listener)
-    {
+    public void queryLoginUser(User user, final BmobTableListener listener) {
         BmobQuery query = new BmobQuery(TableName.userTable);
         query.addWhereEqualTo("loginName", user.getLoginName());
-        query.addWhereEqualTo("password",user.getPassword());
-        query.findObjectsByTable(new QueryListener<JSONArray>() {
-            @Override
-            public void done(JSONArray jsonArray, BmobException e) {
-                if (e == null) {
-                    listener.onSucess(jsonArray);
-                } else {
-                    listener.onFail(e);
-                }
-            }
-        });
+        query.addWhereEqualTo("password", user.getPassword());
+        query.findObjects(new FindListener<User>() {
+                              @Override
+                              public void done(List<User> list, BmobException e) {
+                                  if (e == null) {
+                                      listener.onSucess(list);
+                                  } else {
+                                      listener.onFail(e);
+                                  }
+                              }
+                          }
+        );
     }
-
-
 
 
     /**
      * 上传图片
+     *
      * @param path
      * @param listener
      */

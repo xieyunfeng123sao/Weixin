@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_white"
    >
     <ImageView
         android:id="@+id/add_goback"
@@ -11,15 +13,24 @@
         android:layout_width="28dp"
         android:layout_height="28dp" />
 
+    <TextView
+        android:layout_margin="20dp"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:text="@string/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
     <LinearLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="@color/gray_white"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="15dp">
+       >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,6 +54,7 @@
                     android:textSize="16sp" />
 
                 <EditText
+                    android:id="@+id/login_user_num"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -56,6 +68,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:id="@+id/login_user_num_delete"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center"
@@ -66,6 +79,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/login_user_num_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/main_color" />
@@ -93,6 +107,7 @@
                     android:textSize="16sp" />
 
                 <EditText
+                    android:id="@+id/login_user_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -106,6 +121,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:id="@+id/login_user_password_look"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
@@ -115,12 +131,14 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/login_user_password_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/main_color" />
         </LinearLayout>
 
         <Button
+            android:id="@+id/login_user_button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -130,4 +148,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

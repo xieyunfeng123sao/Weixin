@@ -12,7 +12,7 @@ public interface LoginContract {
 
     interface View  extends BaseView<Presenter>
     {
-         void loginSucess();
+         void loginSucess(User  user);
 
          void  loginFail();
 
