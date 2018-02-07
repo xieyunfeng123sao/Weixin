@@ -63,11 +63,16 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
         }
         ImageLoadUtil.getInstance().getResouce(R.mipmap.we_2, wel_img);
         user = CacheUtils.getInstance(this).getCaCheUser();
+        presenter=new LoginPresenter(this);
         if (user != null) {
             wel_login_button.setVisibility(View.GONE);
             wel_add_button.setVisibility(View.GONE);
+            if(user.getPassword()!=null&&!user.getPassword().equals(""))
+            {
+                presenter.login(user);
+                return;
+            }
         }
-
     }
 
     @Override
