@@ -19,6 +19,8 @@
     <string name="error_num">请输入正确的手机号</string>
     <string name="error_has_user">该手机已注册</string>
     <string name="error_add_user">注册失败</string>
+    <string name="error_login">登录失败,请查看用户名或密码是否正确</string>
+    <string name="error">登录失败，请检测网络</string>
 
     <string name="pic">图片</string>
     <string name="error_album">获取相册图片失败</string>

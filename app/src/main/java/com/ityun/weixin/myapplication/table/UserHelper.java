@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
@@ -39,10 +40,8 @@ public class UserHelper {
         return userHelper;
     }
 
-
     /**
      * 添加用户
-     *
      * @param user
      */
     public void addUser(final User user, final BmobTableListener listener) {
@@ -58,7 +57,6 @@ public class UserHelper {
                 }
             }
         });
-
     }
 
     /**
@@ -84,25 +82,26 @@ public class UserHelper {
 
     /**
      * 登录
-     *
      * @param user
+     *
      * @param listener
      */
     public void queryLoginUser(User user, final BmobTableListener listener) {
-        BmobQuery query = new BmobQuery(TableName.userTable);
+        BmobQuery<User> query = new BmobQuery<User>(TableName.userTable);
+//        BmobQuery query = new BmobQuery(TableName.userTable);
         query.addWhereEqualTo("loginName", user.getLoginName());
         query.addWhereEqualTo("password", user.getPassword());
         query.findObjects(new FindListener<User>() {
-                              @Override
-                              public void done(List<User> list, BmobException e) {
-                                  if (e == null) {
-                                      listener.onSucess(list);
-                                  } else {
-                                      listener.onFail(e);
-                                  }
-                              }
-                          }
-        );
+            @Override
+            public void done(List<User> list, BmobException e) {
+                if (e == null) {
+                    listener.onSucess(list);
+                } else {
+                    Logger.e("失败：" + e.getMessage() + "," + e.getErrorCode());
+                    listener.onFail(e);
+                }
+            }
+        });
     }
 
 

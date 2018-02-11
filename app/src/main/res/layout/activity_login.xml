@@ -54,6 +54,8 @@
                     android:textSize="16sp" />
 
                 <EditText
+                    android:textColorHint="@color/light_txt_color"
+                    android:textColor="@color/txt_color"
                     android:id="@+id/login_user_num"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -82,7 +84,7 @@
                 android:id="@+id/login_user_num_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/main_color" />
+                android:background="@color/txt_color" />
         </LinearLayout>
 
         <LinearLayout
@@ -107,6 +109,8 @@
                     android:textSize="16sp" />
 
                 <EditText
+                    android:textColorHint="@color/light_txt_color"
+                    android:textColor="@color/txt_color"
                     android:id="@+id/login_user_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -134,15 +138,16 @@
                 android:id="@+id/login_user_password_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/main_color" />
+                android:background="@color/txt_color" />
         </LinearLayout>
 
         <Button
+            android:enabled="false"
             android:id="@+id/login_user_button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:background="@color/light_main_color"
+            android:background="@drawable/adduser_button"
             android:text="@string/login"
             android:textColor="@color/gray_white" />
     </LinearLayout>

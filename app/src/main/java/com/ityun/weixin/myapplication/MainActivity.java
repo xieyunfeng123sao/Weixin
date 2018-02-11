@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.ui.adduser.AddUserActivity;
 import com.ityun.weixin.myapplication.ui.login.LoginActivity;
 import com.ityun.weixin.myapplication.ui.login.LoginContract;
@@ -57,14 +58,19 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        //状态栏透明
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+        //加载图片
         ImageLoadUtil.getInstance().getResouce(R.mipmap.we_2, wel_img);
+        //获取用户信息
         user = CacheUtils.getInstance(this).getCaCheUser();
+
         presenter=new LoginPresenter(this);
         if (user != null) {
+            //如果有缓存的用户信息 就不显示登录和注册
             wel_login_button.setVisibility(View.GONE);
             wel_add_button.setVisibility(View.GONE);
             if(user.getPassword()!=null&&!user.getPassword().equals(""))
@@ -72,7 +78,10 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
                 presenter.login(user);
                 return;
             }
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
+
     }
 
     @Override
@@ -90,12 +99,18 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
     }
 
 
+    /**
+     * 跳转注册界面
+     */
     @OnClick(R.id.wel_add_button)
     public void addUserOnclick() {
         Intent intent = new Intent(this, AddUserActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * 跳转登录界面
+     */
     @OnClick(R.id.wel_login_button)
     public void loginOnclick() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -104,15 +119,24 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
 
 
     @Override
-    public void loginSucess(User user) {
-
+    public void loginSucess(final User user) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                CacheUtils.getInstance(MainActivity.this).saveUser(user);
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void loginFail() {
+
     }
 
     @Override
     public void loginError() {
+
     }
 }

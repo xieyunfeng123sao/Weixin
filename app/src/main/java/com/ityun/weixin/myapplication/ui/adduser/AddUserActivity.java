@@ -332,7 +332,6 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
                 dialog.dismiss();
             }
         });
-
     }
 
     @Override
@@ -365,7 +364,6 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
                 user.setId(object.toString());
                 CacheUtils.getInstance(AddUserActivity.this).saveUser(user);
                 Intent intent = new Intent(AddUserActivity.this, HomeActivity.class);
-                intent.putExtra("userInfo",user);
                 startActivity(intent);
                 dialog.dismiss();
             }
