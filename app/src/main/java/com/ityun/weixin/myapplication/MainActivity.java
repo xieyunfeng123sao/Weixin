@@ -81,8 +81,7 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-
-    }
+     }
 
     @Override
     protected void onResume() {
@@ -117,7 +116,6 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
         startActivity(intent);
     }
 
-
     @Override
     public void loginSucess(final User user) {
         runOnUiThread(new Runnable() {
@@ -126,6 +124,7 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
                 CacheUtils.getInstance(MainActivity.this).saveUser(user);
                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

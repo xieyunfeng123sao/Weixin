@@ -2,6 +2,7 @@ package com.ityun.weixin.myapplication.table;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.conn.Dformat;
 import com.ityun.weixin.myapplication.conn.TableName;
@@ -9,6 +10,8 @@ import com.ityun.weixin.myapplication.listener.BmobTableListener;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -42,6 +45,7 @@ public class UserHelper {
 
     /**
      * 添加用户
+     *
      * @param user
      */
     public void addUser(final User user, final BmobTableListener listener) {
@@ -83,27 +87,23 @@ public class UserHelper {
     /**
      * 登录
      * @param user
-     *
      * @param listener
      */
     public void queryLoginUser(User user, final BmobTableListener listener) {
-        BmobQuery<User> query = new BmobQuery<User>(TableName.userTable);
-//        BmobQuery query = new BmobQuery(TableName.userTable);
+        BmobQuery<User> query = new BmobQuery<>(TableName.userTable);
         query.addWhereEqualTo("loginName", user.getLoginName());
         query.addWhereEqualTo("password", user.getPassword());
-        query.findObjects(new FindListener<User>() {
+        query.findObjectsByTable(new QueryListener<JSONArray>() {
             @Override
-            public void done(List<User> list, BmobException e) {
+            public void done(JSONArray jsonArray, BmobException e) {
                 if (e == null) {
-                    listener.onSucess(list);
+                    listener.onSucess(jsonArray);
                 } else {
-                    Logger.e("失败：" + e.getMessage() + "," + e.getErrorCode());
                     listener.onFail(e);
                 }
             }
         });
     }
-
 
     /**
      * 上传图片
@@ -124,6 +124,5 @@ public class UserHelper {
             }
         });
     }
-
 
 }

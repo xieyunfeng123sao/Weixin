@@ -15,7 +15,7 @@
 
     <TextView
         android:layout_margin="20dp"
-        android:textSize="22sp"
+        android:textSize="25sp"
         android:textColor="@color/black"
         android:text="@string/login"
         android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
                     android:textColor="@color/txt_color"
                     android:id="@+id/login_user_num"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
@@ -113,7 +113,7 @@
                     android:textColor="@color/txt_color"
                     android:id="@+id/login_user_password"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
