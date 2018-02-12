@@ -9,6 +9,10 @@ import android.widget.RadioButton;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
+import com.ityun.weixin.myapplication.ui.fragment.FindFragment;
+import com.ityun.weixin.myapplication.ui.fragment.FriendFragment;
+import com.ityun.weixin.myapplication.ui.fragment.MeFragment;
+import com.ityun.weixin.myapplication.ui.fragment.WeixinFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,17 +40,43 @@ public class HomeActivity extends BaseActivity {
     @BindView(R.id.radio_me)
     public RadioButton radio_me;
 
+    private WeixinFragment weixinFragment;
+
+    private FriendFragment friendFragment;
+
+
+    private FindFragment findFragment;
+
+    private MeFragment meFragment;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        weixinFragment=new WeixinFragment();
+        friendFragment=new FriendFragment();
+        findFragment=new FindFragment();
+        meFragment=new MeFragment();
     }
 
 
     @OnClick({R.id.radio_weixin, R.id.radio_comm, R.id.radio_find, R.id.radio_me})
     public void radioOnClick(View view) {
         switch (view.getId()) {
+            case R.id.radio_weixin:
+
+                break;
+            case R.id.radio_comm:
+
+                break;
+            case  R.id.radio_find:
+
+                break;
+            case R.id.radio_me:
+
+                break;
             default:
                 break;
         }
