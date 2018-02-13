@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ityun.weixin.myapplication.view.ThreePointView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+    <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/weixin_message_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+</android.support.constraint.ConstraintLayout>
