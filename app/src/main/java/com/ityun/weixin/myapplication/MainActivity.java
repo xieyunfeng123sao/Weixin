@@ -38,6 +38,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements LoginContract.View {
 
+    //测试能不能分享
     @BindView(R.id.wel_img)
     ImageView wel_img;
 
