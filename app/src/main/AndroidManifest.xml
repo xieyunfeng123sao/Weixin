@@ -90,7 +90,7 @@
 
         <activity
             android:name=".ui.HomeActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+           >
             <intent-filter>
                 <action android:name="android.intent.action.DELETE" />
                 <category android:name="android.intent.ityun.weixin.HomeActivity" />

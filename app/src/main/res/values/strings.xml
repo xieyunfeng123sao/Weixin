@@ -25,4 +25,6 @@
     <string name="pic">图片</string>
     <string name="error_album">获取相册图片失败</string>
     <string name="error_camare_pe">获取拍照权限失败</string>
+    <string name="search">搜索</string>
+    <string name="add">添加</string>
 </resources>

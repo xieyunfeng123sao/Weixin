@@ -21,7 +21,7 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List mlist;
 
     public static final int ONE_ITEM = 1;
-    public static final int TWO_ITEM = 2;
+//    public static final int TWO_ITEM = 2;
 
     public WeixinAdapter(Context context) {
         this.context = context;
@@ -36,13 +36,13 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater mInflater = LayoutInflater.from(context);
         RecyclerView.ViewHolder holder = null;
-        if (ONE_ITEM == viewType) {
-            View v = mInflater.inflate(R.layout.item_recyle_weixin_top, parent, false);
-            holder = new RecyleTopHolder(v);
-        } else {
+//        if (ONE_ITEM == viewType) {
+//            View v = mInflater.inflate(R.layout.item_recyle_weixin_top, parent, false);
+//            holder = new RecyleTopHolder(v);
+//        } else {
             View v = mInflater.inflate(R.layout.item_recyle_weixin_msg, parent, false);
             holder = new RecyleItemHolder(v);
-        }
+//        }
         return holder;
 
     }
@@ -54,11 +54,11 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        if(position==0)
-        {
+//        if(position==0)
+//        {
             return  ONE_ITEM;
-        }
-        return TWO_ITEM;
+//        }
+//        return TWO_ITEM;
     }
 
 
