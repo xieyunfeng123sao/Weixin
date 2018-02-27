@@ -16,6 +16,7 @@ import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.UserInfo;
+import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.ui.fragment.FindFragment;
 import com.ityun.weixin.myapplication.ui.fragment.FriendFragment;
 import com.ityun.weixin.myapplication.ui.fragment.MeFragment;
@@ -70,9 +71,7 @@ public class HomeActivity extends BaseActivity {
 
     private HomeFragmentAdapter adapter;
 
-    private ActionBar actionBar;
-
-    private UserInfo user;
+    private UserInfo userInfo;
 
 
     @Override
@@ -81,27 +80,8 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         initFragment();
-        initActionBar();
-        user= CacheUtils.getInstance(this).getUser();
-        //TODO 连接：3.1、登录成功、注册成功或处于登录状态重新打开应用后执行连接IM服务器的操作
-        if (!TextUtils.isEmpty(user.getObjectId())) {
-            BmobIM.connect(user.getObjectId(), new ConnectListener() {
-                @Override
-                public void done(String uid, BmobException e) {
-                    if (e == null) {
-                        //连接成功
-                        Log.e("insert",uid);
-                    } else {
-                        //连接失败
-                        Log.e("insert",e.getMessage());
-                    }
-                }
-            });
-        }
-    }
-
-    private void initActionBar() {
-        actionBar=getSupportActionBar();
+        userInfo=CacheUtils.getInstance(this).getCaCheUser();
+        IMModel.getInstance().updataUser(userInfo);
     }
 
 
