@@ -63,6 +63,8 @@ public class HomeActivity extends BaseActivity {
 
     private HomeFragmentAdapter adapter;
 
+    private ActionBar actionBar;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +72,11 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         initFragment();
+        initActionBar();
+    }
+
+    private void initActionBar() {
+        actionBar=getSupportActionBar();
     }
 
 
@@ -139,16 +146,16 @@ public class HomeActivity extends BaseActivity {
     public void radioOnClick(View view) {
         switch (view.getId()) {
             case R.id.radio_weixin:
-
+                activity_home_viewpager.setCurrentItem(0);
                 break;
             case R.id.radio_comm:
-
+                activity_home_viewpager.setCurrentItem(1);
                 break;
             case  R.id.radio_find:
-
+                activity_home_viewpager.setCurrentItem(2);
                 break;
             case R.id.radio_me:
-
+                activity_home_viewpager.setCurrentItem(3);
                 break;
             default:
                 break;
