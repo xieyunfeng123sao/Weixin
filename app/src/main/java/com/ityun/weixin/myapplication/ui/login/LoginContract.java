@@ -2,7 +2,7 @@ package com.ityun.weixin.myapplication.ui.login;
 
 import com.ityun.weixin.myapplication.base.BasePresenter;
 import com.ityun.weixin.myapplication.base.BaseView;
-import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.bean.UserInfo;
 
 /**
  * Created by Administrator on 2018/1/26 0026.
@@ -12,7 +12,7 @@ public interface LoginContract {
 
     interface View  extends BaseView<Presenter>
     {
-         void loginSucess(User  user);
+         void loginSucess(UserInfo user);
 
          void  loginFail();
 
@@ -20,6 +20,6 @@ public interface LoginContract {
     }
 
     interface Presenter extends BasePresenter {
-        void login(User usr);
+        void login(UserInfo usr);
     }
 }

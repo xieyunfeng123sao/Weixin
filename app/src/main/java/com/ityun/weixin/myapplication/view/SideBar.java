@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
+import com.ityun.weixin.myapplication.util.DensityUtil;
 
 /**
  * Created by Administrator on 2018/2/27 0027.
@@ -53,12 +54,11 @@ public class SideBar extends View {
         int height = getHeight();// 获取对应高度
         int width = getWidth(); // 获取对应宽度
         int singleHeight = height / strings.length;// 获取每一个字母的高度
-
         for (int i = 0; i < strings.length; i++) {
             paint.setColor(getResources().getColor(R.color.sidebar_color));
 //            paint.setTypeface(Typeface.DEFAULT_BOLD);
             paint.setAntiAlias(true);
-            paint.setTextSize(25);
+            paint.setTextSize(DensityUtil.dip2px(getContext(),13));
             // 选中的状态
             if (i == choose) {
                 paint.setColor(getResources().getColor(R.color.main_color));

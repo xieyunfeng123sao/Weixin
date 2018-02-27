@@ -2,7 +2,7 @@ package com.ityun.weixin.myapplication.ui.adduser;
 
 import com.ityun.weixin.myapplication.base.BasePresenter;
 import com.ityun.weixin.myapplication.base.BaseView;
-import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.bean.UserInfo;
 
 import cn.bmob.v3.exception.BmobException;
 
@@ -27,7 +27,7 @@ public interface AddUserContract {
     }
 
     interface Presenter extends BasePresenter {
-        void addUser(User user);
+        void addUser(UserInfo user);
         void selectUser(String num);
 
         void addImage(String path);

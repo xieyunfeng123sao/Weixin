@@ -28,7 +28,6 @@ public class WeixinFragment extends Fragment {
     @BindView(R.id.weixin_message_list)
     RecyclerView weixin_message_list;
 
-
     private List mlist;
 
     private WeixinAdapter adapter;

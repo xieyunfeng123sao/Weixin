@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -13,11 +15,13 @@ import android.widget.RadioButton;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
+import com.ityun.weixin.myapplication.bean.UserInfo;
 import com.ityun.weixin.myapplication.ui.fragment.FindFragment;
 import com.ityun.weixin.myapplication.ui.fragment.FriendFragment;
 import com.ityun.weixin.myapplication.ui.fragment.MeFragment;
 import com.ityun.weixin.myapplication.ui.fragment.WeixinFragment;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.HomeFragmentAdapter;
+import com.ityun.weixin.myapplication.util.CacheUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.listener.ConnectListener;
+import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/1/17 0017.
@@ -65,6 +72,8 @@ public class HomeActivity extends BaseActivity {
 
     private ActionBar actionBar;
 
+    private UserInfo user;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +82,22 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
         initFragment();
         initActionBar();
+        user= CacheUtils.getInstance(this).getUser();
+        //TODO 连接：3.1、登录成功、注册成功或处于登录状态重新打开应用后执行连接IM服务器的操作
+        if (!TextUtils.isEmpty(user.getObjectId())) {
+            BmobIM.connect(user.getObjectId(), new ConnectListener() {
+                @Override
+                public void done(String uid, BmobException e) {
+                    if (e == null) {
+                        //连接成功
+                        Log.e("insert",uid);
+                    } else {
+                        //连接失败
+                        Log.e("insert",e.getMessage());
+                    }
+                }
+            });
+        }
     }
 
     private void initActionBar() {

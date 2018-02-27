@@ -1,7 +1,7 @@
 package com.ityun.weixin.myapplication.util;
 
 import android.content.Context;
-import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.bean.UserInfo;
 
 /**
  * Created by Administrator on 2018/1/26 0026.
@@ -16,7 +16,7 @@ public class CacheUtils {
 
     private String CACHE_USER = "user";
 
-    public  User user;
+    public UserInfo user;
 
     public CacheUtils(Context context) {
         this.context = context;
@@ -35,7 +35,7 @@ public class CacheUtils {
      *
      * @param user
      */
-    public void saveUser(User user) {
+    public void saveUser(UserInfo user) {
         this.user=user;
         aCache.put(CACHE_USER, user);
     }
@@ -45,13 +45,13 @@ public class CacheUtils {
      *
      * @return
      */
-    public User getUser() {
+    public UserInfo getUser() {
         return user;
     }
 
-    public User getCaCheUser()
+    public UserInfo getCaCheUser()
     {
-        User use= (User) aCache.getAsObject(CACHE_USER);
+        UserInfo use= (UserInfo) aCache.getAsObject(CACHE_USER);
         return use;
     }
 }

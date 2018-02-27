@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,13 +17,12 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.bean.UserInfo;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.ui.album.AlbumActivity;
 import com.ityun.weixin.myapplication.util.CacheUtils;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
-import com.orhanobut.logger.Logger;
 
 import org.json.JSONArray;
 
@@ -33,7 +31,6 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 
 /**
@@ -90,7 +87,7 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
     public int GET_USER_IMG = 10;
 
     private String path = "";
-    User user;
+    UserInfo user;
 
 
     @Override
@@ -142,7 +139,7 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
         }
         dialog = new LoadDialog(this).setText(R.string.adding_user).build();
         dialog.show();
-        user = new User();
+        user = new UserInfo();
         user.setUserName(add_input_nickname.getText().toString());
         user.setLoginName(add_input_phonenum.getText().toString());
         user.setPassword(add_input_password.getText().toString());

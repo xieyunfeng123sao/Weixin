@@ -1,5 +1,10 @@
 package com.ityun.weixin.myapplication.im;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.newim.event.OfflineMessageEvent;
 import cn.bmob.newim.listener.BmobIMMessageHandler;

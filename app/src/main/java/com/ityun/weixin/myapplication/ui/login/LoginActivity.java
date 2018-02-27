@@ -15,9 +15,8 @@ import android.widget.ImageView;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.bean.UserInfo;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
-import com.ityun.weixin.myapplication.ui.adduser.AddUserActivity;
 import com.ityun.weixin.myapplication.util.CacheUtils;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
@@ -64,7 +63,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     Dialog dialog;
 
-    User user;
+    UserInfo user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -194,7 +193,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                 }
                 dialog = new LoadDialog(this).setText(R.string.adding_login).build();
                 dialog.show();
-                user = new User();
+                user = new UserInfo();
 
                 user.setLoginName(login_user_num.getText().toString());
                 user.setPassword(login_user_password.getText().toString());
@@ -207,7 +206,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
 
     @Override
-    public void loginSucess(final User callBackuser) {
+    public void loginSucess(final UserInfo callBackuser) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

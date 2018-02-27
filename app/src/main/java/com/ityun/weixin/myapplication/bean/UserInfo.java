@@ -15,7 +15,7 @@ import cn.bmob.v3.datatype.BmobFile;
 /**
  * 用户信息
  */
-public class User extends BmobObject {
+public class UserInfo extends BmobObject {
 
     /**
      * 用户id
@@ -52,7 +52,7 @@ public class User extends BmobObject {
 
 
 
-    public User()
+    public UserInfo()
     {
         this.setTableName(TableName.userTable);
     }

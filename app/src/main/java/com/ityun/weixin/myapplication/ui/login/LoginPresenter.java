@@ -1,16 +1,12 @@
 package com.ityun.weixin.myapplication.ui.login;
 
 import com.google.gson.Gson;
-import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.bean.UserInfo;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;
 import com.ityun.weixin.myapplication.table.UserHelper;
-import com.orhanobut.logger.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.List;
 
 import cn.bmob.v3.exception.BmobException;
 
@@ -32,7 +28,7 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void login(User user) {
+    public void login(UserInfo user) {
         UserHelper.getInstance().queryLoginUser(user, new BmobTableListener() {
             @Override
             public void onSucess(Object object) {
@@ -43,7 +39,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     try {
                         Object obj = array.get(0);
                         Gson gson = new Gson();
-                        User user = gson.fromJson(obj.toString(), User.class);
+                        UserInfo user = gson.fromJson(obj.toString(), UserInfo.class);
                         view.loginSucess(user);
                     } catch (JSONException e) {
                         e.printStackTrace();

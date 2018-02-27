@@ -1,29 +1,18 @@
 package com.ityun.weixin.myapplication.table;
 
-import android.content.Context;
-
-import com.google.gson.Gson;
-import com.ityun.weixin.myapplication.bean.User;
-import com.ityun.weixin.myapplication.conn.Dformat;
+import com.ityun.weixin.myapplication.bean.UserInfo;
 import com.ityun.weixin.myapplication.conn.TableName;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;
-import com.orhanobut.logger.Logger;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
@@ -48,7 +37,7 @@ public class UserHelper {
      *
      * @param user
      */
-    public void addUser(final User user, final BmobTableListener listener) {
+    public void addUser(final UserInfo user, final BmobTableListener listener) {
         user.setCreateTime(new BmobDate(new Date()));
         user.setUpdataTime(new BmobDate(new Date()));
         user.save(new SaveListener<String>() {
@@ -89,8 +78,8 @@ public class UserHelper {
      * @param user
      * @param listener
      */
-    public void queryLoginUser(User user, final BmobTableListener listener) {
-        BmobQuery<User> query = new BmobQuery<>(TableName.userTable);
+    public void queryLoginUser(UserInfo user, final BmobTableListener listener) {
+        BmobQuery<UserInfo> query = new BmobQuery<>(TableName.userTable);
         query.addWhereEqualTo("loginName", user.getLoginName());
         query.addWhereEqualTo("password", user.getPassword());
         query.findObjectsByTable(new QueryListener<JSONArray>() {
