@@ -1,15 +1,19 @@
 package com.ityun.weixin.myapplication.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.text.TextUtils;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 
 import com.ityun.weixin.myapplication.R;
@@ -23,7 +27,10 @@ import com.ityun.weixin.myapplication.ui.fragment.MeFragment;
 import com.ityun.weixin.myapplication.ui.fragment.WeixinFragment;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.HomeFragmentAdapter;
 import com.ityun.weixin.myapplication.util.CacheUtils;
+import com.ityun.weixin.myapplication.util.DensityUtil;
+import com.orhanobut.logger.Logger;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +80,8 @@ public class HomeActivity extends BaseActivity {
 
     private UserInfo userInfo;
 
+    private PopupWindow popupWindow;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,8 +89,10 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         initFragment();
-        userInfo=CacheUtils.getInstance(this).getCaCheUser();
+        userInfo = CacheUtils.getInstance(this).getCaCheUser();
         IMModel.getInstance().updataUser(userInfo);
+        IMModel.getInstance().login(userInfo.getObjectId());
+
     }
 
 
@@ -92,18 +103,27 @@ public class HomeActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public  void initFragment()
-    {
-        weixinFragment=new WeixinFragment();
-        friendFragment=new FriendFragment();
-        findFragment=new FindFragment();
-        meFragment=new MeFragment();
-        fragmentList=new ArrayList<>();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_search) {
+
+        } else if (item.getItemId() == R.id.action_add) {
+            showPopuwindow(findViewById(R.id.action_add));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void initFragment() {
+        weixinFragment = new WeixinFragment();
+        friendFragment = new FriendFragment();
+        findFragment = new FindFragment();
+        meFragment = new MeFragment();
+        fragmentList = new ArrayList<>();
         fragmentList.add(weixinFragment);
         fragmentList.add(friendFragment);
         fragmentList.add(findFragment);
         fragmentList.add(meFragment);
-        adapter=new HomeFragmentAdapter(getSupportFragmentManager(), fragmentList);
+        adapter = new HomeFragmentAdapter(getSupportFragmentManager(), fragmentList);
         activity_home_viewpager.setAdapter(adapter);
         activity_home_viewpager.setOffscreenPageLimit(3);
         activity_home_viewpager.setCurrentItem(0);  //初始化显示第一个页面
@@ -156,7 +176,7 @@ public class HomeActivity extends BaseActivity {
             case R.id.radio_comm:
                 activity_home_viewpager.setCurrentItem(1);
                 break;
-            case  R.id.radio_find:
+            case R.id.radio_find:
                 activity_home_viewpager.setCurrentItem(2);
                 break;
             case R.id.radio_me:
@@ -172,4 +192,20 @@ public class HomeActivity extends BaseActivity {
         super.onStart();
         App.getInstance().finishOrActivity(this);
     }
+
+    private void showPopuwindow(View v) {
+
+        // TODO 这里是显示popupWindow的代码
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.home_popuwindow, null);
+        int width = getWindow().getDecorView().getWidth() / 2;
+        Log.i("宽度", width + "");
+        popupWindow = new PopupWindow(view, width,
+                WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.showAsDropDown(v,
+                -DensityUtil.dip2px(HomeActivity.this, width/2), 0);
+    }
+
+
 }

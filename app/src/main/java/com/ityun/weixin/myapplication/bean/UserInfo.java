@@ -17,10 +17,7 @@ import cn.bmob.v3.datatype.BmobFile;
  */
 public class UserInfo extends BmobObject {
 
-    /**
-     * 用户id
-     */
-    private String   id;
+
     /**
      * 登录名
      */
@@ -52,18 +49,13 @@ public class UserInfo extends BmobObject {
 
 
 
+
     public UserInfo()
     {
         this.setTableName(TableName.userTable);
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getLoginName() {
         return loginName;

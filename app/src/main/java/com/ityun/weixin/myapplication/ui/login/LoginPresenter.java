@@ -1,5 +1,7 @@
 package com.ityun.weixin.myapplication.ui.login;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.ityun.weixin.myapplication.bean.UserInfo;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;

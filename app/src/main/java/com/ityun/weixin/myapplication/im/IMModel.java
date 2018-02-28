@@ -1,11 +1,8 @@
 package com.ityun.weixin.myapplication.im;
 
-import android.app.Activity;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.util.CacheUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
@@ -35,6 +32,7 @@ public class IMModel {
 
     public BmobIMUserInfo info;
 
+
     public static IMModel getInstance() {
         if (instance == null)
             instance = new IMModel();
@@ -49,11 +47,11 @@ public class IMModel {
     }
 
     private BmobIMUserInfo getIMUser(UserInfo userInfo) {
-        BmobIMUserInfo  bmobIMUserInfo = new BmobIMUserInfo();
+        BmobIMUserInfo bmobIMUserInfo = new BmobIMUserInfo();
         bmobIMUserInfo.setName(userInfo.getUserName());
         bmobIMUserInfo.setUserId(userInfo.getObjectId());
         bmobIMUserInfo.setAvatar(userInfo.getUserPic());
-        return  bmobIMUserInfo;
+        return bmobIMUserInfo;
     }
 
 
@@ -97,16 +95,14 @@ public class IMModel {
             @Override
             public void done(BmobIMMessage msg, BmobException e) {
                 if (e == null) {//发送成功
-                    Log.e("insert",msg.getMsgType()+"=====");
                 } else {//发送失败
-                    Log.e("insert",e.getMessage());
                 }
             }
         });
     }
 
 
-    public  void sendAgreeFriendMessage(UserInfo userInfo) {
+    public void sendAgreeFriendMessage(UserInfo userInfo) {
         //TODO 会话：4.1、创建一个暂态会话入口，发送好友请求
         BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(getIMUser(userInfo), true, null);
         //TODO 消息：5.1、根据会话入口获取消息管理，发送好友请求
@@ -115,7 +111,7 @@ public class IMModel {
         msg.setContent("很高兴认识你，可以加个好友吗?");//给对方的一个留言信息
         //TODO 这里只是举个例子，其实可以不需要传发送者的信息过去
         Map<String, Object> map = new HashMap<>();
-        map.put("name", info.getName()+ "同意添加你为好友");//发送者姓名
+        map.put("name", info.getName() + "同意添加你为好友");//发送者姓名
         map.put("avatar", info.getAvatar());//发送者的头像
         map.put("uid", info.getUserId());//发送者的uid
         msg.setMsgType("agree");
@@ -125,14 +121,11 @@ public class IMModel {
             @Override
             public void done(BmobIMMessage msg, BmobException e) {
                 if (e == null) {//发送成功
-                    Log.e("insert",msg.getMsgType()+"=====");
                 } else {//发送失败
-                    Log.e("insert",e.getMessage());
                 }
             }
         });
     }
-
 
 
     private void connectStatusChangeListener() {
@@ -140,10 +133,14 @@ public class IMModel {
         BmobIM.getInstance().setOnConnectStatusChangeListener(new ConnectStatusChangeListener() {
             @Override
             public void onChange(ConnectionStatus status) {
-                Logger.i(status.getMsg());
+                Logger.e(status.getMsg());
+                if (status.getMsg().equals(ConnectionStatus.CONNECTING)) {
+
+                } else {
+
+                }
             }
         });
     }
-
 
 }

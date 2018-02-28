@@ -358,7 +358,7 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                user.setId(object.toString());
+                user.setObjectId(object.toString());
                 CacheUtils.getInstance(AddUserActivity.this).saveUser(user);
                 Intent intent = new Intent(AddUserActivity.this, HomeActivity.class);
                 startActivity(intent);

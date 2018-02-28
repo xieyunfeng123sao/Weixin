@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Search, should appear as action button -->
+    <item
+        android:id="@+id/scan_local_music"
+        android:icon="@mipmap/icon_menu_group"
+        android:orderInCategory="100"
+        android:title="发起群聊"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/select_sort_way"
+        android:icon="@mipmap/icon_menu_addfriend"
+        android:orderInCategory="100"
+        android:title="添加好友"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/get_cover_lyrics"
+        android:icon="@mipmap/icon_menu_sao"
+        android:orderInCategory="100"
+        android:title="扫一扫"
+        app:showAsAction="never"
+        />
+
+
+</menu>

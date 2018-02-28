@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/friend_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+
+    <TextView
+        android:id="@+id/touch_sidebar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/friend_sidebar_text_bg"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:visibility="gone" />
+
+
     <com.ityun.weixin.myapplication.view.SideBar
-        android:layout_alignParentRight="true"
+        android:id="@+id/friend_sidebar"
         android:layout_width="30dp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>
