@@ -3,7 +3,7 @@
      android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
+    <com.ityun.weixin.myapplication.view.CustomViewPager
     android:id="@+id/activity_home_viewpager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

@@ -28,6 +28,7 @@ import com.ityun.weixin.myapplication.ui.fragment.WeixinFragment;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.HomeFragmentAdapter;
 import com.ityun.weixin.myapplication.util.CacheUtils;
 import com.ityun.weixin.myapplication.util.DensityUtil;
+import com.ityun.weixin.myapplication.view.CustomViewPager;
 import com.orhanobut.logger.Logger;
 
 import java.lang.reflect.Method;
@@ -49,7 +50,7 @@ public class HomeActivity extends BaseActivity {
 
 
     @BindView(R.id.activity_home_viewpager)
-    public ViewPager activity_home_viewpager;
+    public CustomViewPager activity_home_viewpager;
 
     @BindView(R.id.radio_weixin)
     public RadioButton radio_weixin;
@@ -92,10 +93,7 @@ public class HomeActivity extends BaseActivity {
         userInfo = CacheUtils.getInstance(this).getCaCheUser();
         IMModel.getInstance().updataUser(userInfo);
         IMModel.getInstance().login(userInfo.getObjectId());
-
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
