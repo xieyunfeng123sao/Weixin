@@ -2,8 +2,12 @@ package com.ityun.weixin.myapplication.ui.fragment.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.ityun.weixin.myapplication.R;
 
 import java.util.List;
 
@@ -16,7 +20,7 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     Context context;
 
     List mlist;
-
+    private LayoutInflater mLayoutInflater;
     public  enum  ITEM_TYPE
     {
         HEADVIEW,
@@ -27,6 +31,7 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public FriendAdapter(Context context) {
         this.context = context;
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
     public void setData(List mlist) {
@@ -35,6 +40,13 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder holder;
+        if (viewType == ITEM_TYPE.HEADVIEW.ordinal()) {
+            return  new HeaderViewHolder(mLayoutInflater.inflate(R.layout.item_friend_header, parent, false));
+        } else if(viewType==ITEM_TYPE.FOOTVIEW.ordinal())
+        {
+            return new FooterViewHolder(mLayoutInflater.inflate(R.layout.item_friend_footer,parent,false));
+        }
         return null;
     }
 
@@ -45,7 +57,9 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return null != mlist ? mlist.size() : 2;
+        int m=null != mlist ? (mlist.size()+2) : 2;
+        Log.e("insert","====getItemCount====="+m);
+        return m;
     }
 
     @Override
