@@ -27,4 +27,8 @@
     <string name="error_camare_pe">获取拍照权限失败</string>
     <string name="search">搜索</string>
     <string name="add">添加</string>
+    <string name="newfriend">新的好友</string>
+    <string name="addfriend">添加好友</string>
+    <string name="groudim">群聊</string>
+    <string name="publicnum">公众号</string>
 </resources>

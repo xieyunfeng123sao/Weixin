@@ -33,7 +33,6 @@ public class FriendFragment extends BaseFragment {
     @BindView(R.id.friend_recycle)
     RecyclerView friend_recycle;
 
-
     FriendAdapter adapter;
 
     @Nullable

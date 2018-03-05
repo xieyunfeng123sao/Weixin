@@ -1,6 +1,7 @@
 package com.ityun.weixin.myapplication.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 
@@ -26,6 +28,7 @@ import com.ityun.weixin.myapplication.ui.fragment.FriendFragment;
 import com.ityun.weixin.myapplication.ui.fragment.MeFragment;
 import com.ityun.weixin.myapplication.ui.fragment.WeixinFragment;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.HomeFragmentAdapter;
+import com.ityun.weixin.myapplication.ui.friend.AddFriendActivity;
 import com.ityun.weixin.myapplication.util.CacheUtils;
 import com.ityun.weixin.myapplication.util.DensityUtil;
 import com.ityun.weixin.myapplication.view.CustomViewPager;
@@ -94,6 +97,7 @@ public class HomeActivity extends BaseActivity {
         IMModel.getInstance().updataUser(userInfo);
         IMModel.getInstance().login(userInfo.getObjectId());
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -192,18 +196,27 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void showPopuwindow(View v) {
-
-        // TODO 这里是显示popupWindow的代码
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.home_popuwindow, null);
+        int vWidth = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        view.measure(vWidth, height);
+        int view_width = view.getMeasuredWidth();
         int width = getWindow().getDecorView().getWidth() / 2;
-        Log.i("宽度", width + "");
         popupWindow = new PopupWindow(view, width,
                 WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.showAsDropDown(v,
-                -DensityUtil.dip2px(HomeActivity.this, width/2), 0);
+                -(view_width + v.getWidth()), 0);
+
+        LinearLayout popu_add_friend = view.findViewById(R.id.popu_add_friend);
+        popu_add_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, AddFriendActivity.class);
+                startActivity(intent);
+                popupWindow.dismiss();
+            }
+        });
     }
-
-
 }

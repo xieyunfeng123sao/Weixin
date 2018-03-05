@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -39,9 +40,7 @@ import cn.bmob.v3.exception.BmobException;
 
 public class AddUserActivity extends BaseActivity implements AddUserContract.View {
 
-    //返回
-    @BindView(R.id.add_goback)
-    ImageView add_goback;
+
     //昵称
     @BindView(R.id.add_input_nickname)
     EditText add_input_nickname;
@@ -94,14 +93,19 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
+        ActionBar mActionBar=getSupportActionBar();
+        mActionBar.setHomeButtonEnabled(true);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setTitle("填写手机号");
         ButterKnife.bind(this);
         initListener();
         presenter = new AddUserPresenter(this);
     }
 
-    @OnClick(R.id.add_goback)
-    public void goBack() {
+    @Override
+    public boolean onSupportNavigateUp() {
         finish();
+        return super.onSupportNavigateUp();
     }
 
     /**

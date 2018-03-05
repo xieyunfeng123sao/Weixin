@@ -103,17 +103,17 @@
             android:name=".ui.login.LoginActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.DELETE" />
-                <category android:name="android.intent.ityun.weixin.LoginActivity" />
+                <action android:name="android.intent.ityun.weixin.LoginActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".ui.adduser.AddUserActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            >
             <intent-filter>
-                <action android:name="android.intent.action.DELETE" />
-                <category android:name="android.intent.ityun.weixin.AddUserActivity" />
+                <action android:name="android.intent.ityun.weixin.AddUserActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
@@ -121,11 +121,20 @@
             android:name=".ui.album.AlbumActivity"
             >
             <intent-filter>
-                <action android:name="android.intent.action.DELETE" />
-                <category android:name="android.intent.ityun.weixin.AlbumActivity" />
+                <action android:name="android.intent.ityun.weixin.AlbumActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.friend.AddFriendActivity">
+            <intent-filter>
+                <action android:name="android.intent.ityun.weixin.AddFriendActivity" />
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
         </activity>
 
     </application>
+
+
 
 </manifest>

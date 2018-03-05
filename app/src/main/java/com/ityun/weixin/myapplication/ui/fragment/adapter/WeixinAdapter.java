@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
@@ -49,7 +50,15 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if(position>0)
+        {
+            ((RecyleItemHolder)holder).item_weixin_ll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                }
+            });
+        }
     }
 
     @Override
@@ -79,9 +88,10 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class RecyleItemHolder extends RecyclerView.ViewHolder {
-
+        LinearLayout item_weixin_ll;
         public RecyleItemHolder(View itemView) {
             super(itemView);
+            item_weixin_ll=itemView.findViewById(R.id.item_weixin_ll);
         }
     }
 }

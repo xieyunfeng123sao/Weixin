@@ -1,15 +1,18 @@
 package com.ityun.weixin.myapplication.ui.fragment.adapter;
 
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.ityun.weixin.myapplication.R;
-
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2018/3/2 0002.
@@ -52,14 +55,36 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if(position==0)
+        {
+            ((HeaderViewHolder)holder).item_friend_newfriend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                }
+            });
+
+            ((HeaderViewHolder)holder).item_friend_groupim.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            ((HeaderViewHolder)holder).item_friend_publicnum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+
+        }
     }
 
     @Override
     public int getItemCount() {
-        int m=null != mlist ? (mlist.size()+2) : 2;
-        Log.e("insert","====getItemCount====="+m);
-        return m;
+        return null != mlist ? (mlist.size()+2) : 2;
     }
 
     @Override
@@ -78,9 +103,17 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class HeaderViewHolder extends  RecyclerView.ViewHolder
     {
+        LinearLayout item_friend_newfriend;
+
+        LinearLayout item_friend_publicnum;
+
+        LinearLayout item_friend_groupim;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
+            item_friend_newfriend=itemView.findViewById(R.id.item_friend_newfriend);
+            item_friend_publicnum=itemView.findViewById(R.id.item_friend_publicnum);
+            item_friend_groupim=itemView.findViewById(R.id.item_friend_groupim);
         }
     }
 
@@ -100,7 +133,6 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class FriendViewHolder extends  RecyclerView.ViewHolder
     {
-
         public FriendViewHolder(View itemView) {
             super(itemView);
         }

@@ -76,13 +76,17 @@ public class IMModel {
     /**
      * 发送添加好友的请求
      */
-    public void sendAddFriendMessage(UserInfo userInfo) {
+    public void sendAddFriendMessage(UserInfo userInfo, String sendMsg,final OnMessageListener onMessageListener) {
         //TODO 会话：4.1、创建一个暂态会话入口，发送好友请求
         BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(getIMUser(userInfo), true, null);
         //TODO 消息：5.1、根据会话入口获取消息管理，发送好友请求
         BmobIMConversation messageManager = BmobIMConversation.obtain(BmobIMClient.getInstance(), conversationEntrance);
         BmobIMExtraMessage msg = new BmobIMExtraMessage();
-        msg.setContent("很高兴认识你，可以加个好友吗?");//给对方的一个留言信息
+        if (sendMsg == null || sendMsg.length() == 0) {
+            msg.setContent("我是" + userInfo.getUserName());//给对方的一个留言信息
+        } else {
+            msg.setContent(sendMsg);
+        }
         //TODO 这里只是举个例子，其实可以不需要传发送者的信息过去
         Map<String, Object> map = new HashMap<>();
         map.put("name", info.getName());//发送者姓名
@@ -95,7 +99,9 @@ public class IMModel {
             @Override
             public void done(BmobIMMessage msg, BmobException e) {
                 if (e == null) {//发送成功
+                    onMessageListener.onSucess(msg);
                 } else {//发送失败
+                    onMessageListener.onFail(e);
                 }
             }
         });
@@ -108,10 +114,10 @@ public class IMModel {
         //TODO 消息：5.1、根据会话入口获取消息管理，发送好友请求
         BmobIMConversation messageManager = BmobIMConversation.obtain(BmobIMClient.getInstance(), conversationEntrance);
         BmobIMExtraMessage msg = new BmobIMExtraMessage();
-        msg.setContent("很高兴认识你，可以加个好友吗?");//给对方的一个留言信息
+        msg.setContent("我通过了你的朋友验证请求，现在我们可以开始聊天了");//给对方的一个留言信息
         //TODO 这里只是举个例子，其实可以不需要传发送者的信息过去
         Map<String, Object> map = new HashMap<>();
-        map.put("name", info.getName() + "同意添加你为好友");//发送者姓名
+        map.put("name", info.getName());//发送者姓名
         map.put("avatar", info.getAvatar());//发送者的头像
         map.put("uid", info.getUserId());//发送者的uid
         msg.setMsgType("agree");
@@ -141,6 +147,14 @@ public class IMModel {
                 }
             }
         });
+    }
+
+
+    public interface OnMessageListener
+    {
+        void onSucess(BmobIMMessage message);
+
+        void onFail(BmobException e);
     }
 
 }

@@ -59,7 +59,6 @@ import butterknife.OnClick;
 
 public class AlbumActivity extends BaseActivity {
 
-    ActionBar actionBar;
 
     @BindView(R.id.picture_file_name)
     TextView picture_file_name;
@@ -105,7 +104,6 @@ public class AlbumActivity extends BaseActivity {
         adapter = new AlbumAdapter(this);
         picture_gridview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        initActionBar();
         if (PermissionUtil.readFile(this, MY_PERMISSIONS_REQUEST_OPEN_ALBUM) == 1) {
             initView();
         }
@@ -207,14 +205,17 @@ public class AlbumActivity extends BaseActivity {
         }
     }
 
-    private void initActionBar() {
-        actionBar = getSupportActionBar();
+    @Override
+    protected void initActionBar() {
+        super.initActionBar();
+                actionBar = getSupportActionBar();
         if (actionBar == null)
             return;
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.pic);
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {
