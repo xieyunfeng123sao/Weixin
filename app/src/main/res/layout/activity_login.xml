@@ -6,6 +6,7 @@
     android:background="@color/gray_white"
    >
     <ImageView
+        android:background="@drawable/item_selector_gray"
         android:id="@+id/add_goback"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"

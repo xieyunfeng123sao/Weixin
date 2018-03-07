@@ -130,7 +130,13 @@
                 <action android:name="android.intent.ityun.weixin.AddFriendActivity" />
                 <category  android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+        </activity>
 
+        <activity android:name=".ui.friend.SearchUserActivity">
+            <intent-filter>
+                <action android:name="android.intent.ityun.weixin.SearchUserActivity" />
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
 
     </application>

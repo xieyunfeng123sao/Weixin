@@ -31,4 +31,7 @@
     <string name="addfriend">添加好友</string>
     <string name="groudim">群聊</string>
     <string name="publicnum">公众号</string>
+
+    <string name="search_hint">微信号/QQ号/手机号</string>
+    <string name="my_weixinnum">我的微信号：</string>
 </resources>
