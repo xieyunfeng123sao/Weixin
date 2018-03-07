@@ -22,7 +22,6 @@ import butterknife.OnClick;
 
 public class AddFriendActivity extends BaseActivity {
 
-
     @BindView(R.id.intent_input_num)
     public EditText intent_input_num;
 
