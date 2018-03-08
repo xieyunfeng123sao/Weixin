@@ -14,7 +14,8 @@ public interface LoginContract {
     {
          void loginSucess(UserInfo user);
 
-         void  loginFail();
+         //0 用户名不存在   1密码错误
+         void  loginFail(int errorId);
 
          void  loginError();
     }

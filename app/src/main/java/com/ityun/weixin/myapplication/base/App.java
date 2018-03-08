@@ -3,10 +3,7 @@ package com.ityun.weixin.myapplication.base;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-
 import com.ityun.weixin.myapplication.im.IMMessageHandler;
-import com.orhanobut.logger.Logger;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -28,6 +25,7 @@ public class App extends Application {
 
     public List<Activity> activityList = new ArrayList<>();
 
+
     public static App getInstance() {
         if (app == null)
             app = new App();
@@ -43,6 +41,7 @@ public class App extends Application {
         context = getApplicationContext();
         init();
     }
+
 
     /**
      * bomb云的初始化

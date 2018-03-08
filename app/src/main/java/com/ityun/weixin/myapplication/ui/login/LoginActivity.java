@@ -161,7 +161,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
 
-    @OnClick({R.id.add_goback, R.id.login_user_num_delete,R.id.login_user_password_look,R.id.login_user_button})
+    @OnClick({R.id.add_goback, R.id.login_user_num_delete, R.id.login_user_password_look, R.id.login_user_button})
     public void viewOnClick(View view) {
         switch (view.getId()) {
             case R.id.add_goback:
@@ -219,11 +219,15 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
     @Override
-    public void loginFail() {
+    public void loginFail(final int errorId) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast(R.string.error_login);
+                if (errorId == 0) {
+                    Toast(R.string.error_login_num);
+                } else {
+                    Toast(R.string.error_login_psd);
+                }
                 dialog.dismiss();
             }
         });

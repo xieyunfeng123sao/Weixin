@@ -56,20 +56,19 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
         //获取用户信息
         user = CacheUtils.getInstance(this).getCaCheUser();
 
-        presenter=new LoginPresenter(this);
+        presenter = new LoginPresenter(this);
         if (user != null) {
             //如果有缓存的用户信息 就不显示登录和注册
             wel_login_button.setVisibility(View.GONE);
             wel_add_button.setVisibility(View.GONE);
-            if(user.getPassword()!=null&&!user.getPassword().equals(""))
-            {
+            if (user.getPassword() != null && !user.getPassword().equals("")) {
                 presenter.login(user);
                 return;
             }
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-     }
+    }
 
     @Override
     protected void onResume() {
@@ -80,11 +79,6 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
     protected void onDestroy() {
         super.onDestroy();
     }
-
-    private void login(UserInfo user) {
-
-    }
-
 
     /**
      * 跳转注册界面
@@ -118,12 +112,26 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
     }
 
     @Override
-    public void loginFail() {
-
+    public void loginFail(int error) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
     public void loginError() {
-
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.PopupMenu;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
-
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
@@ -30,27 +27,18 @@ import com.ityun.weixin.myapplication.ui.fragment.WeixinFragment;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.HomeFragmentAdapter;
 import com.ityun.weixin.myapplication.ui.friend.AddFriendActivity;
 import com.ityun.weixin.myapplication.util.CacheUtils;
-import com.ityun.weixin.myapplication.util.DensityUtil;
 import com.ityun.weixin.myapplication.view.CustomViewPager;
-import com.orhanobut.logger.Logger;
-
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.newim.BmobIM;
-import cn.bmob.newim.listener.ConnectListener;
-import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/1/17 0017.
  */
 
 public class HomeActivity extends BaseActivity {
-
 
     @BindView(R.id.activity_home_viewpager)
     public CustomViewPager activity_home_viewpager;

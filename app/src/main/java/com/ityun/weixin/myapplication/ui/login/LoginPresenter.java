@@ -30,19 +30,23 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void login(UserInfo user) {
+    public void login(final UserInfo user) {
         UserHelper.getInstance().queryLoginUser(user, new BmobTableListener() {
             @Override
             public void onSucess(Object object) {
                 JSONArray array = (JSONArray) object;
                 if (array.length() == 0) {
-                    view.loginFail();
+                    view.loginFail(0);
                 } else {
                     try {
                         Object obj = array.get(0);
                         Gson gson = new Gson();
-                        UserInfo user = gson.fromJson(obj.toString(), UserInfo.class);
-                        view.loginSucess(user);
+                        UserInfo userInfo = gson.fromJson(obj.toString(), UserInfo.class);
+                        if (userInfo.getPassword().equals(user.getPassword())) {
+                            view.loginSucess(userInfo);
+                        } else {
+                            view.loginFail(1);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

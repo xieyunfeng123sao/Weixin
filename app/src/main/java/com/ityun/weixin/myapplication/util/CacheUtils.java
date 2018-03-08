@@ -1,6 +1,9 @@
 package com.ityun.weixin.myapplication.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
 import com.ityun.weixin.myapplication.bean.UserInfo;
 
 /**
@@ -12,15 +15,26 @@ public class CacheUtils {
     private Context context;
     public static CacheUtils instance;
 
-    private ACache aCache;
-
     private String CACHE_USER = "user";
 
     public UserInfo user;
 
+    private SharedPreferences sharedPreferences;
+
+    /**
+     * 保存在手机里面的文件名
+     */
+    public static final String FILE_NAME = "weixin";
+
+
+    private SharedPreferences.Editor editor;
+
+
     public CacheUtils(Context context) {
         this.context = context;
-        aCache = ACache.get(context);
+        sharedPreferences = context.getSharedPreferences(FILE_NAME,
+                Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
     }
 
     public static CacheUtils getInstance(Context context) {
@@ -36,8 +50,12 @@ public class CacheUtils {
      * @param user
      */
     public void saveUser(UserInfo user) {
-        this.user=user;
-        aCache.put(CACHE_USER, user);
+        Gson gson = new Gson();
+        String userInfo = gson.toJson(user);
+        editor.putString("userinfo", userInfo);
+//        editor.commit();
+        editor.apply();
+        this.user = user;
     }
 
     /**
@@ -49,9 +67,14 @@ public class CacheUtils {
         return user;
     }
 
-    public UserInfo getCaCheUser()
-    {
-        UserInfo use= (UserInfo) aCache.getAsObject(CACHE_USER);
-        return use;
+    public UserInfo getCaCheUser() {
+        Gson gson = new Gson();
+        String userInfo = sharedPreferences.getString("userinfo", null);
+        if (userInfo != null) {
+            UserInfo user = gson.fromJson(userInfo, UserInfo.class);
+            this.user = user;
+            return user;
+        }
+        return null;
     }
 }

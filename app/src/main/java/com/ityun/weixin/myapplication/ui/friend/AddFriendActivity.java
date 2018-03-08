@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.util.CacheUtils;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,8 +22,10 @@ public class AddFriendActivity extends BaseActivity {
     @BindView(R.id.intent_input_num)
     public EditText intent_input_num;
 
+
     @BindView(R.id.my_weixin_num_text)
     public  TextView my_weixin_num_text;
+
 
     private UserInfo userInfo;
 

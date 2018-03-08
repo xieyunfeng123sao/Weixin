@@ -81,7 +81,6 @@ public class UserHelper {
     public void queryLoginUser(UserInfo user, final BmobTableListener listener) {
         BmobQuery<UserInfo> query = new BmobQuery<>(TableName.userTable);
         query.addWhereEqualTo("loginName", user.getLoginName());
-        query.addWhereEqualTo("password", user.getPassword());
         query.findObjectsByTable(new QueryListener<JSONArray>() {
             @Override
             public void done(JSONArray jsonArray, BmobException e) {
