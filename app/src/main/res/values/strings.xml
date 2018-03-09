@@ -22,6 +22,7 @@
     <string name="error_login_num">登录失败,用户名不存在</string>
     <string name="error_login_psd">密码错误</string>
     <string name="error">登录失败，请检测网络</string>
+    <string name="error_net">网络已断开</string>
 
     <string name="pic">图片</string>
     <string name="error_album">获取相册图片失败</string>
@@ -35,4 +36,9 @@
 
     <string name="search_hint">微信号/QQ号/手机号</string>
     <string name="my_weixinnum">我的微信号：</string>
+
+    <string name="no_user">用户不存在</string>
+    <string name="search_for_search">搜一搜</string>
+    <string name="search_for_other">小程序、公众号、资讯、朋友圈和表情等</string>
+    <string name="searching_user">正在查找联系人...</string>
 </resources>

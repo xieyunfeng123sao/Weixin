@@ -59,7 +59,7 @@ public class UserHelper {
      * @param listener
      */
     public void queryLoginName(String loginName, final BmobTableListener listener) {
-        BmobQuery query = new BmobQuery(TableName.userTable);
+        BmobQuery<UserInfo> query = new BmobQuery<>(TableName.userTable);
         query.addWhereEqualTo("loginName", loginName);
         query.findObjectsByTable(new QueryListener<JSONArray>() {
             @Override

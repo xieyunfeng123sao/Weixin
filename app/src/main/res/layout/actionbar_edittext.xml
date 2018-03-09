@@ -5,11 +5,17 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/search_top_finish"
         android:src="@mipmap/finish"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
 
     <EditText
+        android:drawablePadding="10dp"
+        android:drawableLeft="@mipmap/search"
+        android:id="@+id/search_weixin_user"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
         android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

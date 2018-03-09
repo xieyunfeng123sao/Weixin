@@ -9,18 +9,18 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
        <ProgressBar
-           android:layout_margin="15dp"
+           android:layout_margin="12dp"
            style="@style/Widget.AppCompat.ProgressBar"
            android:max="100"
-           android:layout_width="55dp"
-           android:layout_height="55dp" />
+           android:layout_width="50dp"
+           android:layout_height="50dp" />
 
        <TextView
            android:id="@+id/loaddialog_text"
            android:layout_marginRight="20dp"
            android:text="@string/adding_user"
            android:textColor="@color/light_txt_color"
-           android:textSize="18sp"
+           android:textSize="16sp"
            android:layout_gravity="center"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content" />
