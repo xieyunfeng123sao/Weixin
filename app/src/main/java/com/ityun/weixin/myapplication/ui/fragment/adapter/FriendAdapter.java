@@ -2,6 +2,7 @@ package com.ityun.weixin.myapplication.ui.fragment.adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.ityun.weixin.myapplication.R;
+import com.ityun.weixin.myapplication.bean.NewFriend;
+import com.ityun.weixin.myapplication.ui.friend.NewFriendActivity;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,7 +64,8 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((HeaderViewHolder)holder).item_friend_newfriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent=new Intent(context, NewFriendActivity.class);
+                    context.startActivity(intent);
                 }
             });
 

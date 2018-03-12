@@ -1,6 +1,7 @@
 package com.ityun.weixin.myapplication.ui.friend;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.media.Image;
 import android.media.MediaCodec;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.UserInfo;
 import com.ityun.weixin.myapplication.table.UserHelper;
 import com.ityun.weixin.myapplication.ui.login.LoginContract;
+import com.ityun.weixin.myapplication.ui.use.UserDetailActivity;
 import com.ityun.weixin.myapplication.view.LoadDialog;
 
 import butterknife.BindView;
@@ -141,15 +143,17 @@ public class SearchUserActivity extends BaseActivity implements SearContract.Vie
         dialog = new LoadDialog(this).setText(R.string.searching_user).build();
         dialog.show();
         String  num= search_weixin_user.getText().toString();
-        presenter.search(num);
-
+        presenter.searchUser(num);
     }
 
     @Override
-    public void searchSucess(UserInfo user) {
+    public void searchSucess(final UserInfo userInfo) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Intent intent=new Intent(SearchUserActivity.this, UserDetailActivity.class);
+                intent.putExtra("userInfo",userInfo);
+                startActivity(intent);
                 dialog.dismiss();
             }
         });

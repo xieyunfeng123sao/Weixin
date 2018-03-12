@@ -11,12 +11,14 @@
         android:layout_height="match_parent" />
 
     <EditText
+        android:layout_weight="1"
         android:drawablePadding="10dp"
         android:drawableLeft="@mipmap/search"
         android:id="@+id/search_weixin_user"
         android:imeOptions="actionSearch"
         android:singleLine="true"
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent" />
 </LinearLayout>

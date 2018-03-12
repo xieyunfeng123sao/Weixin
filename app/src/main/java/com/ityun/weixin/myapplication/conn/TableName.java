@@ -8,4 +8,7 @@ public interface TableName {
 
     public  final static String  userTable="user";
 
+    public final  static  String  friendTable="friend";
+
+
 }

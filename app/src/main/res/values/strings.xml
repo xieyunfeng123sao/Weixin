@@ -41,4 +41,15 @@
     <string name="search_for_search">搜一搜</string>
     <string name="search_for_other">小程序、公众号、资讯、朋友圈和表情等</string>
     <string name="searching_user">正在查找联系人...</string>
+    <string name="adding">正在添加...</string>
+    <string name="detail_info">详细资料</string>
+    <string name="set_remark">设置备注和标签</string>
+    <string name="add_friend">添加到通讯录</string>
+    <string name="video_message">视频通话</string>
+    <string name="sendmessage">发消息</string>
+    <string name="need_message">你需要发送验证申请,等待对方通过</string>
+    <string name="verification">验证申请</string>
+    <string name="send">发送</string>
+    <string name="send_fail">发送失败</string>
+    <string name="send_sucess">发送成功</string>
 </resources>

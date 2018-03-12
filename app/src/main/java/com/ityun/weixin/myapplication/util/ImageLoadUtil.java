@@ -5,6 +5,7 @@ import android.media.Image;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 
 import java.io.File;
@@ -27,6 +28,11 @@ public class ImageLoadUtil {
     public   void getResouce(int resId, ImageView imageView)
     {
         Glide.with(App.context).load(resId).skipMemoryCache(true).into(imageView);
+    }
+
+    public void loadUrl(String  url,ImageView imageView)
+    {
+        Glide.with(App.context).load(url).error(R.mipmap.ic_launcher).into(imageView);
     }
 
 

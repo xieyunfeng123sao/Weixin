@@ -35,7 +35,7 @@
     <application
         android:name=".base.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -135,6 +135,26 @@
         <activity android:name=".ui.friend.SearchUserActivity">
             <intent-filter>
                 <action android:name="android.intent.ityun.weixin.SearchUserActivity" />
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.use.UserDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.ityun.weixin.UserDetailActivity" />
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.use.SendAddFriendActivity">
+            <intent-filter>
+                <action android:name="android.intent.ityun.weixin.SendAddFriendActivity" />
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.friend.NewFriendActivity">
+            <intent-filter>
+                <action android:name="android.intent.ityun.weixin.NewFriendActivity" />
                 <category  android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

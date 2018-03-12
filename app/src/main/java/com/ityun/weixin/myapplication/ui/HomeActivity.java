@@ -84,6 +84,7 @@ public class HomeActivity extends BaseActivity {
         userInfo = CacheUtils.getInstance(this).getCaCheUser();
         IMModel.getInstance().updataUser(userInfo);
         IMModel.getInstance().login(userInfo.getObjectId());
+
     }
 
     @Override

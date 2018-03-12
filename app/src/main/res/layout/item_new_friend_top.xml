@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/backgroud_color"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:padding="10dp"
+        android:id="@+id/new_friend_search_rl"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/item_search"
+            android:src="@mipmap/txt_search"
+            android:layout_width="22dp"
+            android:layout_height="22dp" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/item_search"
+            android:textSize="15sp"
+            android:textColor="@color/light_txt_color"
+            android:text="@string/search_hint"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/item_search"
+            android:background="@color/light_txt_color"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/txt_color"
+        android:text="新的朋友"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
