@@ -19,9 +19,9 @@ import com.bumptech.glide.Glide;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.UserInfo;
+import com.ityun.weixin.myapplication.cache.UserCache;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.ui.album.AlbumActivity;
-import com.ityun.weixin.myapplication.util.CacheUtils;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
 
@@ -363,7 +363,7 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
             @Override
             public void run() {
                 user.setObjectId(object.toString());
-                CacheUtils.getInstance(AddUserActivity.this).saveUser(user);
+                UserCache.getInstance(AddUserActivity.this).saveUser(user);
                 Intent intent = new Intent(AddUserActivity.this, HomeActivity.class);
                 startActivity(intent);
                 dialog.dismiss();

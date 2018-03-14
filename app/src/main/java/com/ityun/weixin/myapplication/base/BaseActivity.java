@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * Created by Administrator on 2018/1/17 0017.
  */
@@ -36,9 +38,15 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    protected   void Toast(@StringRes int resId)
+    protected   void Toast(final @StringRes int resId)
     {
-        Toast.makeText(this,resId,Toast.LENGTH_SHORT).show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(BaseActivity.this,resId,Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
   
 }

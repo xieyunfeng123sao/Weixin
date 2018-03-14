@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,16 +14,12 @@ import android.widget.TextView;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.im.IMModel;
-import com.ityun.weixin.myapplication.util.CacheUtils;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
-import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.newim.bean.BmobIMUserInfo;
 
 /**
  * Created by Administrator on 2018/3/12 0012.

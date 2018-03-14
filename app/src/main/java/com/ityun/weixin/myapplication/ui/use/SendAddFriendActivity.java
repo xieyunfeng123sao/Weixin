@@ -66,7 +66,6 @@ public class SendAddFriendActivity extends BaseActivity {
                         Toast(R.string.send_sucess);
                         finish();
                     }
-
                     @Override
                     public void onFail(BmobException e) {
                         Toast(R.string.send_fail);

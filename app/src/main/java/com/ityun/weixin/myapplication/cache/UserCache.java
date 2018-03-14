@@ -1,4 +1,4 @@
-package com.ityun.weixin.myapplication.util;
+package com.ityun.weixin.myapplication.cache;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,14 +10,14 @@ import com.ityun.weixin.myapplication.bean.UserInfo;
  * Created by Administrator on 2018/1/26 0026.
  */
 
-public class CacheUtils {
+public class UserCache {
 
     private Context context;
-    public static CacheUtils instance;
+    public static UserCache instance;
 
     private String CACHE_USER = "user";
 
-    public UserInfo user;
+    public static UserInfo user;
 
     private SharedPreferences sharedPreferences;
 
@@ -30,19 +30,21 @@ public class CacheUtils {
     private SharedPreferences.Editor editor;
 
 
-    public CacheUtils(Context context) {
+    public UserCache(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
-    public static CacheUtils getInstance(Context context) {
+    public static UserCache getInstance(Context context) {
         if (instance == null) {
-            instance = new CacheUtils(context);
+            instance = new UserCache(context);
         }
         return instance;
     }
+
+
 
     /**
      * 保存用户信息
@@ -53,7 +55,6 @@ public class CacheUtils {
         Gson gson = new Gson();
         String userInfo = gson.toJson(user);
         editor.putString("userinfo", userInfo);
-//        editor.commit();
         editor.apply();
         this.user = user;
     }
@@ -63,7 +64,7 @@ public class CacheUtils {
      *
      * @return
      */
-    public UserInfo getUser() {
+    public static UserInfo getUser() {
         return user;
     }
 

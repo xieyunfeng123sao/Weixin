@@ -8,8 +8,6 @@ import org.litepal.crud.DataSupport;
  */
 
 public class NewFriend extends DataSupport {
-
-
     private Long id;
     //用户uid
     private String uid;
@@ -23,7 +21,6 @@ public class NewFriend extends DataSupport {
     private Integer status;
     //请求时间
     private Long time;
-
 
     public Long getId() {
         return id;

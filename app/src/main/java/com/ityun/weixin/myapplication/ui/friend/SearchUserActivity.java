@@ -25,8 +25,11 @@ import com.ityun.weixin.myapplication.ui.login.LoginContract;
 import com.ityun.weixin.myapplication.ui.use.UserDetailActivity;
 import com.ityun.weixin.myapplication.view.LoadDialog;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.bmob.newim.event.MessageEvent;
 
 /**
  * Created by Administrator on 2018/3/6 0006.

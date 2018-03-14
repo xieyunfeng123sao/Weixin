@@ -23,6 +23,7 @@
     <string name="error_login_psd">密码错误</string>
     <string name="error">登录失败，请检测网络</string>
     <string name="error_net">网络已断开</string>
+    <string name="error_add">添加失败</string>
 
     <string name="pic">图片</string>
     <string name="error_album">获取相册图片失败</string>

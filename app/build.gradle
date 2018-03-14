@@ -9,7 +9,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     android {
@@ -70,5 +70,7 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
     //郭神的数据库
     compile 'org.litepal.android:core:1.6.1'
+    //组件的通信
+    compile 'org.greenrobot:eventbus:3.0.0'
 
 }

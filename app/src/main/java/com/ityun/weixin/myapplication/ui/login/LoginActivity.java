@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.UserInfo;
+import com.ityun.weixin.myapplication.cache.UserCache;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
-import com.ityun.weixin.myapplication.util.CacheUtils;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
 
@@ -210,7 +210,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                CacheUtils.getInstance(LoginActivity.this).saveUser(callBackuser);
+                UserCache.getInstance(LoginActivity.this).saveUser(callBackuser);
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
                 dialog.dismiss();

@@ -27,7 +27,7 @@ public interface SearContract {
 
     interface Presenter extends BasePresenter {
         void searchUser(String num);
-
+        void  searchById(String uid);
         void addFriend(FriendInfo friendInfo);
     }
 }

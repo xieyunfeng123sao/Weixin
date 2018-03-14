@@ -1,6 +1,8 @@
 package com.ityun.weixin.myapplication.bean;
 
 import com.ityun.weixin.myapplication.conn.TableName;
+
+import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobDate;
 
@@ -11,9 +13,7 @@ import cn.bmob.v3.datatype.BmobDate;
 /**
  * 用户信息
  */
-public class UserInfo extends BmobObject {
-
-
+public class UserInfo extends BmobObject{
     /**
      * 登录名
      */
@@ -22,8 +22,6 @@ public class UserInfo extends BmobObject {
      * 登录密码
      */
     private String password;
-
-
     /**
      * 用户昵称
      */
@@ -32,7 +30,6 @@ public class UserInfo extends BmobObject {
      * 用户头像
      */
     private String userPic;
-
     /**
      * 创建时间
      */
@@ -43,15 +40,10 @@ public class UserInfo extends BmobObject {
      */
     private BmobDate updataTime;
 
-
-
-
     public UserInfo()
     {
         this.setTableName(TableName.userTable);
     }
-
-
 
     public String getLoginName() {
         return loginName;

@@ -10,40 +10,26 @@ import cn.bmob.v3.BmobObject;
 
 public class FriendInfo extends BmobObject {
 
-    //用户
-    private String  userNum;
-    //好友num
-    private String  friendNum;
-    //备注
-    private String remarks;
+   private UserInfo user;
 
+   private UserInfo friend;
     public FriendInfo()
     {
         this.setTableName(TableName.friendTable);
     }
-
-
-    public String getUserNum() {
-        return userNum;
+    public UserInfo getUser() {
+        return user;
     }
 
-    public void setUserNum(String userNum) {
-        this.userNum = userNum;
+    public void setUser(UserInfo user) {
+        this.user = user;
     }
 
-    public String getFriendNum() {
-        return friendNum;
+    public UserInfo getFriend() {
+        return friend;
     }
 
-    public void setFriendNum(String friendNum) {
-        this.friendNum = friendNum;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setFriend(UserInfo friend) {
+        this.friend = friend;
     }
 }

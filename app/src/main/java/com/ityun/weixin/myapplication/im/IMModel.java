@@ -150,7 +150,7 @@ public class IMModel {
     }
 
 
-    public void sendAgreeFriendMessage(UserInfo userInfo) {
+    public void sendAgreeFriendMessage(UserInfo userInfo, final OnMessageListener onMessageListener) {
         //TODO 会话：4.1、创建一个暂态会话入口，发送好友请求
         BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(getIMUser(userInfo), true, null);
         //TODO 消息：5.1、根据会话入口获取消息管理，发送好友请求
@@ -169,7 +169,9 @@ public class IMModel {
             @Override
             public void done(BmobIMMessage msg, BmobException e) {
                 if (e == null) {//发送成功
+                    onMessageListener.onSucess(msg);
                 } else {//发送失败
+                    onMessageListener.onFail(e);
                 }
             }
         });

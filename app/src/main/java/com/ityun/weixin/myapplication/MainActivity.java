@@ -11,12 +11,12 @@ import android.widget.ImageView;
 
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.UserInfo;
+import com.ityun.weixin.myapplication.cache.UserCache;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.ui.adduser.AddUserActivity;
 import com.ityun.weixin.myapplication.ui.login.LoginActivity;
 import com.ityun.weixin.myapplication.ui.login.LoginContract;
 import com.ityun.weixin.myapplication.ui.login.LoginPresenter;
-import com.ityun.weixin.myapplication.util.CacheUtils;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 
 import butterknife.BindView;
@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
         //加载图片
         ImageLoadUtil.getInstance().getResouce(R.mipmap.we_2, wel_img);
         //获取用户信息
-        user = CacheUtils.getInstance(this).getCaCheUser();
+        user = UserCache.getInstance(this).getCaCheUser();
 
         presenter = new LoginPresenter(this);
         if (user != null) {
@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity implements LoginContract.View {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                CacheUtils.getInstance(MainActivity.this).saveUser(user);
+                UserCache.getInstance(MainActivity.this).saveUser(user);
                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
