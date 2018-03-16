@@ -2,7 +2,8 @@ package com.ityun.weixin.myapplication.im;
 
 import android.text.TextUtils;
 
-import com.ityun.weixin.myapplication.bean.UserInfo;
+import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.model.UserModel;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -40,62 +41,10 @@ public class IMModel {
         return instance;
     }
 
-    public void updataUser(UserInfo userInfo) {
-        info = new BmobIMUserInfo();
-        info.setName(userInfo.getUserName());
-        info.setUserId(userInfo.getObjectId());
-        info.setAvatar(userInfo.getUserPic());
+    public  void  updataUser(User user)
+    {
+        info=new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
     }
-
-    private BmobIMUserInfo getIMUser(UserInfo userInfo) {
-        BmobIMUserInfo bmobIMUserInfo = new BmobIMUserInfo();
-        bmobIMUserInfo.setName(userInfo.getUserName());
-        bmobIMUserInfo.setUserId(userInfo.getObjectId());
-        bmobIMUserInfo.setAvatar(userInfo.getUserPic());
-        return bmobIMUserInfo;
-    }
-
-    /**
-     * 更新IM的用户信息
-     *
-     * @param userInfo
-     */
-    public void imUpdataUser(UserInfo userInfo) {
-        //TODO 用户管理：2.7、更新本地用户资料，用于在会话页面、聊天页面以及个人信息页面显示
-        BmobIM.getInstance().updateUserInfo(getIMUser(userInfo));
-    }
-
-    /**
-     * 更新IM的用户信息
-     *
-     * @param userInfo
-     */
-    public void imUpdataUser(BmobIMUserInfo userInfo) {
-        //TODO 用户管理：2.7、更新本地用户资料，用于在会话页面、聊天页面以及个人信息页面显示
-        BmobIM.getInstance().updateUserInfo(userInfo);
-    }
-
-    /**
-     * 批量更新用户信息
-     *
-     * @param mlist
-     */
-    public void imListUser(List<UserInfo> mlist) {
-        List<BmobIMUserInfo> imUserInfos = new ArrayList<>();
-        for (UserInfo userInfo : mlist) {
-            imUserInfos.add(getIMUser(userInfo));
-        }
-        //TODO 用户管理：2.8、批量更新本地用户信息
-        BmobIM.getInstance().updateBatchUserInfo(imUserInfos);
-    }
-
-
-    public BmobIMUserInfo getLocalUser(String uid) {
-        //TODO 用户管理：2.9、获取本地用户信息
-        BmobIMUserInfo bmobIMUserInfo = BmobIM.getInstance().getUserInfo(uid);
-        return bmobIMUserInfo;
-    }
-
 
     public void login(final String userId) {
         if (!TextUtils.isEmpty(userId)) {
@@ -118,21 +67,25 @@ public class IMModel {
     /**
      * 发送添加好友的请求
      */
-    public void sendAddFriendMessage(UserInfo userInfo, String sendMsg, final OnMessageListener onMessageListener) {
+    public void sendAddFriendMessage(User userInfo, String sendMsg, final OnMessageListener onMessageListener) {
+
+        User user= UserModel.getInstance().getUser();
+
         //TODO 会话：4.1、创建一个暂态会话入口，发送好友请求
-        BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(getIMUser(userInfo), true, null);
+        BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(new BmobIMUserInfo(userInfo.getObjectId(), userInfo.getUsername(), userInfo.getAvatar()), true, null);
         //TODO 消息：5.1、根据会话入口获取消息管理，发送好友请求
         BmobIMConversation messageManager = BmobIMConversation.obtain(BmobIMClient.getInstance(), conversationEntrance);
         BmobIMExtraMessage msg = new BmobIMExtraMessage();
         if (sendMsg == null || sendMsg.length() == 0) {
-            msg.setContent("我是" + userInfo.getUserName());//给对方的一个留言信息
+            msg.setContent("我是" + user.getNickname());//给对方的一个留言信息
         } else {
             msg.setContent(sendMsg);
         }
         //TODO 这里只是举个例子，其实可以不需要传发送者的信息过去
         Map<String, Object> map = new HashMap<>();
-        map.put("name", info.getName());//发送者姓名
+        map.put("name", info.getName());//发送者账号
         map.put("avatar", info.getAvatar());//发送者的头像
+        map.put("nickname",user.getNickname());//发送者昵称
         map.put("uid", info.getUserId());//发送者的uid
         msg.setMsgType("add");
         msg.setIsTransient(true);
@@ -150,9 +103,9 @@ public class IMModel {
     }
 
 
-    public void sendAgreeFriendMessage(UserInfo userInfo, final OnMessageListener onMessageListener) {
+    public void sendAgreeFriendMessage(User userInfo, final OnMessageListener onMessageListener) {
         //TODO 会话：4.1、创建一个暂态会话入口，发送好友请求
-        BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(getIMUser(userInfo), true, null);
+        BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(new BmobIMUserInfo(userInfo.getObjectId(), userInfo.getUsername(), userInfo.getAvatar()), true, null);
         //TODO 消息：5.1、根据会话入口获取消息管理，发送好友请求
         BmobIMConversation messageManager = BmobIMConversation.obtain(BmobIMClient.getInstance(), conversationEntrance);
         BmobIMExtraMessage msg = new BmobIMExtraMessage();

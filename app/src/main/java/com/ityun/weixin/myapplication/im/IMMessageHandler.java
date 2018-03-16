@@ -1,5 +1,6 @@
 package com.ityun.weixin.myapplication.im;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,13 +9,12 @@ import android.widget.Toast;
 
 import com.ityun.weixin.myapplication.MainActivity;
 import com.ityun.weixin.myapplication.R;
-import com.ityun.weixin.myapplication.bean.FriendInfo;
+import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.bean.NewFriend;
-import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.cache.NewFriendCache;
-import com.ityun.weixin.myapplication.cache.UserCache;
+import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.db.NewFriendManager;
+import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.listener.UpdateCacheListener;
-import com.ityun.weixin.myapplication.table.UserHelper;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -70,9 +70,8 @@ public class IMMessageHandler extends BmobIMMessageHandler {
         }
     }
 
-    private void executeMessage(final MessageEvent event)
-    {
-        UserHelper.getInstance().updateUserInfo(event, new UpdateCacheListener() {
+    private void executeMessage(final MessageEvent event) {
+        UserModel.getInstance().updateUserInfo(event, new UpdateCacheListener() {
             @Override
             public void done() {
                 BmobIMMessage msg = event.getMessage();
@@ -132,27 +131,27 @@ public class IMMessageHandler extends BmobIMMessageHandler {
         if (type.equals("add")) {//接收到的添加好友的请求
             NewFriend friend = convert(msg);
             //本地好友请求表做下校验，本地没有的才允许显示通知栏--有可能离线消息会有些重复
-            boolean id = NewFriendCache.getInstance().saveNewFriend(friend);
-            if (id ) {
+            long id = NewFriendManager.getInstance(App.context).insertOrUpdateNewFriend(friend);
+            if (id > 0) {
                 showAddNotify(friend);
             }
         } else if (type.equals("agree")) {//接收到的对方同意添加自己为好友,此时需要做的事情：1、添加对方为好友，2、显示通知
 //            AgreeAddFriendMessage agree = AgreeAddFriendMessage.convert(msg);
             String extra = msg.getExtra();
-            if(!TextUtils.isEmpty(extra)){
+            if (!TextUtils.isEmpty(extra)) {
                 JSONObject json = null;
                 try {
                     json = new JSONObject(extra);
 //                    Long time = json.getLong("time");
-                    String uid =json.getString("uid");
-                    String m =json.getString("msg");
+                    String uid = json.getString("uid");
+                    String m = json.getString("msg");
                     addFriend(uid);//添加消息的发送方为好友
                     //这里应该也需要做下校验--来检测下是否已经同意过该好友请求，我这里省略了
                     showAgreeNotify(info, m);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }else{
+            } else {
                 Logger.i("AgreeAddFriendMessage的extra为空");
             }
         } else {
@@ -178,6 +177,7 @@ public class IMMessageHandler extends BmobIMMessageHandler {
 
     /**
      * 显示对方同意添加自己为好友的通知
+     *
      * @param info
      */
     private void showAgreeNotify(BmobIMUserInfo info, String msg) {
@@ -188,9 +188,9 @@ public class IMMessageHandler extends BmobIMMessageHandler {
     }
 
 
-
     /**
      * 将BmobIMMessage转成NewFriend
+     *
      * @param msg 消息
      * @return
      */
@@ -208,6 +208,8 @@ public class IMMessageHandler extends BmobIMMessageHandler {
                 add.setName(name);
                 String avatar = json.getString("avatar");
                 add.setAvatar(avatar);
+                String nickname = json.getString("nickname");
+                add.setNickname(nickname);
                 add.setUid(json.getString("uid"));
             } else {
                 Logger.i("AddFriendMessage的extra为空");
@@ -224,28 +226,19 @@ public class IMMessageHandler extends BmobIMMessageHandler {
      * @param uid
      */
     private void addFriend(String uid) {
-        UserInfo user = new UserInfo();
+        User user = new User();
         user.setObjectId(uid);
-        FriendInfo friendInfo=new FriendInfo();
-        friendInfo.setUser(UserCache.getUser());
-        friendInfo.setFriend(user);
-        friendInfo.save(new SaveListener<String>() {
-            @Override
-            public void done(String s, BmobException e) {
-
-            }
-        });
-//        UserModel.getInstance()
-//                .agreeAddFriend(user, new SaveListener<String>() {
-//                    @Override
-//                    public void done(String s, BmobException e) {
-//                        if (e == null) {
-//                            Logger.e("success");
-//                        } else {
-//                            Logger.e(e.getMessage());
-//                        }
-//                    }
-//                });
+        UserModel.getInstance()
+                .addNewFriend(user, new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null) {
+                            Logger.e("success");
+                        } else {
+                            Logger.e(e.getMessage());
+                        }
+                    }
+                });
     }
 
 }

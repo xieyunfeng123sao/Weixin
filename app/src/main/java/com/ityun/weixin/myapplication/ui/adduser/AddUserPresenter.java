@@ -2,9 +2,10 @@ package com.ityun.weixin.myapplication.ui.adduser;
 
 import android.support.annotation.NonNull;
 
-import com.ityun.weixin.myapplication.bean.UserInfo;
+import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;
-import com.ityun.weixin.myapplication.table.UserHelper;
+
 import cn.bmob.v3.exception.BmobException;
 
 /**
@@ -27,8 +28,8 @@ public class AddUserPresenter implements AddUserContract.Presenter {
 
 
     @Override
-    public void addUser(UserInfo user) {
-        UserHelper.getInstance().addUser(user, new BmobTableListener() {
+    public void addUser(User user) {
+        UserModel.getInstance().addUser(user, new BmobTableListener() {
             @Override
             public void onSucess(Object object) {
                 view.addSucess(object);
@@ -42,22 +43,8 @@ public class AddUserPresenter implements AddUserContract.Presenter {
     }
 
     @Override
-    public void selectUser(String num) {
-        UserHelper.getInstance().queryLoginName(num, new BmobTableListener() {
-            @Override
-            public void onSucess(Object object) {
-                view.selectSucess(object);
-            }
-            @Override
-            public void onFail(BmobException e) {
-                view.selectFail();
-            }
-        });
-    }
-
-    @Override
     public void addImage(String path) {
-        UserHelper.getInstance().addFile(path, new BmobTableListener() {
+        UserModel.getInstance().addFile(path, new BmobTableListener() {
             @Override
             public void onSucess(Object object) {
                 view.uploadSucess(object.toString());

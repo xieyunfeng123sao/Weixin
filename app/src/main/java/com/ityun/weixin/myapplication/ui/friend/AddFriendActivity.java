@@ -7,8 +7,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.cache.UserCache;
+import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.model.UserModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,16 +28,16 @@ public class AddFriendActivity extends BaseActivity {
     public  TextView my_weixin_num_text;
 
 
-    private UserInfo userInfo;
+    private User userInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
         ButterKnife.bind(this);
-        userInfo= UserCache.getInstance(this).getUser();
+        userInfo= UserModel.getInstance().getUser();
         intent_input_num.setCursorVisible(false);
-        String  showText=getResources().getString(R.string.my_weixinnum)+userInfo.getLoginName();
+        String  showText=getResources().getString(R.string.my_weixinnum)+userInfo.getMobilePhoneNumber();
         my_weixin_num_text.setText(showText);
     }
 

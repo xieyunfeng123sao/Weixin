@@ -18,13 +18,16 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.cache.UserCache;
+import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.event.FinishEvent;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.ui.album.AlbumActivity;
+import com.ityun.weixin.myapplication.ui.login.LoginContract;
+import com.ityun.weixin.myapplication.ui.login.LoginPresenter;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 
 import java.io.File;
@@ -33,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by Administrator on 2018/1/17.
@@ -86,14 +90,14 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
     public int GET_USER_IMG = 10;
 
     private String path = "";
-    UserInfo user;
+    User user;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
-        ActionBar mActionBar=getSupportActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setHomeButtonEnabled(true);
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setTitle("填写手机号");
@@ -143,11 +147,18 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
         }
         dialog = new LoadDialog(this).setText(R.string.adding_user).build();
         dialog.show();
-        user = new UserInfo();
-        user.setUserName(add_input_nickname.getText().toString());
-        user.setLoginName(add_input_phonenum.getText().toString());
+        user = new User();
+        user.setNickname(add_input_nickname.getText().toString());
+        user.setUsername(add_input_phonenum.getText().toString());
+        user.setMobilePhoneNumber(add_input_phonenum.getText().toString());
         user.setPassword(add_input_password.getText().toString());
-        presenter.selectUser(user.getLoginName());
+        if (path == null || !new File(path).exists()) {
+            presenter.addUser(user);
+        } else {
+            presenter.addImage(path);
+        }
+
+
     }
 
     @OnClick({R.id.add_user_img_rl, R.id.add_user_img})
@@ -302,45 +313,11 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
     }
 
     @Override
-    public void selectSucess(final Object object) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                JSONArray jsonArray = (JSONArray) object;
-                if (jsonArray.length() == 0) {
-                    //这个账号没有注册过
-                    if (path == null || !new File(path).exists()) {
-                        presenter.addUser(user);
-                    } else {
-                        presenter.addImage(path);
-                    }
-                } else {
-                    //这个账号已经存在了
-                    dialog.dismiss();
-                    Toast(R.string.error_has_user);
-                }
-            }
-        });
-
-    }
-
-    @Override
-    public void selectFail() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast(R.string.error_add_user);
-                dialog.dismiss();
-            }
-        });
-    }
-
-    @Override
     public void uploadSucess(final String url) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                user.setUserPic(url);
+                user.setAvatar(url);
                 presenter.addUser(user);
             }
         });
@@ -351,7 +328,7 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                user.setUserPic("");
+                user.setAvatar("");
                 presenter.addUser(user);
             }
         });
@@ -362,24 +339,38 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                user.setObjectId(object.toString());
-                UserCache.getInstance(AddUserActivity.this).saveUser(user);
-                Intent intent = new Intent(AddUserActivity.this, HomeActivity.class);
-                startActivity(intent);
-                dialog.dismiss();
+                user.login(new SaveListener<User>() {
+                    @Override
+                    public void done(User user, BmobException e) {
+                        if (e == null) {
+                            startActivity(HomeActivity.class, null, true);
+                            dialog.dismiss();
+                        } else {
+                            if (e.getErrorCode() == ERROR_NUM_OR_PSD) {
+                                Toast(R.string.error_login);
+                            }
+                            Toast(R.string.error);
+                            dialog.dismiss();
+                        }
+                    }
+                });
             }
         });
     }
 
     @Override
-    public void addError(BmobException e) {
+    public void addError(final BmobException e) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast(R.string.error_add_user);
+                if (e.getErrorCode() == ERROR_USER) {
+                    Toast(R.string.error_has_user);
+                } else {
+                    Toast(R.string.error_add_user);
+                }
                 dialog.dismiss();
             }
         });
-
     }
+
 }

@@ -2,8 +2,6 @@ package com.ityun.weixin.myapplication.ui.friend;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
-import android.media.MediaCodec;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -19,17 +17,12 @@ import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.table.UserHelper;
-import com.ityun.weixin.myapplication.ui.login.LoginContract;
+import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.ui.use.UserDetailActivity;
 import com.ityun.weixin.myapplication.view.LoadDialog;
 
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bmob.newim.event.MessageEvent;
 
 /**
  * Created by Administrator on 2018/3/6 0006.
@@ -150,20 +143,20 @@ public class SearchUserActivity extends BaseActivity implements SearContract.Vie
     }
 
     @Override
-    public void searchSucess(final UserInfo userInfo) {
+    public void searchSucess(final User userInfo) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(SearchUserActivity.this, UserDetailActivity.class);
-                intent.putExtra("userInfo",userInfo);
-                startActivity(intent);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("user",userInfo);
+                startActivity(UserDetailActivity.class,bundle,false);
                 dialog.dismiss();
             }
         });
     }
 
     @Override
-    public void searchFail(int errorId) {
+    public void searchFail() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

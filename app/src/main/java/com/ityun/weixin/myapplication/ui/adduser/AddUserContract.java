@@ -2,7 +2,7 @@ package com.ityun.weixin.myapplication.ui.adduser;
 
 import com.ityun.weixin.myapplication.base.BasePresenter;
 import com.ityun.weixin.myapplication.base.BaseView;
-import com.ityun.weixin.myapplication.bean.UserInfo;
+import com.ityun.weixin.myapplication.bean.User;
 
 import cn.bmob.v3.exception.BmobException;
 
@@ -12,11 +12,6 @@ import cn.bmob.v3.exception.BmobException;
 
 public interface AddUserContract {
     interface View extends BaseView<Presenter> {
-
-        void selectSucess(Object object);
-
-        void selectFail();
-
         void uploadSucess(String url);
 
         void uploadFail(BmobException e);
@@ -27,8 +22,7 @@ public interface AddUserContract {
     }
 
     interface Presenter extends BasePresenter {
-        void addUser(UserInfo user);
-        void selectUser(String num);
+        void addUser(User user);
         void addImage(String path);
     }
 

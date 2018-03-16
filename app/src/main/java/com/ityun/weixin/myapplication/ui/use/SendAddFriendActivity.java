@@ -10,9 +10,8 @@ import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.UserInfo;
+import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.im.IMModel;
-import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +27,7 @@ public class SendAddFriendActivity extends BaseActivity {
     @BindView(R.id.send_add_message)
     public EditText send_add_message;
 
-    private UserInfo userInfo;
+    private User userInfo;
 
     private ImageView send_add_finish;
 
@@ -39,9 +38,9 @@ public class SendAddFriendActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_add_friend);
         ButterKnife.bind(this);
-        userInfo = (UserInfo) getIntent().getSerializableExtra("userinfo");
-        send_add_message.setText("我是" + userInfo.getUserName());
-        send_add_message.setSelection(userInfo.getUserName().length() + 2);
+        userInfo = (User) getIntent().getSerializableExtra("userinfo");
+        send_add_message.setText("我是" + userInfo.getNickname());
+        send_add_message.setSelection(userInfo.getNickname().length() + 2);
     }
 
     @Override

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.UserInfo;
+import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
 
@@ -27,7 +27,7 @@ import butterknife.OnClick;
 
 public class UserDetailActivity extends BaseActivity {
 
-    private UserInfo userInfo;
+    private User userInfo;
 
 
     @BindView(R.id.add_friend)
@@ -52,11 +52,11 @@ public class UserDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_detail);
         ButterKnife.bind(this);
-        userInfo = (UserInfo) getIntent().getSerializableExtra("userInfo");
+        userInfo = (User) getBundle().getSerializable("user");
 
-        search_user_num.setText("微信号:" + userInfo.getLoginName());
-        search_user_name.setText(userInfo.getUserName());
-        ImageLoadUtil.getInstance().loadUrl(userInfo.getUserPic(), search_user_img);
+        search_user_num.setText("微信号:" + userInfo.getMobilePhoneNumber());
+        search_user_name.setText(userInfo.getNickname());
+        ImageLoadUtil.getInstance().loadUrl(userInfo.getAvatar(), search_user_img);
         dialog = new LoadDialog(this).setText(R.string.adding).build();
     }
 

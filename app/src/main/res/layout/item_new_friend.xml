@@ -6,6 +6,7 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:scaleType="fitXY"
         android:id="@+id/new_friend_img"
         android:layout_width="50dp"
         android:layout_height="50dp"

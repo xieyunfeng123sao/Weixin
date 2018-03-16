@@ -17,10 +17,38 @@ public class NewFriend extends DataSupport {
     private String name;
     //头像
     private String avatar;
-    //状态：未读、已读、已添加、已拒绝等
+
     private Integer status;
     //请求时间
     private Long time;
+
+    private String nickname;
+
+    public NewFriend() {
+    }
+
+    public NewFriend(Long id) {
+        this.id = id;
+    }
+
+    public NewFriend(Long id, String uid, String msg, String name, String avatar, Integer status, Long time,String nickname) {
+        this.id = id;
+        this.uid = uid;
+        this.msg = msg;
+        this.name = name;
+        this.avatar = avatar;
+        this.status = status;
+        this.time = time;
+        this.nickname=nickname;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public Long getId() {
         return id;

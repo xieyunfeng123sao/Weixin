@@ -18,8 +18,8 @@ import android.widget.RadioButton;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.cache.UserCache;
+import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.ui.fragment.FindFragment;
 import com.ityun.weixin.myapplication.ui.fragment.FriendFragment;
@@ -28,15 +28,12 @@ import com.ityun.weixin.myapplication.ui.fragment.WeixinFragment;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.HomeFragmentAdapter;
 import com.ityun.weixin.myapplication.ui.friend.AddFriendActivity;
 import com.ityun.weixin.myapplication.view.CustomViewPager;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.newim.BmobIM;
-import cn.bmob.newim.bean.BmobIMUserInfo;
 
 /**
  * Created by Administrator on 2018/1/17 0017.
@@ -74,7 +71,7 @@ public class HomeActivity extends BaseActivity {
 
     private HomeFragmentAdapter adapter;
 
-    private UserInfo userInfo;
+    private User userInfo;
 
     private PopupWindow popupWindow;
 
@@ -85,7 +82,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         initFragment();
-        userInfo = UserCache.getInstance(this).getCaCheUser();
+        userInfo = UserModel.getInstance().getUser();
         IMModel.getInstance().updataUser(userInfo);
         IMModel.getInstance().login(userInfo.getObjectId());
     }
@@ -200,7 +197,6 @@ public class HomeActivity extends BaseActivity {
         popupWindow.setFocusable(true);
         popupWindow.showAsDropDown(v,
                 -(view_width + v.getWidth()), 0);
-
         LinearLayout popu_add_friend = view.findViewById(R.id.popu_add_friend);
         popu_add_friend.setOnClickListener(new View.OnClickListener() {
             @Override

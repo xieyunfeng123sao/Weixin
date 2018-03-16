@@ -2,9 +2,7 @@ package com.ityun.weixin.myapplication.ui.friend;
 
 import com.ityun.weixin.myapplication.base.BasePresenter;
 import com.ityun.weixin.myapplication.base.BaseView;
-import com.ityun.weixin.myapplication.bean.FriendInfo;
-import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.ui.login.LoginContract;
+import com.ityun.weixin.myapplication.bean.User;
 
 /**
  * Created by Administrator on 2018/3/9 0009.
@@ -13,9 +11,9 @@ import com.ityun.weixin.myapplication.ui.login.LoginContract;
 public interface SearContract {
 
     interface View extends BaseView<SearContract.Presenter> {
-        void searchSucess(UserInfo user);
+        void searchSucess(User user);
 
-        void searchFail(int errorId);
+        void searchFail();
 
         void searchError();
     }
@@ -28,6 +26,6 @@ public interface SearContract {
     interface Presenter extends BasePresenter {
         void searchUser(String num);
         void  searchById(String uid);
-        void addFriend(FriendInfo friendInfo);
+//        void addFriend(FriendInfo friendInfo);
     }
 }

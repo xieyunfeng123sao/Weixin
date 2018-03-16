@@ -15,8 +15,7 @@ import android.widget.ImageView;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.cache.UserCache;
+import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
@@ -24,6 +23,7 @@ import com.ityun.weixin.myapplication.view.LoadDialog;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/1/17.
@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     Dialog dialog;
 
-    UserInfo user;
+    User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -193,9 +193,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                 }
                 dialog = new LoadDialog(this).setText(R.string.adding_login).build();
                 dialog.show();
-                user = new UserInfo();
-
-                user.setLoginName(login_user_num.getText().toString());
+                user = new User();
+                user.setUsername(login_user_num.getText().toString());
                 user.setPassword(login_user_password.getText().toString());
                 presenter.login(user);
                 break;
@@ -206,38 +205,26 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
 
     @Override
-    public void loginSucess(final UserInfo callBackuser) {
+    public void loginSucess(final User callBackuser) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                UserCache.getInstance(LoginActivity.this).saveUser(callBackuser);
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
+                startActivity(HomeActivity.class,null,true);
                 dialog.dismiss();
             }
         });
     }
 
+
     @Override
-    public void loginFail(final int errorId) {
+    public void loginError(final BmobException e) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (errorId == 0) {
-                    Toast(R.string.error_login_num);
-                } else {
-                    Toast(R.string.error_login_psd);
+                if(e.getErrorCode()==ERROR_NUM_OR_PSD)
+                {
+                    Toast(R.string.error_login);
                 }
-                dialog.dismiss();
-            }
-        });
-    }
-
-    @Override
-    public void loginError() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
                 Toast(R.string.error);
                 dialog.dismiss();
             }

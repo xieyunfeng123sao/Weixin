@@ -1,7 +1,6 @@
 package com.ityun.weixin.myapplication.ui.friend;
 
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -10,26 +9,22 @@ import android.support.v7.widget.RecyclerView;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.FriendInfo;
+import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.NewFriend;
-import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.cache.NewFriendCache;
-import com.ityun.weixin.myapplication.cache.UserCache;
+import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.db.Config;
+import com.ityun.weixin.myapplication.db.NewFriendManager;
 import com.ityun.weixin.myapplication.im.IMModel;
+import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.ui.friend.adapter.NewFriendAdapter;
 import com.ityun.weixin.myapplication.view.LoadDialog;
-import com.orhanobut.logger.Logger;
-
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMMessage;
-import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -50,6 +45,8 @@ public class NewFriendActivity extends BaseActivity implements SearContract.View
 
     private SearchPrensenter prensenter;
 
+    private int nowPosition;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,49 +61,40 @@ public class NewFriendActivity extends BaseActivity implements SearContract.View
         new_friend_msg_list.setAdapter(adapter);
         mlist = new ArrayList<>();
         adapter.setData(mlist);
-        mlist.addAll(NewFriendCache.getInstance().getAllFriend());
+        mlist.addAll(NewFriendManager.getInstance(this).getAllNewFriend());
         adapter.notifyDataSetChanged();
         adapter.setOnItemAgreeClickListener(new NewFriendAdapter.OnClickListener() {
             @Override
             public void onClick(int position) {
                 prensenter.searchById(mlist.get(position).getUid());
+                nowPosition=position;
                 dialog.show();
             }
         });
     }
 
     @Override
-    public void searchSucess(final UserInfo user) {
+    public void searchSucess(final User user) {
         IMModel.getInstance().sendAgreeFriendMessage(user, new IMModel.OnMessageListener() {
             @Override
             public void onSucess(final BmobIMMessage message) {
-                //修改本地新的好的状态
-                List<NewFriend> newFriendList = NewFriendCache.getInstance().getFriendById(user.getObjectId());
-                ContentValues values = new ContentValues();
-                values.put("status", 2);
-                DataSupport.update(NewFriend.class, values, newFriendList.get(0).getId());
-                mlist.clear();
-                mlist.addAll(NewFriendCache.getInstance().getAllFriend());
-                adapter.notifyDataSetChanged();
-                FriendInfo friendInfo = new FriendInfo();
-                friendInfo.setUser(UserCache.getInstance(NewFriendActivity.this).getCaCheUser());
-                friendInfo.setFriend(user);
-                friendInfo.save(new SaveListener<String>() {
+                UserModel.getInstance().addNewFriend(user, new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {
-                        if (e == null) {
-
-                        }
-                        else
+                        if(e==null)
                         {
-                            Logger.e(e.toString());
+                            NewFriend newFriend=mlist.get(nowPosition);
+                            NewFriendManager.getInstance(NewFriendActivity.this).updateNewFriend(newFriend, Config.STATUS_VERIFIED);
+                            mlist.clear();
+                            mlist.addAll(NewFriendManager.getInstance(NewFriendActivity.this).getAllNewFriend());
+                            adapter.notifyDataSetChanged();
                         }
                         dialog.dismiss();
                     }
                 });
 
-            }
 
+            }
             @Override
             public void onFail(BmobException e) {
                 Toast(R.string.error_add);
@@ -116,7 +104,7 @@ public class NewFriendActivity extends BaseActivity implements SearContract.View
     }
 
     @Override
-    public void searchFail(int errorId) {
+    public void searchFail() {
         Toast(R.string.error_add);
         dialog.dismiss();
     }

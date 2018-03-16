@@ -11,14 +11,9 @@ import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.bean.NewFriend;
-import com.ityun.weixin.myapplication.bean.UserInfo;
-import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 
 import java.util.List;
-
-import cn.bmob.newim.bean.BmobIMMessage;
-import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/3/12 0012.
@@ -70,7 +65,7 @@ public class NewFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         } else {
             ImageLoadUtil.getInstance().loadUrl(mlist.get(position - 1).getAvatar(), ((ItemHolder) holder).new_friend_img);
-            ((ItemHolder) holder).new_friend_name.setText(mlist.get(position - 1).getName());
+            ((ItemHolder) holder).new_friend_name.setText(mlist.get(position - 1).getNickname());
             ((ItemHolder) holder).new_friend_msg.setText(mlist.get(position - 1).getMsg());
             if (mlist.get(position - 1).getStatus() == 2) {
                 ((ItemHolder) holder).new_friend_msg_agree.setEnabled(false);
