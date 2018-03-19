@@ -72,5 +72,7 @@ dependencies {
     compile 'org.litepal.android:core:1.6.1'
     //组件的通信
     compile 'org.greenrobot:eventbus:3.0.0'
+    //汉字转拼音
+    compile 'com.github.promeg:tinypinyin:1.0.0'
 
 }

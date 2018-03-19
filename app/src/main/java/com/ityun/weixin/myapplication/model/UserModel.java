@@ -1,7 +1,10 @@
 package com.ityun.weixin.myapplication.model;
 
+import android.util.Log;
+
 import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.db.Config;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;
 import com.ityun.weixin.myapplication.listener.UpdateCacheListener;
 import com.orhanobut.logger.Logger;
@@ -176,7 +179,6 @@ public class UserModel {
             queryById(info.getUserId(), new BmobTableListener() {
                 @Override
                 public void onSucess(Object object) {
-
                     User user = (User) object;
                     String name = user.getUsername();
                     String avatar = user.getAvatar();
@@ -193,6 +195,7 @@ public class UserModel {
                     }
                     listener.done();
                 }
+
                 @Override
                 public void onFail(BmobException e) {
                     listener.done();
@@ -203,14 +206,40 @@ public class UserModel {
         }
     }
 
-    public  void addNewFriend(User friend,SaveListener<String> listener)
-    {
-        Friend f = new Friend();
-        User user = BmobUser.getCurrentUser(User.class);
-        f.setUser(user);
-        f.setFriendUser(friend);
-        f.save(listener);
-
+    public void addNewFriend(final User friend, final SaveListener<String> listener) {
+        BmobQuery<Friend> query = new BmobQuery<>();
+        final User user = BmobUser.getCurrentUser(User.class);
+        query.addWhereEqualTo("user", user);
+        query.addWhereEqualTo("friendUser", friend);
+        query.findObjects(new FindListener<Friend>() {
+            @Override
+            public void done(List<Friend> list, BmobException e) {
+                if (e == null && list.size() == 0) {
+                    Friend sendFriend = new Friend();
+                    sendFriend.setUser(user);
+                    sendFriend.setFriendUser(friend);
+                    sendFriend.save(listener);
+                } else if (list.size() != 0) {
+                    listener.done("已经是好友了", new BmobException(Config.STATUS_HAS_ADD));
+                } else {
+                    listener.done("请求错误", new BmobException(Config.STATUS_ERROR));
+                }
+            }
+        });
     }
 
+    public void searchFriend(final BmobTableListener listener) {
+        BmobQuery<Friend> query = new BmobQuery<>();
+        query.addWhereEqualTo("user", getUser());
+        query.findObjects(new FindListener<Friend>() {
+            @Override
+            public void done(List<Friend> list, BmobException e) {
+                if (e == null) {
+                    listener.onSucess(list);
+                } else {
+                    listener.onFail(e);
+                }
+            }
+        });
+    }
 }

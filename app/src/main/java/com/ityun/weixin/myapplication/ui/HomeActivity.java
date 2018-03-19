@@ -19,6 +19,7 @@ import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.db.NewFriendManager;
 import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.ui.fragment.FindFragment;
@@ -85,6 +86,7 @@ public class HomeActivity extends BaseActivity {
         userInfo = UserModel.getInstance().getUser();
         IMModel.getInstance().updataUser(userInfo);
         IMModel.getInstance().login(userInfo.getObjectId());
+
     }
 
     @Override
@@ -176,6 +178,12 @@ public class HomeActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NewFriendManager.getInstance(this).hasNewFriendInvitation();
     }
 
     @Override

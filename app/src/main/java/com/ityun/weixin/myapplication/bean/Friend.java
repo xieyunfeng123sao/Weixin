@@ -30,7 +30,6 @@ public class Friend extends BmobObject {
     public String getPinyin() {
         return pinyin;
     }
-
     public void setPinyin(String pinyin) {
         this.pinyin = pinyin;
     }

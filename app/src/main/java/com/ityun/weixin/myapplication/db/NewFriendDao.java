@@ -62,7 +62,6 @@ public class NewFriendDao extends AbstractDao<NewFriend, Long> {
                 "\"TIME\" INTEGER, " + //6：time
                 "\"NICKNAME\" TEXT);" // 7: nickname
         );
-        Log.i("DaoMaster","=====================");
     }
 
     /**

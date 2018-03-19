@@ -18,4 +18,10 @@ public class Config {
     public static final int STATUS_VERIFY_REFUSE = 3;
     //好友请求：我发出的好友请求-暂未存储到本地数据库中
     public static final int STATUS_VERIFY_ME_SEND = 4;
+
+    //已经添加好友
+    public static final int STATUS_HAS_ADD = 0x110000;
+
+    //其他错误
+    public static final int STATUS_ERROR = 0x110001;
 }

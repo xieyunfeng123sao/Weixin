@@ -3,6 +3,7 @@ package com.ityun.weixin.myapplication.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.ityun.weixin.myapplication.bean.NewFriend;
 import com.ityun.weixin.myapplication.bean.User;
@@ -46,7 +47,7 @@ public class NewFriendManager {
         clear();
         this.mContext =context.getApplicationContext();
         this.uid=uId;
-        String DBName = uId+".db";
+        String DBName = uId+"_weixin.db";
         this.openHelper = new DaoMaster.DevOpenHelper(mContext, DBName, null);
     }
 
@@ -100,7 +101,7 @@ public class NewFriendManager {
      */
     public long insertOrUpdateNewFriend(NewFriend info){
         NewFriendDao dao = openWritableDb().getNewFriendDao();
-        NewFriend local = getNewFriend(info.getUid(), info.getTime());
+        NewFriend local = getNewFriend(info.getUid());
         if(local==null){
             return dao.insertOrReplace(info);
         }else{
@@ -111,13 +112,12 @@ public class NewFriendManager {
     /**
      * 获取本地的好友请求
      * @param uid
-     * @param time
      * @return
      */
-    private NewFriend getNewFriend(String uid, Long time){
+    private NewFriend getNewFriend(String uid){
         NewFriendDao dao =  openReadableDb().getNewFriendDao();
         return dao.queryBuilder().where(NewFriendDao.Properties.Uid.eq(uid))
-                .where(NewFriendDao.Properties.Time.eq(time)).build().unique();
+                .build().unique();
     }
 
     /**
@@ -190,6 +190,13 @@ public class NewFriendManager {
         NewFriendDao dao = openWritableDb().getNewFriendDao();
         friend.setStatus(status);
         return dao.insertOrReplace(friend);
+    }
+
+
+    public  void  deleteDB()
+    {
+        NewFriendDao dao = openWritableDb().getNewFriendDao();
+        dao.deleteAll();
     }
 
     /**

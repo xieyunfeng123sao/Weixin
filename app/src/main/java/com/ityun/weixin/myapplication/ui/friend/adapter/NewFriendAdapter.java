@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.bean.NewFriend;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class NewFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ImageLoadUtil.getInstance().loadUrl(mlist.get(position - 1).getAvatar(), ((ItemHolder) holder).new_friend_img);
             ((ItemHolder) holder).new_friend_name.setText(mlist.get(position - 1).getNickname());
             ((ItemHolder) holder).new_friend_msg.setText(mlist.get(position - 1).getMsg());
-            if (mlist.get(position - 1).getStatus() == 2) {
+            if (mlist.get(position - 1).getStatus() == 1) {
                 ((ItemHolder) holder).new_friend_msg_agree.setEnabled(false);
                 ((ItemHolder) holder).new_friend_msg_agree.setText("已添加");
                 ((ItemHolder) holder).new_friend_msg_agree.setBackgroundColor(context.getResources().getColor(R.color.white));

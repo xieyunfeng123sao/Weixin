@@ -18,6 +18,7 @@ import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.ui.friend.adapter.NewFriendAdapter;
 import com.ityun.weixin.myapplication.view.LoadDialog;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class NewFriendActivity extends BaseActivity implements SearContract.View
                 UserModel.getInstance().addNewFriend(user, new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {
-                        if(e==null)
+                        if(e==null||e.getErrorCode()==Config.STATUS_HAS_ADD)
                         {
                             NewFriend newFriend=mlist.get(nowPosition);
                             NewFriendManager.getInstance(NewFriendActivity.this).updateNewFriend(newFriend, Config.STATUS_VERIFIED);
@@ -92,8 +93,6 @@ public class NewFriendActivity extends BaseActivity implements SearContract.View
                         dialog.dismiss();
                     }
                 });
-
-
             }
             @Override
             public void onFail(BmobException e) {

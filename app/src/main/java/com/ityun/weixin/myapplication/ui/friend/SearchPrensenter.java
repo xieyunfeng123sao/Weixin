@@ -1,8 +1,11 @@
 package com.ityun.weixin.myapplication.ui.friend;
 
+import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;
+
+import java.util.List;
 
 import cn.bmob.v3.exception.BmobException;
 
@@ -14,8 +17,14 @@ public class SearchPrensenter implements SearContract.Presenter {
 
     private SearContract.View view;
 
+    private SearContract.SearchFriendView searchFriendView;
+
     public SearchPrensenter(SearContract.View view) {
         this.view = view;
+    }
+
+    public SearchPrensenter(SearContract.SearchFriendView searchFriendView) {
+        this.searchFriendView = searchFriendView;
     }
 
     @Override
@@ -57,6 +66,21 @@ public class SearchPrensenter implements SearContract.Presenter {
                 } else {
                     view.searchError();
                 }
+            }
+        });
+    }
+
+    @Override
+    public void searchFriend() {
+        UserModel.getInstance().searchFriend(new BmobTableListener() {
+            @Override
+            public void onSucess(Object object) {
+                searchFriendView.searchSucess((List<Friend>) object);
+            }
+
+            @Override
+            public void onFail(BmobException e) {
+                searchFriendView.searchError();
             }
         });
     }

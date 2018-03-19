@@ -68,9 +68,7 @@ public class IMModel {
      * 发送添加好友的请求
      */
     public void sendAddFriendMessage(User userInfo, String sendMsg, final OnMessageListener onMessageListener) {
-
         User user= UserModel.getInstance().getUser();
-
         //TODO 会话：4.1、创建一个暂态会话入口，发送好友请求
         BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(new BmobIMUserInfo(userInfo.getObjectId(), userInfo.getUsername(), userInfo.getAvatar()), true, null);
         //TODO 消息：5.1、根据会话入口获取消息管理，发送好友请求

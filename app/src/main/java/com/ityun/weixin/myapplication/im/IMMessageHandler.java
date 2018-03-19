@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.ityun.weixin.myapplication.MainActivity;
@@ -43,11 +44,6 @@ import static com.ityun.weixin.myapplication.base.App.context;
 public class IMMessageHandler extends BmobIMMessageHandler {
     @Override
     public void onMessageReceive(final MessageEvent event) {
-//        if (event.getMessage().getMsgType().equals("add")) {
-//            addFriend(event);
-//        } else if (event.getMessage().getMsgType().equals("agree")) {
-//            agreeFriend(event);
-//        }
         executeMessage(event);
     }
 
@@ -75,9 +71,6 @@ public class IMMessageHandler extends BmobIMMessageHandler {
             @Override
             public void done() {
                 BmobIMMessage msg = event.getMessage();
-                Logger.i(msg.toString());
-                Logger.i(msg.getExtra());
-                Logger.i(msg.getExtra());
                 if (BmobIMMessageType.getMessageTypeValue(msg.getMsgType()) == 0) {
                     //自定义消息类型：0
                     processCustomMessage(msg, event.getFromUserInfo());
@@ -136,18 +129,16 @@ public class IMMessageHandler extends BmobIMMessageHandler {
                 showAddNotify(friend);
             }
         } else if (type.equals("agree")) {//接收到的对方同意添加自己为好友,此时需要做的事情：1、添加对方为好友，2、显示通知
-//            AgreeAddFriendMessage agree = AgreeAddFriendMessage.convert(msg);
             String extra = msg.getExtra();
             if (!TextUtils.isEmpty(extra)) {
                 JSONObject json = null;
                 try {
                     json = new JSONObject(extra);
-//                    Long time = json.getLong("time");
                     String uid = json.getString("uid");
-                    String m = json.getString("msg");
+//                    String m = json.getString("msg");
                     addFriend(uid);//添加消息的发送方为好友
                     //这里应该也需要做下校验--来检测下是否已经同意过该好友请求，我这里省略了
-                    showAgreeNotify(info, m);
+                    showAgreeNotify(info, msg.getContent());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

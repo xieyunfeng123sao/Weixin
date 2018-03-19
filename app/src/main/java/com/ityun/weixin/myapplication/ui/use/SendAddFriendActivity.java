@@ -12,6 +12,7 @@ import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.im.IMModel;
+import com.ityun.weixin.myapplication.model.UserModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,14 +34,17 @@ public class SendAddFriendActivity extends BaseActivity {
 
     private TextView send_add_msg;
 
+    private User user;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_add_friend);
         ButterKnife.bind(this);
+        user= UserModel.getInstance().getUser();
         userInfo = (User) getIntent().getSerializableExtra("userinfo");
-        send_add_message.setText("我是" + userInfo.getNickname());
-        send_add_message.setSelection(userInfo.getNickname().length() + 2);
+        send_add_message.setText("我是" + user.getNickname());
+        send_add_message.setSelection(user.getNickname().length() + 2);
     }
 
     @Override

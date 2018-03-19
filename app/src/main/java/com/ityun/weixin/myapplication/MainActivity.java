@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.db.NewFriendManager;
 import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.ui.adduser.AddUserActivity;

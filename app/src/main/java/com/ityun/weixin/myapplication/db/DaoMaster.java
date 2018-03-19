@@ -19,7 +19,6 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
-        Log.i("DaoMaster", "ifNotExists=== " + ifNotExists);
         NewFriendDao.createTable(db, ifNotExists);
     }
     
@@ -36,7 +35,7 @@ public class DaoMaster extends AbstractDaoMaster {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            Log.i("DaoMaster", "Creating tables for schema version " + SCHEMA_VERSION);
+            Log.i("DaoMaster", "Creating tables for schema version=============== " + SCHEMA_VERSION);
             Log.i("DaoMaster", "ceshi");
 //            createAllTables(db, false);
             NewFriendDao.createTable(db, false);
