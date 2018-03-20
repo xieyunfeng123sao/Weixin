@@ -110,6 +110,7 @@
 
         <activity
             android:name=".ui.adduser.AddUserActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             >
             <intent-filter>
                 <action android:name="android.intent.ityun.weixin.AddUserActivity" />

@@ -8,6 +8,7 @@ import com.ityun.weixin.myapplication.listener.BmobTableListener;
 import java.util.List;
 
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 /**
  * Created by Administrator on 2018/3/9 0009.
@@ -72,16 +73,27 @@ public class SearchPrensenter implements SearContract.Presenter {
 
     @Override
     public void searchFriend() {
-        UserModel.getInstance().searchFriend(new BmobTableListener() {
+        UserModel.getInstance().queryFriends(new FindListener<Friend>() {
             @Override
-            public void onSucess(Object object) {
-                searchFriendView.searchSucess((List<Friend>) object);
-            }
+            public void done(List<Friend> list, BmobException e) {
+                if (e == null) {
+                    searchFriendView.searchSucess(list);
+                } else {
+                    searchFriendView.searchError();
+                }
 
-            @Override
-            public void onFail(BmobException e) {
-                searchFriendView.searchError();
             }
         });
+//                (new BmobTableListener() {
+//            @Override
+//            public void onSucess(Object object) {
+//                searchFriendView.searchSucess((List<Friend>) object);
+//            }
+//
+//            @Override
+//            public void onFail(BmobException e) {
+//                searchFriendView.searchError();
+//            }
+//        });
     }
 }

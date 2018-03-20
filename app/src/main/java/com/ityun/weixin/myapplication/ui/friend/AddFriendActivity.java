@@ -23,10 +23,8 @@ public class AddFriendActivity extends BaseActivity {
     @BindView(R.id.intent_input_num)
     public EditText intent_input_num;
 
-
     @BindView(R.id.my_weixin_num_text)
     public  TextView my_weixin_num_text;
-
 
     private User userInfo;
 

@@ -14,6 +14,7 @@ import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.bean.NewFriend;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.db.NewFriendManager;
+import com.ityun.weixin.myapplication.listener.BmobTableListener;
 import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.listener.UpdateCacheListener;
 import com.orhanobut.logger.Logger;
@@ -216,20 +217,30 @@ public class IMMessageHandler extends BmobIMMessageHandler {
      *
      * @param uid
      */
-    private void addFriend(String uid) {
-        User user = new User();
-        user.setObjectId(uid);
-        UserModel.getInstance()
-                .addNewFriend(user, new SaveListener<String>() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        if (e == null) {
-                            Logger.e("success");
-                        } else {
-                            Logger.e(e.getMessage());
-                        }
-                    }
-                });
+    private void addFriend(final String uid) {
+        UserModel.getInstance().queryById(uid, new BmobTableListener<User>() {
+            @Override
+            public void onSucess(User object) {
+                UserModel.getInstance()
+                        .addNewFriend((User) object, new SaveListener<String>() {
+                            @Override
+                            public void done(String s, BmobException e) {
+                                if (e == null) {
+                                    Logger.e("success");
+                                } else {
+                                    Logger.e(e.getMessage());
+                                }
+                            }
+                        });
+            }
+
+            @Override
+            public void onFail(BmobException e) {
+
+            }
+        });
+
+
     }
 
 }

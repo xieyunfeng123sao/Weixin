@@ -161,6 +161,35 @@ public class UserModel {
 
 
     /**
+     * 查询好友
+     *
+     * @param listener
+     */
+    //TODO 好友管理：9.2、查询好友
+    public void queryFriends(final FindListener<Friend> listener) {
+        BmobQuery<Friend> query = new BmobQuery<>();
+        User user = BmobUser.getCurrentUser(User.class);
+        query.addWhereEqualTo("user", user);
+        query.include("friendUser");
+        query.order("-updatedAt");
+        query.findObjects(new FindListener<Friend>() {
+            @Override
+            public void done(List<Friend> list, BmobException e) {
+                if (e == null) {
+                    if (list != null && list.size() > 0) {
+                        listener.done(list, e);
+                    } else {
+                        listener.done(list, new BmobException(0, "暂无联系人"));
+                    }
+                } else {
+                    listener.done(list, e);
+                }
+            }
+        });
+    }
+
+
+    /**
      * 更新用户资料和会话资料
      *
      * @param event

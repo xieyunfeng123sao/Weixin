@@ -4,6 +4,7 @@ package com.ityun.weixin.myapplication.ui.fragment.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.ui.friend.NewFriendActivity;
+import com.ityun.weixin.myapplication.util.ImageLoadUtil;
+import com.orhanobut.logger.Logger;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -50,8 +54,10 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     return o1.getPinyin().compareTo(o2.getPinyin());
                 }
             });
+            Logger.e("mlist==="+mlist.size());
         }
         this.mlist = mlist;
+
     }
 
     @Override
@@ -64,7 +70,6 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             return new FriendViewHolder(mLayoutInflater.inflate(R.layout.item_friend, parent, false));
         }
-
     }
 
     @Override
@@ -95,6 +100,7 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         else if(position!=((null != mlist ? (mlist.size() + 2) : 2)-1))
         {
             ((FriendViewHolder) holder).item_friend_name.setText(mlist.get(position-1).getFriendUser().getNickname());
+            ImageLoadUtil.getInstance().loadUrl(mlist.get(position-1).getFriendUser().getAvatar(), ((FriendViewHolder) holder).item_friend_img);
         }
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <LinearLayout
         android:background="@drawable/item_selector_gray"
         android:id="@+id/item_friend_newfriend"
@@ -10,6 +10,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:scaleType="fitXY"
             android:id="@+id/item_friend_img"
             android:layout_width="36dp"
             android:layout_height="36dp"
