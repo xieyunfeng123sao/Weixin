@@ -140,6 +140,7 @@ public class IMMessageHandler extends BmobIMMessageHandler {
                     addFriend(uid);//添加消息的发送方为好友
                     //这里应该也需要做下校验--来检测下是否已经同意过该好友请求，我这里省略了
                     showAgreeNotify(info, msg.getContent());
+                    IMModel.getInstance().updataConversation(msg.getBmobIMConversation());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

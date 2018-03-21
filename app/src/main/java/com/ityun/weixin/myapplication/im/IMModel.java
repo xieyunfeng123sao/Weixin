@@ -151,4 +151,15 @@ public class IMModel {
         void onFail(BmobException e);
     }
 
+    //TODO 会话：4.2、查询全部会话
+    public  List<BmobIMConversation>  getAllConversation()
+    {
+       return  BmobIM.getInstance().loadAllConversation();
+    }
+
+    //TODO 会话：4.2、查询全部会话
+    public  void   updataConversation(BmobIMConversation bmobIMConversation)
+    {
+        BmobIM.getInstance().updateConversation(bmobIMConversation);
+    }
 }

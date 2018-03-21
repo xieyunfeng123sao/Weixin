@@ -18,6 +18,9 @@ import com.ityun.weixin.myapplication.ui.friend.NewFriendActivity;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 import com.orhanobut.logger.Logger;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -46,18 +49,23 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public void setData(List<Friend> mlist) {
-        if(mlist!=null)
-        {
+        if (mlist != null) {
             Collections.sort(mlist, new Comparator<Friend>() {
                 @Override
                 public int compare(Friend o1, Friend o2) {
-                    return o1.getPinyin().compareTo(o2.getPinyin());
+                    if (o1.getPinyin().equals("@")
+                            || o2.getPinyin().equals("#")) {
+                        return -1;
+                    } else if (o1.getPinyin().equals("#")
+                            || o2.getPinyin().equals("@")) {
+                        return 1;
+                    } else {
+                        return o1.getPinyin().compareTo(o2.getPinyin());
+                    }
                 }
             });
-            Logger.e("mlist==="+mlist.size());
         }
         this.mlist = mlist;
-
     }
 
     @Override
@@ -93,14 +101,20 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((HeaderViewHolder) holder).item_friend_publicnum.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                 }
             });
-        }
-        else if(position!=((null != mlist ? (mlist.size() + 2) : 2)-1))
-        {
-            ((FriendViewHolder) holder).item_friend_name.setText(mlist.get(position-1).getFriendUser().getNickname());
-            ImageLoadUtil.getInstance().loadUrl(mlist.get(position-1).getFriendUser().getAvatar(), ((FriendViewHolder) holder).item_friend_img);
+        } else if (position != ((null != mlist ? (mlist.size() + 2) : 2) - 1)) {
+            ((FriendViewHolder) holder).item_friend_name.setText(mlist.get(position - 1).getFriendUser().getNickname());
+            ImageLoadUtil.getInstance().loadUrl(mlist.get(position - 1).getFriendUser().getAvatar(), ((FriendViewHolder) holder).item_friend_img);
+            Log.e("insert", "===========" + getPositionForSection(position - 1));
+            if (getPositionForSection(position - 1) == (position - 1)) {
+                ((FriendViewHolder) holder).friend_sort.setVisibility(View.VISIBLE);
+                ((FriendViewHolder) holder).friend_sort.setText(mlist.get(position - 1).getPinyin());
+            } else {
+                ((FriendViewHolder) holder).friend_sort.setVisibility(View.GONE);
+            }
+
+
         }
     }
 
@@ -153,11 +167,26 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ImageView item_friend_img;
         TextView item_friend_name;
 
+        TextView friend_sort;
+
         public FriendViewHolder(View itemView) {
             super(itemView);
-            item_friend_img=itemView.findViewById(R.id.item_friend_img);
-            item_friend_name=itemView.findViewById(R.id.item_friend_name);
+            item_friend_img = itemView.findViewById(R.id.item_friend_img);
+            item_friend_name = itemView.findViewById(R.id.item_friend_name);
+            friend_sort = itemView.findViewById(R.id.friend_sort);
         }
     }
 
+    /**
+     * 根据分类的首字母的Char ascii值获取其第一次出现该首字母的位置
+     */
+    public int getPositionForSection(int sectionIndex) {
+        for (int i = 0; i < (getItemCount() - 2); i++) {
+            String sortStr = mlist.get(i).getPinyin();
+            if (mlist.get(sectionIndex).getPinyin().equals(sortStr)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

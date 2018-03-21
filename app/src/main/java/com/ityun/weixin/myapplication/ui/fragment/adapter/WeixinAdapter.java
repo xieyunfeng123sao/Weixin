@@ -12,6 +12,8 @@ import com.ityun.weixin.myapplication.R;
 
 import java.util.List;
 
+import cn.bmob.newim.bean.BmobIMConversation;
+
 /**
  * Created by Administrator on 2018/2/13 0013.
  */
@@ -19,7 +21,7 @@ import java.util.List;
 public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
 
-    private List mlist;
+    private List<BmobIMConversation> mlist;
 
     public static final int ONE_ITEM = 1;
 //    public static final int TWO_ITEM = 2;
@@ -29,7 +31,7 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    public void setData(List mlist) {
+    public void setData(List<BmobIMConversation> mlist) {
         this.mlist = mlist;
     }
 
@@ -37,13 +39,8 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater mInflater = LayoutInflater.from(context);
         RecyclerView.ViewHolder holder = null;
-//        if (ONE_ITEM == viewType) {
-//            View v = mInflater.inflate(R.layout.item_recyle_weixin_top, parent, false);
-//            holder = new RecyleTopHolder(v);
-//        } else {
             View v = mInflater.inflate(R.layout.item_recyle_weixin_msg, parent, false);
             holder = new RecyleItemHolder(v);
-//        }
         return holder;
 
     }
@@ -75,7 +72,7 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-       return  mlist!=null?(mlist.size()+1):1;
+       return  mlist!=null?(mlist.size()+0):0;
     }
 
 

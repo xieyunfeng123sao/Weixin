@@ -3,8 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/load_view"
+        layout="@layout/layout_loading"></include>
+
+
 
     <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/friend_recycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

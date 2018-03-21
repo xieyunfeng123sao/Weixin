@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.promeg.pinyinhelper.Pinyin;
@@ -46,25 +47,29 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
     @BindView(R.id.friend_recycle)
     RecyclerView friend_recycle;
 
+    @BindView(R.id.load_view)
+    RelativeLayout load_view;
+
     FriendAdapter adapter;
 
     private SearContract.Presenter prensenter;
 
-    private List<Friend> mlist=new ArrayList<>();
+    private List<Friend> mlist = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_friend,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_friend, container, false);
+        ButterKnife.bind(this, view);
         friend_sidebar.setTextView(touch_sidebar);
-        prensenter=new SearchPrensenter(this);
+        prensenter = new SearchPrensenter(this);
         return view;
     }
+
     @Override
     public void requestData() {
-        adapter=new FriendAdapter(getActivity());
-        LinearLayoutManager manager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false);
+        adapter = new FriendAdapter(getActivity());
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         friend_recycle.setLayoutManager(manager);
         friend_recycle.setAdapter(adapter);
         adapter.setData(mlist);
@@ -75,15 +80,29 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
 
     @Override
     public void searchSucess(final List<Friend> mlistFriend) {
+        load_view.setVisibility(View.GONE);
+        friend_recycle.setVisibility(View.VISIBLE);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                List<String> sort = new ArrayList<>();
                 for (int i = 0; i < mlistFriend.size(); i++) {
                     Friend friend = mlistFriend.get(i);
                     String username = friend.getFriendUser().getNickname();
                     if (username != null) {
                         String pinyin = Pinyin.toPinyin(username.charAt(0));
-                        friend.setPinyin(pinyin.substring(0, 1).toUpperCase());
+                        String aString = pinyin.substring(0, 1).toUpperCase();
+                        if (aString.matches("[A-Z]")) {
+                            if (!sort.contains(aString)) {
+                                sort.add(aString);
+                            }
+                            friend.setPinyin(aString);
+                        } else {
+                            if (!sort.contains("#")) {
+                                sort.add("#");
+                            }
+                            friend.setPinyin("#");
+                        }
                         mlist.add(friend);
                     }
                 }
@@ -96,6 +115,8 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
 
     @Override
     public void searchError() {
+        load_view.setVisibility(View.GONE);
+        friend_recycle.setVisibility(View.VISIBLE);
         adapter.setData(mlist);
         adapter.notifyDataSetChanged();
     }

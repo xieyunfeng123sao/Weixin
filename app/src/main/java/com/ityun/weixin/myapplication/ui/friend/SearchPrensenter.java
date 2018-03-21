@@ -84,16 +84,5 @@ public class SearchPrensenter implements SearContract.Presenter {
 
             }
         });
-//                (new BmobTableListener() {
-//            @Override
-//            public void onSucess(Object object) {
-//                searchFriendView.searchSucess((List<Friend>) object);
-//            }
-//
-//            @Override
-//            public void onFail(BmobException e) {
-//                searchFriendView.searchError();
-//            }
-//        });
     }
 }
