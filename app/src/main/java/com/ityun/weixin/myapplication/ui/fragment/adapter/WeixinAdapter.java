@@ -1,18 +1,29 @@
 package com.ityun.weixin.myapplication.ui.fragment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
+import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.listener.BmobTableListener;
+import com.ityun.weixin.myapplication.model.UserModel;
+import com.ityun.weixin.myapplication.ui.chat.ChatActivity;
+import com.ityun.weixin.myapplication.util.DateUtil;
+import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 
 import java.util.List;
 
 import cn.bmob.newim.bean.BmobIMConversation;
+import cn.bmob.newim.bean.BmobIMMessage;
+import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/2/13 0013.
@@ -46,25 +57,44 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(position>0)
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        List<BmobIMMessage> mgsList=mlist.get(position).getMessages();
+        if(mgsList!=null&&mgsList.size()!=0)
         {
+            ((RecyleItemHolder)holder).user_last_msg.setText(mgsList.get(mgsList.size()-1).getContent());
+            ((RecyleItemHolder)holder).user_last_msg_time.setText(DateUtil.timeToText(mgsList.get(mgsList.size()-1).getUpdateTime()));
+        }
+        else
+        {
+            ((RecyleItemHolder)holder).user_last_msg.setText("");
+            ((RecyleItemHolder)holder).user_last_msg_time.setText("");
+        }
+        ImageLoadUtil.getInstance().loadUrl(mlist.get(position).getConversationIcon(),((RecyleItemHolder)holder).user_img);
+        UserModel.getInstance().queryById(mlist.get(position).getConversationId(), new BmobTableListener<User>() {
+            @Override
+            public void onSucess(User object) {
+                ((RecyleItemHolder)holder).user_nickname.setText(object.getNickname());
+            }
+
+            @Override
+            public void onFail(BmobException e) {
+                ((RecyleItemHolder)holder).user_nickname.setText(mlist.get(position).getConversationTitle());
+            }
+        });
+
             ((RecyleItemHolder)holder).item_weixin_ll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent=new Intent(context, ChatActivity.class);
+                    context.startActivity(intent);
                 }
             });
-        }
     }
 
     @Override
     public int getItemViewType(int position) {
-//        if(position==0)
-//        {
             return  ONE_ITEM;
-//        }
-//        return TWO_ITEM;
+
     }
 
 
@@ -86,9 +116,22 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class RecyleItemHolder extends RecyclerView.ViewHolder {
         LinearLayout item_weixin_ll;
+
+        ImageView user_img;
+        TextView user_nickname;
+
+        TextView user_last_msg;
+
+        TextView user_last_msg_time;
+
         public RecyleItemHolder(View itemView) {
             super(itemView);
             item_weixin_ll=itemView.findViewById(R.id.item_weixin_ll);
+            user_img=itemView.findViewById(R.id.user_img);
+            user_nickname=itemView.findViewById(R.id.user_nickname);
+            user_last_msg=itemView.findViewById(R.id.user_last_msg);
+            user_last_msg_time=itemView.findViewById(R.id.user_last_msg_time);
+
         }
     }
 }

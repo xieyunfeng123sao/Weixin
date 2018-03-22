@@ -54,4 +54,6 @@
     <string name="send_fail">发送失败</string>
     <string name="send_sucess">发送成功</string>
     <string name="loading">正在加载</string>
+    <string name="voice_up_tips">手指上滑,取消发送</string>
+    <string name="longclick_speak">长按说话</string>
 </resources>

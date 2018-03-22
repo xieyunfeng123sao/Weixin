@@ -2,10 +2,8 @@ package com.ityun.weixin.myapplication.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +14,14 @@ import com.github.promeg.pinyinhelper.Pinyin;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseFragment;
 import com.ityun.weixin.myapplication.bean.Friend;
-import com.ityun.weixin.myapplication.bean.User;
-import com.ityun.weixin.myapplication.listener.BmobTableListener;
-import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.FriendAdapter;
 import com.ityun.weixin.myapplication.ui.friend.SearContract;
 import com.ityun.weixin.myapplication.ui.friend.SearchPrensenter;
 import com.ityun.weixin.myapplication.view.SideBar;
-import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/2/12 0012.
@@ -110,7 +101,6 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
                 adapter.notifyDataSetChanged();
             }
         });
-
     }
 
     @Override
