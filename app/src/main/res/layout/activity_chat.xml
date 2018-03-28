@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/ll_chat"
     android:orientation="vertical">
 
     <FrameLayout
@@ -48,45 +49,47 @@
         </RelativeLayout>
     </FrameLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/selector_color" />
+
     <LinearLayout
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:minHeight="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:minHeight="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <Button
-            android:id="@+id/btn_chat_add"
+            android:id="@+id/btn_chat_voice"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/btn_chat_add_selector"
-            android:gravity="center"
-            android:onClick="toAction" />
+            android:background="@drawable/btn_chat_voice_selector"
+            android:gravity="center" />
 
         <Button
-            android:id="@+id/btn_chat_emo"
+            android:id="@+id/btn_chat_keyboard"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:visibility="gone"
-            android:layout_marginLeft="6dp"
-            android:background="@drawable/btn_chat_emo_selector"
+            android:background="@drawable/btn_chat_keyboard_selector"
             android:gravity="center"
-            android:onClick="toAction" />
+            android:visibility="gone" />
+
 
         <EditText
             android:id="@+id/edit_msg"
-            android:textSize="16sp"
-            android:layout_marginLeft="6dp"
-            android:hint="请输入新消息"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
             android:layout_weight="1.0"
             android:gravity="left|center"
-            android:lineSpacingExtra="3dp"
+            android:hint="请输入新消息"
             android:imeOptions="flagNoExtractUi"
+            android:lineSpacingExtra="3dp"
             android:minHeight="40dp"
-            android:padding="5dp"/>
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btn_speak"
@@ -97,40 +100,38 @@
             android:layout_weight="1.0"
             android:background="@drawable/btn_chat_record_selector"
             android:gravity="center"
-            android:visibility="gone"
-            android:text="@string/longclick_speak" >
-        </Button>
+            android:text="@string/longclick_speak"
+            android:visibility="gone" />
 
         <Button
-            android:id="@+id/btn_chat_voice"
+            android:id="@+id/btn_chat_emo"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="6dp"
-            android:background="@drawable/btn_chat_voice_selector"
+            android:background="@drawable/btn_chat_emo_selector"
             android:gravity="center"
-             >
-        </Button>
+            />
 
         <Button
-            android:id="@+id/btn_chat_keyboard"
+            android:id="@+id/btn_chat_add"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:visibility="gone"
-            android:background="@drawable/btn_chat_keyboard_selector"
-            android:gravity="center"
-            >
-        </Button>
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/btn_chat_add_selector"
+            android:gravity="center" />
 
         <Button
             android:id="@+id/btn_chat_send"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:visibility="gone"
             android:layout_marginLeft="10dp"
             android:background="@drawable/btn_chat_send_selector"
             android:gravity="center"
-            />
+            android:visibility="gone" />
     </LinearLayout>
 
-
+    <include
+        android:id="@+id/include_chat_add"
+        layout="@layout/include_chat_add"
+        android:visibility="gone" />
 </LinearLayout>

@@ -35,6 +35,12 @@ public class ImageLoadUtil {
         Glide.with(App.context).load(url).error(R.mipmap.ic_launcher).into(imageView);
     }
 
+    public void loadFile(String path,ImageView imageView)
+    {
+        Glide.with(App.context).load(new File(path)).error(R.mipmap.ic_launcher).into(imageView);
+    }
+
+
 
 //    public    void  getFile(String path,ImageView imageView)
 //    {

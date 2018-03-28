@@ -3,14 +3,12 @@ package com.ityun.weixin.myapplication.ui.fragment.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;
@@ -18,9 +16,7 @@ import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.ui.chat.ChatActivity;
 import com.ityun.weixin.myapplication.util.DateUtil;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
-
 import java.util.List;
-
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.v3.exception.BmobException;
@@ -35,7 +31,6 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<BmobIMConversation> mlist;
 
     public static final int ONE_ITEM = 1;
-//    public static final int TWO_ITEM = 2;
 
     public WeixinAdapter(Context context) {
         this.context = context;
@@ -115,9 +110,11 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class RecyleItemHolder extends RecyclerView.ViewHolder {
+
         LinearLayout item_weixin_ll;
 
         ImageView user_img;
+
         TextView user_nickname;
 
         TextView user_last_msg;

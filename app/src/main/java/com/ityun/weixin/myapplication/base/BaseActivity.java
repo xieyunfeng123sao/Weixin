@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
@@ -101,6 +102,48 @@ public class BaseActivity extends AppCompatActivity implements ErrorHelper {
     @Subscribe
     public void onEvent(Boolean empty){
 
+    }
+    private Toast toast;
+    protected void runOnMain(Runnable runnable) {
+        runOnUiThread(runnable);
+    }
+    protected final static String NULL = "";
+    public void toast(final Object obj) {
+        try {
+            runOnMain(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (toast == null)
+                        toast = Toast.makeText(BaseActivity.this, NULL,Toast.LENGTH_SHORT);
+                    toast.setText(obj.toString());
+                    toast.show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    public void hideSoftInputView() {
+        InputMethodManager manager = ((InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE));
+        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getCurrentFocus() != null)
+                manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    /**隐藏软键盘-一般是EditText.getWindowToken()
+     * @param token
+     */
+    public void hideSoftInput(IBinder token) {
+        if (token != null) {
+            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(token,InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
   
 }
