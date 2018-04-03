@@ -63,7 +63,7 @@ import cn.bmob.v3.exception.BmobException;
  * Created by Administrator on 2018/3/22 0022.
  */
 
-public class ChatActivity extends BaseActivity  implements MessageListHandler {
+public class ChatActivity extends BaseActivity implements MessageListHandler {
 
     @BindView(R.id.ll_chat)
     LinearLayout ll_chat;
@@ -92,8 +92,8 @@ public class ChatActivity extends BaseActivity  implements MessageListHandler {
     @BindView(R.id.btn_speak)
     Button btn_speak;
 
-    @BindView(R.id.btn_chat_emo)
-    Button btn_chat_emo;
+//    @BindView(R.id.btn_chat_emo)
+//    Button btn_chat_emo;
 
     @BindView(R.id.btn_chat_add)
     Button btn_chat_add;
@@ -205,12 +205,12 @@ public class ChatActivity extends BaseActivity  implements MessageListHandler {
                     btn_chat_send.setVisibility(View.VISIBLE);
                     btn_chat_keyboard.setVisibility(View.GONE);
                     btn_chat_voice.setVisibility(View.GONE);
+                    btn_chat_add.setVisibility(View.GONE);
                 } else {
-                    if (btn_chat_voice.getVisibility() != View.VISIBLE) {
-                        btn_chat_voice.setVisibility(View.VISIBLE);
-                        btn_chat_send.setVisibility(View.GONE);
-                        btn_chat_keyboard.setVisibility(View.GONE);
-                    }
+                    btn_chat_voice.setVisibility(View.VISIBLE);
+                    btn_chat_send.setVisibility(View.GONE);
+                    btn_chat_keyboard.setVisibility(View.GONE);
+                    btn_chat_add.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -253,8 +253,6 @@ public class ChatActivity extends BaseActivity  implements MessageListHandler {
         recordManager = BmobRecordManager.getInstance(this);
         // 设置音量大小监听--在这里开发者可以自己实现：当剩余10秒情况下的给用户的提示，类似微信的语音那样
         recordManager.setOnRecordChangeListener(new OnRecordChangeListener() {
-
-
             @Override
             public void onVolumeChanged(int value) {
                 iv_record.setImageDrawable(drawable_Anims[value]);
@@ -366,26 +364,22 @@ public class ChatActivity extends BaseActivity  implements MessageListHandler {
 
     @OnClick(R.id.edit_msg)
     public void onEditClick(View view) {
-//        if (layout_more.getVisibility() == View.VISIBLE) {
-//            layout_add.setVisibility(View.GONE);
-//            layout_emo.setVisibility(View.GONE);
-//            layout_more.setVisibility(View.GONE);
-//        }
+        include_chat_add.setVisibility(View.GONE);
     }
 
-    @OnClick(R.id.btn_chat_emo)
-    public void onEmoClick(View view) {
-//        if (layout_more.getVisibility() == View.GONE) {
-//            showEditState(true);
-//        } else {
-//            if (layout_add.getVisibility() == View.VISIBLE) {
-//                layout_add.setVisibility(View.GONE);
-//                layout_emo.setVisibility(View.VISIBLE);
-//            } else {
-//                layout_more.setVisibility(View.GONE);
-//            }
-//        }
-    }
+//    @OnClick(R.id.btn_chat_emo)
+//    public void onEmoClick(View view) {
+////        if (layout_more.getVisibility() == View.GONE) {
+////            showEditState(true);
+////        } else {
+////            if (layout_add.getVisibility() == View.VISIBLE) {
+////                layout_add.setVisibility(View.GONE);
+////                layout_emo.setVisibility(View.VISIBLE);
+////            } else {
+////                layout_more.setVisibility(View.GONE);
+////            }
+////        }
+//    }
 
     @OnClick(R.id.btn_chat_add)
     public void onAddClick(View view) {
@@ -544,7 +538,7 @@ public class ChatActivity extends BaseActivity  implements MessageListHandler {
     /**
      * 发送远程音频文件
      */
-    private void sendRemoteAudioMessage(){
+    private void sendRemoteAudioMessage() {
         //TODO 发送消息：6.5、发送本地音频文件消息
         BmobIMAudioMessage audio = new BmobIMAudioMessage();
         audio.setRemoteUrl("此处替换为你远程的音频文件地址");
@@ -563,7 +557,7 @@ public class ChatActivity extends BaseActivity  implements MessageListHandler {
     /**
      * 发送远程视频文件
      */
-    private void sendRemoteVideoMessage(){
+    private void sendRemoteVideoMessage() {
         //TODO 发送消息：6.7、发送本地音频文件消息
         BmobIMAudioMessage audio = new BmobIMAudioMessage();
         audio.setRemoteUrl("此处替换为你远程的音频文件地址");
@@ -578,6 +572,7 @@ public class ChatActivity extends BaseActivity  implements MessageListHandler {
         BmobIMFileMessage file = new BmobIMFileMessage("此处替换为你本地的文件地址");
         mConversationManager.sendMessage(file, listener);
     }
+
     /**
      * 发送远程文件
      */
@@ -587,6 +582,7 @@ public class ChatActivity extends BaseActivity  implements MessageListHandler {
         file.setRemoteUrl("此处替换为你远程的文件地址");
         mConversationManager.sendMessage(file, listener);
     }
+
     /**
      * 发送语音消息
      *
@@ -681,7 +677,6 @@ public class ChatActivity extends BaseActivity  implements MessageListHandler {
     private void scrollToBottom() {
         layoutManager.scrollToPositionWithOffset(adapter.getItemCount() - 1, 0);
     }
-
 
 
     //TODO 消息接收：8.2、单个页面的自定义接收器

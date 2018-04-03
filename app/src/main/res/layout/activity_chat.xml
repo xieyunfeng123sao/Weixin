@@ -103,21 +103,25 @@
             android:text="@string/longclick_speak"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btn_chat_emo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="6dp"
-            android:background="@drawable/btn_chat_emo_selector"
-            android:gravity="center"
-            />
+        <!--<Button-->
+            <!--android:id="@+id/btn_chat_emo"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_marginLeft="6dp"-->
+            <!--android:background="@drawable/btn_chat_emo_selector"-->
+            <!--android:gravity="center"-->
+            <!--/>-->
 
         <Button
+            android:textSize="10sp"
+            android:visibility="gone"
+            android:textColor="@color/white"
             android:id="@+id/btn_chat_add"
-            android:layout_width="30dp"
+            android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_marginLeft="6dp"
-            android:background="@drawable/btn_chat_add_selector"
+            android:text="@string/send"
+            android:background="@color/main_color"
             android:gravity="center" />
 
         <Button

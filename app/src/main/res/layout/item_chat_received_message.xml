@@ -7,13 +7,14 @@
     android:paddingTop="15dp" >
 
     <TextView
+        android:layout_gravity="center"
+        android:textSize="12sp"
         android:id="@+id/tv_time"
-        android:textColor="@color/txt_color"
-        android:padding="5dp"
-        android:background="@color/tran_sidebar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:background="@color/tran_sidebar_text"
+        android:padding="5dp"
+        android:textColor="@color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,10 +47,8 @@
             android:clickable="true"
             android:focusable="true"
             android:minHeight="40dp"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
             />
 
     </RelativeLayout>

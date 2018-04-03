@@ -8,21 +8,24 @@
     android:paddingTop="15dp" >
 
     <TextView
+        android:layout_gravity="center"
+        android:textSize="12sp"
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/tran_sidebar_text"
         android:padding="5dp"
-        android:textColor="@color/txt_color" />
+        android:textColor="@color/white" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+       android:layout_marginRight="5dp"
         android:layout_marginTop="11dp">
 
 
         <ImageView
             android:id="@+id/iv_avatar"
+            android:layout_marginRight="5dp"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -42,10 +45,8 @@
             android:maxWidth="225.0dip"
             android:minHeight="40dp"
             android:minWidth="80dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="30dp" />
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp" />
 
         <ImageView
             android:id="@+id/iv_fail_resend"

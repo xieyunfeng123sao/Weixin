@@ -1,5 +1,7 @@
 package com.ityun.weixin.myapplication.ui.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,7 +16,11 @@ import android.widget.RelativeLayout;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseFragment;
+import com.ityun.weixin.myapplication.bean.Friend;
+import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.im.IMModel;
+import com.ityun.weixin.myapplication.listener.AdapterItemOnClickListener;
+import com.ityun.weixin.myapplication.ui.chat.ChatActivity;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.WeixinAdapter;
 
 import java.util.ArrayList;
@@ -22,7 +28,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
+import cn.bmob.newim.bean.BmobIMUserInfo;
 
 /**
  * Created by Administrator on 2018/2/12 0012.
@@ -53,6 +61,14 @@ public class WeixinFragment extends BaseFragment {
         weixin_message_list.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         adapter.setData(mlist);
         adapter.notifyDataSetChanged();
+        adapter.setonItemOnClick(new AdapterItemOnClickListener() {
+            @Override
+            public void OnClick(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("c", mlist.get(position));
+                startActivity(ChatActivity.class, bundle);
+            }
+        });
         return view;
     }
 
@@ -66,5 +82,19 @@ public class WeixinFragment extends BaseFragment {
         }
         weixin_load_view.setVisibility(View.GONE);
         weixin_message_list.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 启动指定Activity
+     *
+     * @param target
+     * @param bundle
+     */
+    public void startActivity(Class<? extends Activity> target, Bundle bundle) {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), target);
+        if (bundle != null)
+            intent.putExtra(getActivity().getPackageName(), bundle);
+        getActivity().startActivity(intent);
     }
 }

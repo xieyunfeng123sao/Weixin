@@ -17,7 +17,7 @@
     <color name="tran">#00FFFFFF</color>
     <color name="tran_gray">#e0000000</color>
     <color name="tran_sidebar">#e0C0C0C0</color>
-    <color name="tran_sidebar_text">#e0909090</color>
+    <color name="tran_sidebar_text">#f0dddddd</color>
     <color name="dialog_bg">#E22B2B2B</color>
 
     <color name="fucha">#EE7558</color>

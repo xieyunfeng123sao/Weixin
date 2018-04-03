@@ -8,12 +8,14 @@
     android:paddingTop="15dp" >
 
     <TextView
+        android:layout_gravity="center"
+        android:textSize="12sp"
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/tran_sidebar_text"
         android:padding="5dp"
-        android:textColor="@color/txt_color" />
+        android:textColor="@color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -145,5 +145,8 @@ public class BaseActivity extends AppCompatActivity implements ErrorHelper {
             im.hideSoftInputFromWindow(token,InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
+
+
   
 }
