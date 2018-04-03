@@ -22,6 +22,7 @@ import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.listener.AdapterItemOnClickListener;
 import com.ityun.weixin.myapplication.ui.chat.ChatActivity;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.WeixinAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +32,14 @@ import butterknife.ButterKnife;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMUserInfo;
+import cn.bmob.newim.event.MessageEvent;
+import cn.bmob.newim.listener.MessageListHandler;
 
 /**
  * Created by Administrator on 2018/2/12 0012.
  */
 
-public class WeixinFragment extends BaseFragment {
+public class WeixinFragment extends BaseFragment implements MessageListHandler {
 
     @BindView(R.id.weixin_message_list)
     RecyclerView weixin_message_list;
@@ -74,27 +77,24 @@ public class WeixinFragment extends BaseFragment {
 
     @Override
     public void requestData() {
-        List<BmobIMConversation> list = IMModel.getInstance().getAllConversation();
-        if (list != null) {
-            mlist.addAll(list);
-            adapter.setData(mlist);
-            adapter.notifyDataSetChanged();
-        }
+        updataMsg();
         weixin_load_view.setVisibility(View.GONE);
         weixin_message_list.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * 启动指定Activity
-     *
-     * @param target
-     * @param bundle
-     */
-    public void startActivity(Class<? extends Activity> target, Bundle bundle) {
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), target);
-        if (bundle != null)
-            intent.putExtra(getActivity().getPackageName(), bundle);
-        getActivity().startActivity(intent);
+    private void updataMsg() {
+        List<BmobIMConversation> list = IMModel.getInstance().getAllConversation();
+        if (list != null) {
+            mlist.clear();
+            mlist.addAll(list);
+            adapter.setData(mlist);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+
+    @Override
+    public void onMessageReceive(List<MessageEvent> list) {
+        updataMsg();
     }
 }

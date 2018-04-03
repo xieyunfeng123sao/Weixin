@@ -1,5 +1,7 @@
 package com.ityun.weixin.myapplication.base;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -41,5 +43,19 @@ public abstract class BaseFragment extends Fragment {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 启动指定Activity
+     *
+     * @param target
+     * @param bundle
+     */
+    public void startActivity(Class<? extends Activity> target, Bundle bundle) {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), target);
+        if (bundle != null)
+            intent.putExtra(getActivity().getPackageName(), bundle);
+        getActivity().startActivity(intent);
     }
 }

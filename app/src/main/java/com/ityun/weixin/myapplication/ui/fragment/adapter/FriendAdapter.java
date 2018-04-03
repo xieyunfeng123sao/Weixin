@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.bean.Friend;
+import com.ityun.weixin.myapplication.listener.AdapterItemOnClickListener;
 import com.ityun.weixin.myapplication.ui.friend.NewFriendActivity;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 import com.orhanobut.logger.Logger;
@@ -81,7 +82,7 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (position == 0) {
             ((HeaderViewHolder) holder).item_friend_newfriend.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -106,14 +107,18 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (position != ((null != mlist ? (mlist.size() + 2) : 2) - 1)) {
             ((FriendViewHolder) holder).item_friend_name.setText(mlist.get(position - 1).getFriendUser().getNickname());
             ImageLoadUtil.getInstance().loadUrl(mlist.get(position - 1).getFriendUser().getAvatar(), ((FriendViewHolder) holder).item_friend_img);
-            Log.e("insert", "===========" + getPositionForSection(position - 1));
             if (getPositionForSection(position - 1) == (position - 1)) {
                 ((FriendViewHolder) holder).friend_sort.setVisibility(View.VISIBLE);
                 ((FriendViewHolder) holder).friend_sort.setText(mlist.get(position - 1).getPinyin());
             } else {
                 ((FriendViewHolder) holder).friend_sort.setVisibility(View.GONE);
             }
-
+            ((FriendViewHolder) holder).item_friend_newfriend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adapterItemOnClickListener.OnClick(position-1);
+                }
+            });
 
         }
     }
@@ -169,11 +174,14 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         TextView friend_sort;
 
+        LinearLayout item_friend_newfriend;
+
         public FriendViewHolder(View itemView) {
             super(itemView);
             item_friend_img = itemView.findViewById(R.id.item_friend_img);
             item_friend_name = itemView.findViewById(R.id.item_friend_name);
             friend_sort = itemView.findViewById(R.id.friend_sort);
+            item_friend_newfriend=itemView.findViewById(R.id.item_friend_newfriend);
         }
     }
 
@@ -188,5 +196,10 @@ public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
         return -1;
+    }
+    AdapterItemOnClickListener adapterItemOnClickListener;
+    public  void  setFriendItemOnClick(AdapterItemOnClickListener adapterItemOnClickListener)
+    {
+        this.adapterItemOnClickListener=adapterItemOnClickListener;
     }
 }
