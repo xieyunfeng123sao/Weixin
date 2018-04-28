@@ -5,8 +5,11 @@ import com.ityun.weixin.myapplication.bean.DaoMaster;
 import com.ityun.weixin.myapplication.bean.DaoSession;
 import com.ityun.weixin.myapplication.bean.NewFriend;
 import com.ityun.weixin.myapplication.bean.NewFriendDao;
+import com.ityun.weixin.myapplication.bean.User;
 
 import java.util.List;
+
+import cn.bmob.v3.BmobUser;
 
 /**
  * Created by Administrator on 2018/4/28 0028.
@@ -24,7 +27,8 @@ public class NewFriendUtil {
 
 
     public void init() {
-        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(App.context, "my-db", null);
+        User user = BmobUser.getCurrentUser(User.class);
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(App.context, "my-db"+user.getObjectId(), null);
         DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         DaoSession daoSession = daoMaster.newSession();
         newFriendDao = daoSession.getNewFriendDao();

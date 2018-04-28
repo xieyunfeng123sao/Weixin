@@ -24,6 +24,7 @@ import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.dao.NewFriendUtil;
 import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.ui.fragment.FindFragment;
@@ -92,6 +93,12 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
         initFragment();
         userInfo = UserModel.getInstance().getUser();
+        initDb();
+    }
+
+    private void initDb()
+    {
+        NewFriendUtil.getInstance().init();
     }
 
     @Override

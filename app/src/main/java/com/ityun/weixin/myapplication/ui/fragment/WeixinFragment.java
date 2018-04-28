@@ -83,8 +83,13 @@ public class WeixinFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
     }
 

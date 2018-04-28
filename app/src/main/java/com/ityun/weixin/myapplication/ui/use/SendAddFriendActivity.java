@@ -78,8 +78,6 @@ public class SendAddFriendActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        NewFriend newFriend = new NewFriend(0l, userInfo.getObjectId(), "", userInfo.getUsername(), userInfo.getAvatar(), 3, 0l, userInfo.getNickname());
-                        NewFriendUtil.getInstance().insert(newFriend);
                         Toast(R.string.send_sucess);
                         finish();
                     }

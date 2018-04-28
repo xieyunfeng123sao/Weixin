@@ -9,6 +9,7 @@ import com.ityun.weixin.myapplication.db.Config;
 import com.ityun.weixin.myapplication.event.IMNewFriendEvent;
 import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.model.UserModel;
+import com.ityun.weixin.myapplication.util.SpUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -63,39 +64,33 @@ public class MyEMContactListener implements EMContactListener {
         });
     }
 
-    private  void receiveAgree(String username)
-    {
-//        UserModel.getInstance().queryByNum(username, new BmobTableListener<User>() {
-//            @Override
-//            public void onSucess(final User object) {
-//                IMModel.getInstance().agreeFriend(object.getUsername(), new IMFriendCallBack() {
-//                    @Override
-//                    public void sendSucess() {
-//                                UserModel.getInstance().addNewFriend(object, new SaveListener<String>() {
-//                                    @Override
-//                                    public void done(String s, BmobException e) {
-//                                        if (e == null || e.getErrorCode() == Config.STATUS_HAS_ADD) {
-//                                            NewFriend newFriend = mlist.get(nowPosition);
-//                                            newFriend.setStatus(1);
-//                                            NewFriendUtil.getInstance().updata(newFriend);
-//                                        }
-//                            }
-//                        });
-//                    }
-//                    @Override
-//                    public void sendFail() {
-//
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onFail(BmobException e) {
-//
-//            }
-//        });
-//
+    private void receiveAgree(String username) {
+        UserModel.getInstance().queryByNum(username, new BmobTableListener<User>() {
+            @Override
+            public void onSucess(final User object) {
+                IMModel.getInstance().agreeFriend(object.getUsername(), new IMFriendCallBack() {
+                    @Override
+                    public void sendSucess() {
+                        UserModel.getInstance().addNewFriend(object, new SaveListener<String>() {
+                            @Override
+                            public void done(String s, BmobException e) {
 
+                            }
+                        });
+                    }
+                    @Override
+                    public void sendFail() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFail(BmobException e) {
+
+            }
+        });
+//
 
 
     }
