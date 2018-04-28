@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
-import com.ityun.weixin.myapplication.db.NewFriendManager;
 import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.ui.adduser.AddUserActivity;
@@ -50,15 +49,32 @@ public class MainActivity extends BaseActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         //加载图片
-        ImageLoadUtil.getInstance().getResouce(R.mipmap.we_2, wel_img);
+//        ImageLoadUtil.getInstance().getResouce(R.mipmap.we_2, wel_img);
         //获取用户信息
-        user = UserModel.getInstance().getUser();
-        if (user != null) {
-            //如果有缓存的用户信息 就不显示登录和注册
-            wel_login_button.setVisibility(View.GONE);
-            wel_add_button.setVisibility(View.GONE);
-            startActivity(HomeActivity.class, null, true);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                user = UserModel.getInstance().getUser();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (user != null) {
+                            wel_login_button.setVisibility(View.GONE);
+                            wel_add_button.setVisibility(View.GONE);
+                            wel_login_button.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //如果有缓存的用户信息 就不显示登录和注册
+                                    startActivity(HomeActivity.class, null, true);
+                                }
+                            }, 1000);
+                        }
+                    }
+                });
+
+            }
+        }).start();
+
     }
 
     @Override

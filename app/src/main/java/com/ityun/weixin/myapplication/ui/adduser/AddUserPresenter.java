@@ -2,6 +2,7 @@ package com.ityun.weixin.myapplication.ui.adduser;
 
 import android.support.annotation.NonNull;
 
+import com.hyphenate.chat.EMClient;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;
@@ -29,6 +30,7 @@ public class AddUserPresenter implements AddUserContract.Presenter {
 
     @Override
     public void addUser(User user) {
+        //注册失败会抛出HyphenateException
         UserModel.getInstance().addUser(user, new BmobTableListener() {
             @Override
             public void onSucess(Object object) {

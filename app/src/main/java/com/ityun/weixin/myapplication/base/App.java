@@ -3,17 +3,15 @@ package com.ityun.weixin.myapplication.base;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import com.ityun.weixin.myapplication.im.IMMessageHandler;
 
-import org.litepal.LitePal;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMOptions;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.bmob.newim.BmobIM;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobConfig;
 
@@ -42,8 +40,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-        LitePal.initialize(this);
         init();
+        initHuanXin();
     }
 
 
@@ -70,11 +68,25 @@ public class App extends Application {
                 .build();
         Bmob.initialize(config);
 
-        //TODO 集成：1.8、初始化IM SDK，并注册消息接收器
-        if (getApplicationInfo().packageName.equals(getMyProcessName())) {
-            BmobIM.init(this);
-            BmobIM.registerDefaultMessageHandler(new IMMessageHandler());
-        }
+    }
+
+
+    public  void initHuanXin()
+    {
+        EMOptions options = new EMOptions();
+// 默认添加好友时，是不需要验证的，改成需要验证
+        options.setAcceptInvitationAlways(false);
+//// 是否自动将消息附件上传到环信服务器，默认为True是使用环信服务器上传下载，如果设为 false，需要开发者自己处理附件消息的上传和下载
+//        options.setAutoTransferMessageAttachments(true);
+//// 是否自动下载附件类消息的缩略图等，默认为 true 这里和上边这个参数相关联
+//        options.setAutoDownloadThumbnail(true);
+        options.setAutoLogin(false);
+        //默认不同意添加好友 需要调用接口
+        options.setAcceptInvitationAlways(false);
+//初始化
+        EMClient.getInstance().init(this, options);
+//在做打包混淆时，关闭debug模式，避免消耗不必要的资源
+        EMClient.getInstance().setDebugMode(true);
     }
 
     /**

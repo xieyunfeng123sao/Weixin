@@ -13,12 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.util.DecideUtil;
+import com.ityun.weixin.myapplication.util.SpUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -134,7 +137,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     private void booleanCanAdd() {
         String phoneNum = login_user_num.getText().toString();
         String password = login_user_password.getText().toString();
-
         if (TextUtils.isEmpty(phoneNum)) {
             login_user_button.setEnabled(false);
             return;
@@ -209,6 +211,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                SpUtil.saveUser(callBackuser);
                 startActivity(HomeActivity.class,null,true);
                 dialog.dismiss();
             }

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.Subscribe;
+
 /**
  * Created by Administrator on 2018/2/12 0012.
  */
@@ -17,5 +19,9 @@ public class MeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+    @Subscribe
+    public void  meEvent()
+    {
 
+    }
 }

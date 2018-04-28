@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 /**
  * Created by Administrator on 2018/3/2 0002.
  */
@@ -28,6 +31,16 @@ public abstract class BaseFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         prepareRequestData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     public abstract void requestData();
@@ -58,4 +71,5 @@ public abstract class BaseFragment extends Fragment {
             intent.putExtra(getActivity().getPackageName(), bundle);
         getActivity().startActivity(intent);
     }
+
 }

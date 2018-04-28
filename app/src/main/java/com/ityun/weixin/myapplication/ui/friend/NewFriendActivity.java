@@ -6,26 +6,24 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.NewFriend;
 import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.dao.NewFriendUtil;
 import com.ityun.weixin.myapplication.db.Config;
-import com.ityun.weixin.myapplication.db.NewFriendManager;
+import com.ityun.weixin.myapplication.event.IMNewFriendEvent;
 import com.ityun.weixin.myapplication.im.IMModel;
+import com.ityun.weixin.myapplication.listener.IMFriendCallBack;
 import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.ui.friend.adapter.NewFriendAdapter;
 import com.ityun.weixin.myapplication.view.LoadDialog;
-import com.orhanobut.logger.Logger;
-
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -62,13 +60,13 @@ public class NewFriendActivity extends BaseActivity implements SearContract.View
         new_friend_msg_list.setAdapter(adapter);
         mlist = new ArrayList<>();
         adapter.setData(mlist);
-        mlist.addAll(NewFriendManager.getInstance(this).getAllNewFriend());
+        mlist.addAll(NewFriendUtil.getInstance().getAll());
         adapter.notifyDataSetChanged();
         adapter.setOnItemAgreeClickListener(new NewFriendAdapter.OnClickListener() {
             @Override
             public void onClick(int position) {
                 prensenter.searchById(mlist.get(position).getUid());
-                nowPosition=position;
+                nowPosition = position;
                 dialog.show();
             }
         });
@@ -76,31 +74,42 @@ public class NewFriendActivity extends BaseActivity implements SearContract.View
 
     @Override
     public void searchSucess(final User user) {
-        IMModel.getInstance().sendAgreeFriendMessage(user, new IMModel.OnMessageListener() {
+        IMModel.getInstance().agreeFriend(user.getUsername(), new IMFriendCallBack() {
             @Override
-            public void onSucess(final BmobIMMessage message) {
-                UserModel.getInstance().addNewFriend(user, new SaveListener<String>() {
+            public void sendSucess() {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void done(String s, BmobException e) {
-                        if(e==null||e.getErrorCode()==Config.STATUS_HAS_ADD)
-                        {
-                            NewFriend newFriend=mlist.get(nowPosition);
-                            NewFriendManager.getInstance(NewFriendActivity.this).updateNewFriend(newFriend, Config.STATUS_VERIFIED);
-                            mlist.clear();
-                            mlist.addAll(NewFriendManager.getInstance(NewFriendActivity.this).getAllNewFriend());
-                            adapter.notifyDataSetChanged();
-                        }
-                        dialog.dismiss();
+                    public void run() {
+                        UserModel.getInstance().addNewFriend(user, new SaveListener<String>() {
+                            @Override
+                            public void done(String s, BmobException e) {
+                                if (e == null || e.getErrorCode() == Config.STATUS_HAS_ADD) {
+                                    NewFriend newFriend = mlist.get(nowPosition);
+                                    newFriend.setStatus(1);
+                                    NewFriendUtil.getInstance().updata(newFriend);
+                                    mlist.clear();
+                                    mlist.addAll(NewFriendUtil.getInstance().getAll());
+                                    adapter.notifyDataSetChanged();
+                                }
+                                dialog.dismiss();
+                            }
+                        });
                     }
                 });
             }
             @Override
-            public void onFail(BmobException e) {
-                Toast(R.string.error_add);
-                dialog.dismiss();
+            public void sendFail() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast(R.string.error_add);
+                        dialog.dismiss();
+                    }
+                });
             }
         });
     }
+
 
     @Override
     public void searchFail() {
@@ -112,5 +121,16 @@ public class NewFriendActivity extends BaseActivity implements SearContract.View
     public void searchError() {
         Toast(R.string.error_add);
         dialog.dismiss();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(IMNewFriendEvent event) {
+        if (event.getResult().equals("notice")) {
+            //接收到好友的请求通知
+            mlist.clear();
+            mlist.addAll(NewFriendUtil.getInstance().getAll());
+            adapter.notifyDataSetChanged();
+        }
     }
 }

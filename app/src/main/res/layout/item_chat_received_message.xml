@@ -47,8 +47,8 @@
             android:clickable="true"
             android:focusable="true"
             android:minHeight="40dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
             />
 
     </RelativeLayout>

@@ -16,19 +16,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
-import com.ityun.weixin.myapplication.event.FinishEvent;
 import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.ui.album.AlbumActivity;
-import com.ityun.weixin.myapplication.ui.login.LoginContract;
-import com.ityun.weixin.myapplication.ui.login.LoginPresenter;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
-
-import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
 
 import java.io.File;
 
@@ -152,11 +148,35 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
         user.setUsername(add_input_phonenum.getText().toString());
         user.setMobilePhoneNumber(add_input_phonenum.getText().toString());
         user.setPassword(add_input_password.getText().toString());
-        if (path == null || !new File(path).exists()) {
-            presenter.addUser(user);
-        } else {
-            presenter.addImage(path);
-        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //注册失败会抛出HyphenateException
+                try {
+                    EMClient.getInstance().createAccount(user.getUsername(),"123456");//同步方法
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (path == null || !new File(path).exists()) {
+                                presenter.addUser(user);
+                            } else {
+                                presenter.addImage(path);
+                            }
+                        }
+                    });
+                } catch (HyphenateException e) {
+//                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast(R.string.error_add_user);
+                            dialog.show();
+                        }
+                    });
+                }
+            }
+        }).start();
 
 
     }
@@ -339,21 +359,9 @@ public class AddUserActivity extends BaseActivity implements AddUserContract.Vie
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                user.login(new SaveListener<User>() {
-                    @Override
-                    public void done(User user, BmobException e) {
-                        if (e == null) {
-                            startActivity(HomeActivity.class, null, true);
-                            dialog.dismiss();
-                        } else {
-                            if (e.getErrorCode() == ERROR_NUM_OR_PSD) {
-                                Toast(R.string.error_login);
-                            }
-                            Toast(R.string.error);
-                            dialog.dismiss();
-                        }
-                    }
-                });
+                Toast(R.string.add_user_sucess);
+                dialog.dismiss();
+                finish();
             }
         });
     }

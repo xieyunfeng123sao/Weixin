@@ -31,7 +31,6 @@
 
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
-
     <application
         android:name=".base.App"
         android:allowBackup="true"
@@ -58,25 +57,26 @@
         <meta-data
             android:name="Bmob_APP_KEY"
             android:value="795c20bb0a69c473f2b8f299058981e4" />
-
-        <!--TODO 集成：1.5、配置IM SDK需要的广播和服务-->
-        <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">
+        <!-- 设置环信应用的AppKey -->
+        <meta-data android:name="EASEMOB_APPKEY"  android:value="1147171022115675#weixin" />
+        <!-- 声明SDK所需的service SDK核心功能-->
+        <service android:name="com.hyphenate.chat.EMChatService" android:exported="true"/>
+        <service android:name="com.hyphenate.chat.EMJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"
+            />
+        <!-- 声明SDK所需的receiver -->
+        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
-                <action android:name="cn.bmob.action.RECONNECT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+            <!-- 可选filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-
-        <service
-            android:name="cn.bmob.newim.core.service.BmobIMService"
-            android:process=":bmobcore" />
-        <service
-            android:name="cn.bmob.newim.core.service.NotifyService"
-            android:process=":bmobcore" />
-        <service android:name="cn.bmob.newim.core.service.ReConnectService" />
-        <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
 
 
         <activity
@@ -156,12 +156,6 @@
         <activity android:name=".ui.friend.NewFriendActivity">
             <intent-filter>
                 <action android:name="android.intent.ityun.weixin.NewFriendActivity" />
-                <category  android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.chat.ChatActivity">
-            <intent-filter>
-                <action android:name="android.intent.ityun.weixin.ChatActivity" />
                 <category  android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

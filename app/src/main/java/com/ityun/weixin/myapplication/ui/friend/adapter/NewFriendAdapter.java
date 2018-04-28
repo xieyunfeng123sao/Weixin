@@ -73,17 +73,32 @@ public class NewFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ((ItemHolder) holder).new_friend_msg_agree.setText("已添加");
                 ((ItemHolder) holder).new_friend_msg_agree.setBackgroundColor(context.getResources().getColor(R.color.white));
                 ((ItemHolder) holder).new_friend_msg_agree.setTextColor(context.getResources().getColor(R.color.txt_color));
-            } else {
+            } else if (mlist.get(position - 1).getStatus() == 0) {
                 ((ItemHolder) holder).new_friend_msg_agree.setEnabled(true);
                 ((ItemHolder) holder).new_friend_msg_agree.setText("接受");
                 ((ItemHolder) holder).new_friend_msg_agree.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (onClickListener != null) {
-                            onClickListener.onClick(position-1);
+                            onClickListener.onClick(position - 1);
                         }
                     }
                 });
+            } else if (mlist.get(position - 1).getStatus() == 2) {
+                ((ItemHolder) holder).new_friend_msg_agree.setEnabled(false);
+                ((ItemHolder) holder).new_friend_msg_agree.setText("已拒绝");
+                ((ItemHolder) holder).new_friend_msg_agree.setBackgroundColor(context.getResources().getColor(R.color.white));
+                ((ItemHolder) holder).new_friend_msg_agree.setTextColor(context.getResources().getColor(R.color.txt_color));
+            } else if (mlist.get(position - 1).getStatus() == 3) {
+                ((ItemHolder) holder).new_friend_msg_agree.setEnabled(false);
+                ((ItemHolder) holder).new_friend_msg_agree.setText("已发送");
+                ((ItemHolder) holder).new_friend_msg_agree.setBackgroundColor(context.getResources().getColor(R.color.white));
+                ((ItemHolder) holder).new_friend_msg_agree.setTextColor(context.getResources().getColor(R.color.txt_color));
+            } else if (mlist.get(position - 1).getStatus() == 4) {
+                ((ItemHolder) holder).new_friend_msg_agree.setEnabled(false);
+                ((ItemHolder) holder).new_friend_msg_agree.setText("已同意");
+                ((ItemHolder) holder).new_friend_msg_agree.setBackgroundColor(context.getResources().getColor(R.color.white));
+                ((ItemHolder) holder).new_friend_msg_agree.setTextColor(context.getResources().getColor(R.color.txt_color));
             }
         }
     }
@@ -134,7 +149,7 @@ public class NewFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     public interface OnClickListener {
-        void onClick(int  position);
+        void onClick(int position);
     }
 
 

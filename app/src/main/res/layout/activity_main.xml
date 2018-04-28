@@ -6,6 +6,7 @@
     tools:context="com.ityun.weixin.myapplication.MainActivity">
 
     <ImageView
+        android:src="@mipmap/we_2"
         android:id="@+id/wel_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

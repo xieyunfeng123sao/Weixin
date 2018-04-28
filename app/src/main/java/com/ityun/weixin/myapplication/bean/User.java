@@ -1,5 +1,7 @@
 package com.ityun.weixin.myapplication.bean;
 
+import org.greenrobot.greendao.annotation.Entity;
+
 import cn.bmob.v3.BmobUser;
 
 /**

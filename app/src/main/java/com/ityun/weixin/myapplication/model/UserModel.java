@@ -1,22 +1,13 @@
 package com.ityun.weixin.myapplication.model;
 
-import android.util.Log;
 
 import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.db.Config;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;
-import com.ityun.weixin.myapplication.listener.UpdateCacheListener;
 import com.orhanobut.logger.Logger;
-
 import java.io.File;
 import java.util.List;
-
-import cn.bmob.newim.BmobIM;
-import cn.bmob.newim.bean.BmobIMConversation;
-import cn.bmob.newim.bean.BmobIMMessage;
-import cn.bmob.newim.bean.BmobIMUserInfo;
-import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
@@ -188,52 +179,6 @@ public class UserModel {
         });
     }
 
-
-    /**
-     * 更新用户资料和会话资料
-     *
-     * @param event
-     * @param listener
-     */
-    public void updateUserInfo(MessageEvent event, final UpdateCacheListener listener) {
-        final BmobIMConversation conversation = event.getConversation();
-        final BmobIMUserInfo info = event.getFromUserInfo();
-        final BmobIMMessage msg = event.getMessage();
-        String username = info.getName();
-        String avatar = info.getAvatar();
-        String title = conversation.getConversationTitle();
-        String icon = conversation.getConversationIcon();
-        //SDK内部将新会话的会话标题用objectId表示，因此需要比对用户名和私聊会话标题，后续会根据会话类型进行判断
-        if (!username.equals(title) || (avatar != null && !avatar.equals(icon))) {
-            queryById(info.getUserId(), new BmobTableListener() {
-                @Override
-                public void onSucess(Object object) {
-                    User user = (User) object;
-                    String name = user.getUsername();
-                    String avatar = user.getAvatar();
-                    conversation.setConversationIcon(avatar);
-                    conversation.setConversationTitle(name);
-                    info.setName(name);
-                    info.setAvatar(avatar);
-                    //TODO 用户管理：2.7、更新用户资料，用于在会话页面、聊天页面以及个人信息页面显示
-                    BmobIM.getInstance().updateUserInfo(info);
-                    //TODO 会话：4.7、更新会话资料-如果消息是暂态消息，则不更新会话资料
-                    if (!msg.isTransient()) {
-                        BmobIM.getInstance().updateConversation(conversation);
-                    } else {
-                    }
-                    listener.done();
-                }
-
-                @Override
-                public void onFail(BmobException e) {
-                    listener.done();
-                }
-            });
-        } else {
-            listener.done();
-        }
-    }
 
     public void addNewFriend(final User friend, final SaveListener<String> listener) {
         BmobQuery<Friend> query = new BmobQuery<>();

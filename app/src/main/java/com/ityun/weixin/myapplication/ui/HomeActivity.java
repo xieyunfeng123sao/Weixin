@@ -15,23 +15,32 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.util.NetUtils;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
-import com.ityun.weixin.myapplication.db.NewFriendManager;
-import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.im.IMModel;
+import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.ui.fragment.FindFragment;
 import com.ityun.weixin.myapplication.ui.fragment.FriendFragment;
 import com.ityun.weixin.myapplication.ui.fragment.MeFragment;
 import com.ityun.weixin.myapplication.ui.fragment.WeixinFragment;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.HomeFragmentAdapter;
 import com.ityun.weixin.myapplication.ui.friend.AddFriendActivity;
+import com.ityun.weixin.myapplication.util.SpUtil;
 import com.ityun.weixin.myapplication.view.CustomViewPager;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -76,7 +85,6 @@ public class HomeActivity extends BaseActivity {
 
     private PopupWindow popupWindow;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,9 +92,6 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
         initFragment();
         userInfo = UserModel.getInstance().getUser();
-        IMModel.getInstance().updataUser(userInfo);
-        IMModel.getInstance().login(userInfo.getObjectId());
-
     }
 
     @Override
@@ -183,7 +188,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        NewFriendManager.getInstance(this).hasNewFriendInvitation();
+//        NewFriendManager.getInstance(this).hasNewFriendInvitation();
     }
 
     @Override
@@ -215,4 +220,12 @@ public class HomeActivity extends BaseActivity {
             }
         });
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void EventOnMainThread() {
+
+    }
+
+
+
 }

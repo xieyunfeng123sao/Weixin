@@ -27,7 +27,7 @@ public class ImageLoadUtil {
 
     public   void getResouce(int resId, ImageView imageView)
     {
-        Glide.with(App.context).load(resId).skipMemoryCache(true).into(imageView);
+        Glide.with(App.context).load(resId).into(imageView);
     }
 
     public void loadUrl(String  url,ImageView imageView)

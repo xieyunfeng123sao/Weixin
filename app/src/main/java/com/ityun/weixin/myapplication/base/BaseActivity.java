@@ -46,9 +46,6 @@ public class BaseActivity extends AppCompatActivity implements ErrorHelper {
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
-
-
     }
 
     public  void  hideSoftInput(EditText editText)
@@ -61,14 +58,12 @@ public class BaseActivity extends AppCompatActivity implements ErrorHelper {
 
     @Override
     protected void onStop() {
-        EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        App.getInstance().destoryActivity(this);
     }
 
 
@@ -99,10 +94,6 @@ public class BaseActivity extends AppCompatActivity implements ErrorHelper {
             return null;
     }
 
-    @Subscribe
-    public void onEvent(Boolean empty){
-
-    }
     private Toast toast;
     protected void runOnMain(Runnable runnable) {
         runOnUiThread(runnable);
@@ -146,7 +137,4 @@ public class BaseActivity extends AppCompatActivity implements ErrorHelper {
         }
     }
 
-
-
-  
 }

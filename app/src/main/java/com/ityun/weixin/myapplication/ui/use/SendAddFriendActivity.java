@@ -10,14 +10,15 @@ import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
+import com.ityun.weixin.myapplication.bean.NewFriend;
 import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.dao.NewFriendUtil;
 import com.ityun.weixin.myapplication.im.IMModel;
+import com.ityun.weixin.myapplication.listener.IMFriendCallBack;
 import com.ityun.weixin.myapplication.model.UserModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bmob.newim.bean.BmobIMMessage;
-import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/3/12 0012.
@@ -41,7 +42,7 @@ public class SendAddFriendActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_add_friend);
         ButterKnife.bind(this);
-        user= UserModel.getInstance().getUser();
+        user = UserModel.getInstance().getUser();
         userInfo = (User) getIntent().getSerializableExtra("userinfo");
         send_add_message.setText("我是" + user.getNickname());
         send_add_message.setSelection(user.getNickname().length() + 2);
@@ -63,16 +64,34 @@ public class SendAddFriendActivity extends BaseActivity {
         send_add_msg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IMModel.getInstance().sendAddFriendMessage(userInfo, send_add_message.getText().toString(), new IMModel.OnMessageListener() {
+                sendAddFriend();
+            }
+        });
+    }
+
+
+    private  void  sendAddFriend()
+    {
+        IMModel.getInstance().addFriend(userInfo.getUsername(), send_add_message.getText().toString(), new IMFriendCallBack() {
+            @Override
+            public void sendSucess() {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void onSucess(BmobIMMessage message) {
+                    public void run() {
+                        NewFriend newFriend = new NewFriend(0l, userInfo.getObjectId(), "", userInfo.getUsername(), userInfo.getAvatar(), 3, 0l, userInfo.getNickname());
+                        NewFriendUtil.getInstance().insert(newFriend);
                         Toast(R.string.send_sucess);
                         finish();
                     }
+                });
+            }
+
+            @Override
+            public void sendFail() {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void onFail(BmobException e) {
+                    public void run() {
                         Toast(R.string.send_fail);
-                        finish();
                     }
                 });
             }

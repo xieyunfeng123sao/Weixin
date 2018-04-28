@@ -1,7 +1,6 @@
 package com.ityun.weixin.myapplication.ui.fragment.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
-import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.listener.AdapterItemOnClickListener;
-import com.ityun.weixin.myapplication.listener.BmobTableListener;
-import com.ityun.weixin.myapplication.model.UserModel;
-import com.ityun.weixin.myapplication.ui.chat.ChatActivity;
-import com.ityun.weixin.myapplication.util.DateUtil;
-import com.ityun.weixin.myapplication.util.ImageLoadUtil;
-
-import java.util.List;
-
-import cn.bmob.newim.bean.BmobIMConversation;
-import cn.bmob.newim.bean.BmobIMMessage;
-import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/2/13 0013.
@@ -32,7 +19,7 @@ import cn.bmob.v3.exception.BmobException;
 public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
 
-    private List<BmobIMConversation> mlist;
+//    private List<BmobIMConversation> mlist;
 
     private AdapterItemOnClickListener onClickListener;
 
@@ -43,9 +30,9 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    public void setData(List<BmobIMConversation> mlist) {
-        this.mlist = mlist;
-    }
+//    public void setData(List<BmobIMConversation> mlist) {
+//        this.mlist = mlist;
+//    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -59,33 +46,34 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        List<BmobIMMessage> mgsList = mlist.get(position).getMessages();
-        if (mgsList != null && mgsList.size() != 0) {
-            ((RecyleItemHolder) holder).user_last_msg.setText(mgsList.get(mgsList.size() - 1).getContent());
-            ((RecyleItemHolder) holder).user_last_msg_time.setText(DateUtil.timeToText(mgsList.get(mgsList.size() - 1).getUpdateTime()));
-        } else {
-            ((RecyleItemHolder) holder).user_last_msg.setText("");
-            ((RecyleItemHolder) holder).user_last_msg_time.setText("");
-        }
-        ImageLoadUtil.getInstance().loadUrl(mlist.get(position).getConversationIcon(), ((RecyleItemHolder) holder).user_img);
-        UserModel.getInstance().queryById(mlist.get(position).getConversationId(), new BmobTableListener<User>() {
-            @Override
-            public void onSucess(User object) {
-                ((RecyleItemHolder) holder).user_nickname.setText(object.getNickname());
-            }
-
-            @Override
-            public void onFail(BmobException e) {
-                ((RecyleItemHolder) holder).user_nickname.setText(mlist.get(position).getConversationTitle());
-            }
-        });
-
-        ((RecyleItemHolder) holder).item_weixin_ll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickListener.OnClick(position);
-            }
-        });
+//        List<BmobIMMessage> mgsList = mlist.get(position).getMessages();
+//        if (mgsList != null && mgsList.size() != 0) {
+//            ((RecyleItemHolder) holder).user_last_msg.setText(mgsList.get(0).getContent());
+//            Log.e("insert",mgsList.get(0).getContent());
+//            ((RecyleItemHolder) holder).user_last_msg_time.setText(DateUtil.timeToText(mgsList.get(mgsList.size() - 1).getUpdateTime()));
+//        } else {
+//            ((RecyleItemHolder) holder).user_last_msg.setText("");
+//            ((RecyleItemHolder) holder).user_last_msg_time.setText("");
+//        }
+//        ImageLoadUtil.getInstance().loadUrl(mlist.get(position).getConversationIcon(), ((RecyleItemHolder) holder).user_img);
+//        UserModel.getInstance().queryById(mlist.get(position).getConversationId(), new BmobTableListener<User>() {
+//            @Override
+//            public void onSucess(User object) {
+//                ((RecyleItemHolder) holder).user_nickname.setText(object.getNickname());
+//            }
+//
+//            @Override
+//            public void onFail(BmobException e) {
+//                ((RecyleItemHolder) holder).user_nickname.setText(mlist.get(position).getConversationTitle());
+//            }
+//        });
+//
+//        ((RecyleItemHolder) holder).item_weixin_ll.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onClickListener.OnClick(position);
+//            }
+//        });
 
     }
 
@@ -98,7 +86,8 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return mlist != null ? (mlist.size() + 0) : 0;
+        //mlist != null ? (mlist.size() + 0) : 0
+        return  0;
     }
 
 

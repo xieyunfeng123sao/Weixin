@@ -1,13 +1,19 @@
 package com.ityun.weixin.myapplication.bean;
 
-import org.litepal.crud.DataSupport;
 
+import org.greenrobot.greendao.annotation.Entity;
+
+import java.io.Serializable;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * Created by Administrator on 2018/3/12 0012.
  */
 
-public class NewFriend extends DataSupport {
+@Entity
+public class NewFriend implements Serializable {
+    @Id
     private Long id;
     //用户uid
     private String uid;
@@ -17,21 +23,18 @@ public class NewFriend extends DataSupport {
     private String name;
     //头像
     private String avatar;
-
+    //0发来的请求  1同意 2拒绝 3发送请求 4已同意
     private Integer status;
     //请求时间
     private Long time;
 
     private String nickname;
 
-    public NewFriend() {
-    }
 
-    public NewFriend(Long id) {
-        this.id = id;
-    }
 
-    public NewFriend(Long id, String uid, String msg, String name, String avatar, Integer status, Long time,String nickname) {
+    @Generated(hash = 16656652)
+    public NewFriend(Long id, String uid, String msg, String name, String avatar,
+            Integer status, Long time, String nickname) {
         this.id = id;
         this.uid = uid;
         this.msg = msg;
@@ -39,8 +42,14 @@ public class NewFriend extends DataSupport {
         this.avatar = avatar;
         this.status = status;
         this.time = time;
-        this.nickname=nickname;
+        this.nickname = nickname;
     }
+
+    @Generated(hash = 163516704)
+    public NewFriend() {
+    }
+
+
 
     public String getNickname() {
         return nickname;
