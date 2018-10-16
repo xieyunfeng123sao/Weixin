@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,17 +48,24 @@ public class UserDetailActivity extends BaseActivity {
 
     private Dialog dialog;
 
+    private boolean isFriend;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_detail);
         ButterKnife.bind(this);
         userInfo = (User) getBundle().getSerializable("user");
+        isFriend = getBundle().getBoolean("friend");
 
         search_user_num.setText("微信号:" + userInfo.getMobilePhoneNumber());
         search_user_name.setText(userInfo.getNickname());
         ImageLoadUtil.getInstance().loadUrl(userInfo.getAvatar(), search_user_img);
         dialog = new LoadDialog(this).setText(R.string.adding).build();
+        if (isFriend) {
+            add_friend.setText("发消息");
+            video_friend.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

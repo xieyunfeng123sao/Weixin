@@ -16,7 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ityun.weixin.myapplication.R;
+import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
+import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.ui.use.UserDetailActivity;
 import com.ityun.weixin.myapplication.view.LoadDialog;
@@ -47,7 +49,7 @@ public class SearchUserActivity extends BaseActivity implements SearContract.Vie
     @BindView(R.id.input_search_onther_txt)
     public TextView input_search_onther_txt;
 
-    private  SearContract.Presenter presenter;
+    private SearContract.Presenter presenter;
 
     Dialog dialog;
 
@@ -57,7 +59,7 @@ public class SearchUserActivity extends BaseActivity implements SearContract.Vie
         setContentView(R.layout.activity_search_weixin);
         ButterKnife.bind(this);
         initListener();
-        presenter=new SearchPrensenter(this);
+        presenter = new SearchPrensenter(this);
     }
 
     private void initListener() {
@@ -104,7 +106,7 @@ public class SearchUserActivity extends BaseActivity implements SearContract.Vie
         search_weixin_user.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchFriend();
                     return true;
                 }
@@ -134,11 +136,10 @@ public class SearchUserActivity extends BaseActivity implements SearContract.Vie
         }
     }
 
-    private void  searchFriend()
-    {
+    private void searchFriend() {
         dialog = new LoadDialog(this).setText(R.string.searching_user).build();
         dialog.show();
-        String  num= search_weixin_user.getText().toString();
+        String num = search_weixin_user.getText().toString();
         presenter.searchUser(num);
     }
 
@@ -147,9 +148,20 @@ public class SearchUserActivity extends BaseActivity implements SearContract.Vie
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("user",userInfo);
-                startActivity(UserDetailActivity.class,bundle,false);
+
+                boolean isFriend = false;
+                for (Friend friend : App.getInstance().getFriends()) {
+                    if (friend.getFriendUser().getObjectId().equals(userInfo.getObjectId())) {
+                        isFriend = true;
+                    }
+                }
+
+//                if(App.getInstance().getFriends())
+
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("friend", isFriend);
+                bundle.putSerializable("user", userInfo);
+                startActivity(UserDetailActivity.class, bundle, false);
                 dialog.dismiss();
             }
         });

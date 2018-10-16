@@ -6,12 +6,14 @@ import android.content.Context;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
+import com.ityun.weixin.myapplication.bean.Friend;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobConfig;
 
@@ -25,6 +27,9 @@ public class App extends Application {
 
 
     public List<Activity> activityList = new ArrayList<>();
+
+
+    public List<Friend> friends = new ArrayList<>();
 
 
     public static App getInstance() {
@@ -71,8 +76,7 @@ public class App extends Application {
     }
 
 
-    public  void initHuanXin()
-    {
+    public void initHuanXin() {
         EMOptions options = new EMOptions();
 // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
@@ -109,6 +113,7 @@ public class App extends Application {
 
     /**
      * 添加activity
+     *
      * @param activity
      */
     public void addActivity(Activity activity) {
@@ -118,6 +123,7 @@ public class App extends Application {
 
     /**
      * 删除activity
+     *
      * @param activity
      */
     public void destoryActivity(Activity activity) {
@@ -128,17 +134,26 @@ public class App extends Application {
 
     /**
      * 删除除了当前activity外的所有activity
+     *
      * @param activity
      */
-    public void  finishOrActivity(Activity activity)
-    {
-        for(Activity ac:activityList)
-        {
-            if(ac!=activity)
-            {
+    public void finishOrActivity(Activity activity) {
+        for (Activity ac : activityList) {
+            if (ac != activity) {
                 ac.finish();
             }
         }
     }
 
+    public List<Friend> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Friend> friends) {
+        this.friends = friends;
+    }
+
+    public void addFriend(Friend friend) {
+        friends.add(friend);
+    }
 }

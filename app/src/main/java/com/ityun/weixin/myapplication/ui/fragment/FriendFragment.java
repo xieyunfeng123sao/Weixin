@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.ityun.weixin.myapplication.R;
+import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseFragment;
 import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.User;
@@ -116,6 +117,7 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
                         mlist.add(friend);
                     }
                 }
+                App.getInstance().setFriends(mlistFriend);
                 adapter.setData(mlist);
                 adapter.notifyDataSetChanged();
             }

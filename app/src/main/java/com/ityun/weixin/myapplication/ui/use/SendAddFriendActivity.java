@@ -70,8 +70,8 @@ public class SendAddFriendActivity extends BaseActivity {
     }
 
 
-    private  void  sendAddFriend()
-    {
+    //发送添加好友
+    private void sendAddFriend() {
         IMModel.getInstance().addFriend(userInfo.getUsername(), send_add_message.getText().toString(), new IMFriendCallBack() {
             @Override
             public void sendSucess() {
