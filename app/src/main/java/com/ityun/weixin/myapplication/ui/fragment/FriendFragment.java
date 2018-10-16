@@ -18,18 +18,22 @@ import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseFragment;
 import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.User;
+import com.ityun.weixin.myapplication.event.IMNewFriendEvent;
 import com.ityun.weixin.myapplication.listener.AdapterItemOnClickListener;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.FriendAdapter;
 import com.ityun.weixin.myapplication.ui.friend.SearContract;
 import com.ityun.weixin.myapplication.ui.friend.SearchPrensenter;
 import com.ityun.weixin.myapplication.view.SideBar;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2018/2/12 0012.
  */
@@ -59,6 +63,7 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friend, container, false);
         ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         friend_sidebar.setTextView(touch_sidebar);
         prensenter = new SearchPrensenter(this);
         return view;
@@ -91,6 +96,7 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
 
     @Override
     public void searchSucess(final List<Friend> mlistFriend) {
+        mlist.clear();
         load_view.setVisibility(View.GONE);
         friend_recycle.setVisibility(View.VISIBLE);
         getActivity().runOnUiThread(new Runnable() {
@@ -131,6 +137,7 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
         adapter.setData(mlist);
         adapter.notifyDataSetChanged();
     }
+
     /**
      * 启动指定Activity
      *
@@ -146,8 +153,15 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
     }
 
     @Subscribe
-    public void  friendEvent()
-    {
+    public void friendEvent(IMNewFriendEvent newFriendEvent) {
+        if (newFriendEvent.getResult().equals("hasAdd")) {
+            prensenter.searchFriend();
+        }
+    }
 
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

@@ -1,5 +1,7 @@
 package com.ityun.weixin.myapplication.listener;
 
+import android.util.Log;
+
 import com.hyphenate.EMContactListener;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.bean.NewFriend;
@@ -68,22 +70,25 @@ public class MyEMContactListener implements EMContactListener {
         UserModel.getInstance().queryByNum(username, new BmobTableListener<User>() {
             @Override
             public void onSucess(final User object) {
-                IMModel.getInstance().agreeFriend(object.getUsername(), new IMFriendCallBack() {
-                    @Override
-                    public void sendSucess() {
+//                IMModel.getInstance().agreeFriend(object.getUsername(), new IMFriendCallBack() {
+//                    @Override
+//                    public void sendSucess() {
                         UserModel.getInstance().addNewFriend(object, new SaveListener<String>() {
                             @Override
                             public void done(String s, BmobException e) {
-
+                                if(e==null)
+                                {
+                                    EventBus.getDefault().post(new IMNewFriendEvent("hasAdd"));
+                                }
                             }
                         });
                     }
-                    @Override
-                    public void sendFail() {
-
-                    }
-                });
-            }
+//                    @Override
+//                    public void sendFail() {
+//
+//                    }
+//                });
+//            }
 
             @Override
             public void onFail(BmobException e) {

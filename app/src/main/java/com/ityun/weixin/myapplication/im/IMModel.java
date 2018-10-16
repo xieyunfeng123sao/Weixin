@@ -41,6 +41,7 @@ public class IMModel implements EMCallBack {
     }
 
     public void login(String name, String password) {
+
         EMClient.getInstance().login(name, password, new EMCallBack() {
             @Override
             public void onSuccess() {
@@ -281,7 +282,7 @@ public class IMModel implements EMCallBack {
             public void run() {
                 //参数为要添加的好友的username和添加理由
                 try {
-                    EMClient.getInstance().contactManager().declineInvitation(username);
+                    EMClient.getInstance().contactManager().acceptInvitation(username);
                     imFriendCallBack.sendSucess();
                 } catch (HyphenateException e) {
                     imFriendCallBack.sendFail();

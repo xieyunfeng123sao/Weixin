@@ -18,6 +18,8 @@ import com.ityun.weixin.myapplication.listener.IMFriendCallBack;
 import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.ui.friend.adapter.NewFriendAdapter;
 import com.ityun.weixin.myapplication.view.LoadDialog;
+
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
@@ -90,6 +92,7 @@ public class NewFriendActivity extends BaseActivity implements SearContract.View
                                     mlist.clear();
                                     mlist.addAll(NewFriendUtil.getInstance().getAll());
                                     adapter.notifyDataSetChanged();
+                                    EventBus.getDefault().post(new IMNewFriendEvent("hasAdd"));
                                 }
                                 dialog.dismiss();
                             }

@@ -98,16 +98,19 @@ public class UserDetailActivity extends BaseActivity {
 
     @OnClick(R.id.add_friend)
     public void addFriendOnClick() {
-        dialog.show();
-        add_friend.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(UserDetailActivity.this, SendAddFriendActivity.class);
-                intent.putExtra("userinfo", userInfo);
-                startActivity(intent);
-                dialog.dismiss();
-            }
-        }, 300);
+        if (!isFriend) {
+            dialog.show();
+            add_friend.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(UserDetailActivity.this, SendAddFriendActivity.class);
+                    intent.putExtra("userinfo", userInfo);
+                    startActivity(intent);
+                    dialog.dismiss();
+                }
+            }, 300);
+        }
+
     }
 
     @OnClick(R.id.video_friend)

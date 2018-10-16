@@ -5,7 +5,7 @@ package com.ityun.weixin.myapplication.event;
  */
 
 public class IMNewFriendEvent {
-
+    //notice 好友邀请的通知消息   hasAdd 已经添加好友
     private String result;
 
     public IMNewFriendEvent() {
