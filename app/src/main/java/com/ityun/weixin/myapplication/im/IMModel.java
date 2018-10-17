@@ -1,6 +1,7 @@
 package com.ityun.weixin.myapplication.im;
 
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
@@ -12,6 +13,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.NetUtils;
 import com.ityun.weixin.myapplication.event.IMLoginEvent;
+import com.ityun.weixin.myapplication.event.IMRefreshEvent;
 import com.ityun.weixin.myapplication.listener.IMFriendCallBack;
 import com.ityun.weixin.myapplication.listener.MyConnectionListener;
 import com.ityun.weixin.myapplication.listener.MyEMContactListener;
@@ -70,19 +72,20 @@ public class IMModel implements EMCallBack {
     }
 
 
-    public void sendTextMessage(IMMessage imMessage) {
+    public EMMessage sendTextMessage(IMMessage imMessagee) {
         //创建一条文本消息，content为消息文字内容，toChatUsername为对方用户或者群聊的id，后文皆是如此
-        EMMessage message = EMMessage.createTxtSendMessage(imMessage.getContent(), imMessage.getFriendId());
+        EMMessage message = EMMessage.createTxtSendMessage(imMessagee.getContent(),imMessagee.getFriendId());
         //如果是群聊，设置chattype，默认是单聊
-        if (imMessage.getChatType() == 1) {
+        if (imMessagee.getChatType() == 1) {
             message.setChatType(EMMessage.ChatType.GroupChat);
         }
         message.setMessageStatusCallback(this);
         //发送消息
         EMClient.getInstance().chatManager().sendMessage(message);
+        return message;
     }
 
-    public void sendVoiceMessage(IMMessage imMessage) {
+    public EMMessage sendVoiceMessage(IMMessage imMessage) {
         //filePath为语音文件路径，length为录音时间(秒)
         EMMessage message = EMMessage.createVoiceSendMessage(imMessage.getPath(), imMessage.getLength(), imMessage.getFriendId());
         //如果是群聊，设置chattype，默认是单聊
@@ -90,9 +93,10 @@ public class IMModel implements EMCallBack {
             message.setChatType(EMMessage.ChatType.GroupChat);
         message.setMessageStatusCallback(this);
         EMClient.getInstance().chatManager().sendMessage(message);
+        return message;
     }
 
-    public void sendVideoMessage(IMMessage imMessage) {
+    public EMMessage sendVideoMessage(IMMessage imMessage) {
         //videoPath为视频本地路径，thumbPath为视频预览图路径，videoLength为视频时间长度
         EMMessage message = EMMessage.createVideoSendMessage(imMessage.getPath(), imMessage.getThumbPath(), imMessage.getLength(), imMessage.getFriendId());
         //如果是群聊，设置chattype，默认是单聊
@@ -100,9 +104,10 @@ public class IMModel implements EMCallBack {
             message.setChatType(EMMessage.ChatType.GroupChat);
         message.setMessageStatusCallback(this);
         EMClient.getInstance().chatManager().sendMessage(message);
+        return  message;
     }
 
-    public void sendImageMessage(IMMessage imMessage) {
+    public EMMessage sendImageMessage(IMMessage imMessage) {
         //imagePath为图片本地路径，false为不发送原图（默认超过100k的图片会压缩后发给对方），需要发送原图传true
         EMMessage message = EMMessage.createImageSendMessage(imMessage.getPath(), false, imMessage.getFriendId());
         //如果是群聊，设置chattype，默认是单聊
@@ -110,9 +115,10 @@ public class IMModel implements EMCallBack {
             message.setChatType(EMMessage.ChatType.GroupChat);
         message.setMessageStatusCallback(this);
         EMClient.getInstance().chatManager().sendMessage(message);
+        return  message;
     }
 
-    public void sendLocationMessage(IMMessage imMessage) {
+    public EMMessage sendLocationMessage(IMMessage imMessage) {
         //latitude为纬度，longitude为经度，locationAddress为具体位置内容
         EMMessage message = EMMessage.createLocationSendMessage(imMessage.getLatitude(), imMessage.getLongitude(), imMessage.getLocationAddress(), imMessage.getFriendId());
         //如果是群聊，设置chattype，默认是单聊
@@ -120,15 +126,17 @@ public class IMModel implements EMCallBack {
             message.setChatType(EMMessage.ChatType.GroupChat);
         message.setMessageStatusCallback(this);
         EMClient.getInstance().chatManager().sendMessage(message);
+        return  message;
     }
 
-    public void sendFileMessage(IMMessage imMessage) {
+    public EMMessage sendFileMessage(IMMessage imMessage) {
         EMMessage message = EMMessage.createFileSendMessage(imMessage.getPath(), imMessage.getFriendId());
         // 如果是群聊，设置chattype，默认是单聊
         if (imMessage.getChatType() == 1)
             message.setChatType(EMMessage.ChatType.GroupChat);
         message.setMessageStatusCallback(this);
         EMClient.getInstance().chatManager().sendMessage(message);
+        return message;
     }
 
     public void sendActionMessage() {
@@ -300,20 +308,18 @@ public class IMModel implements EMCallBack {
     }
 
 
-
-
     @Override
     public void onSuccess() {
-
+        EventBus.getDefault().post(new IMRefreshEvent());
     }
 
     @Override
     public void onError(int code, String error) {
-
+        EventBus.getDefault().post(new IMRefreshEvent());
     }
 
     @Override
     public void onProgress(int progress, String status) {
-
+        EventBus.getDefault().post(new IMRefreshEvent());
     }
 }
