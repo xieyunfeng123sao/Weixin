@@ -22,6 +22,7 @@ import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ import java.util.Map;
  * Created by Administrator on 2018/4/26 0026.
  */
 
-public class IMModel implements EMCallBack {
+public class IMModel {
 
     public static int LOGIN_STATE = 0;
 
@@ -74,12 +75,12 @@ public class IMModel implements EMCallBack {
 
     public EMMessage sendTextMessage(IMMessage imMessagee) {
         //创建一条文本消息，content为消息文字内容，toChatUsername为对方用户或者群聊的id，后文皆是如此
-        EMMessage message = EMMessage.createTxtSendMessage(imMessagee.getContent(),imMessagee.getFriendId());
+        EMMessage message = EMMessage.createTxtSendMessage(imMessagee.getContent(), imMessagee.getFriendId());
         //如果是群聊，设置chattype，默认是单聊
         if (imMessagee.getChatType() == 1) {
             message.setChatType(EMMessage.ChatType.GroupChat);
         }
-        message.setMessageStatusCallback(this);
+        message.setMessageStatusCallback(new MyEmCallBack(message));
         //发送消息
         EMClient.getInstance().chatManager().sendMessage(message);
         return message;
@@ -91,7 +92,7 @@ public class IMModel implements EMCallBack {
         //如果是群聊，设置chattype，默认是单聊
         if (imMessage.getChatType() == 1)
             message.setChatType(EMMessage.ChatType.GroupChat);
-        message.setMessageStatusCallback(this);
+        message.setMessageStatusCallback(new MyEmCallBack(message));
         EMClient.getInstance().chatManager().sendMessage(message);
         return message;
     }
@@ -102,9 +103,9 @@ public class IMModel implements EMCallBack {
         //如果是群聊，设置chattype，默认是单聊
         if (imMessage.getChatType() == 1)
             message.setChatType(EMMessage.ChatType.GroupChat);
-        message.setMessageStatusCallback(this);
+        message.setMessageStatusCallback(new MyEmCallBack(message));
         EMClient.getInstance().chatManager().sendMessage(message);
-        return  message;
+        return message;
     }
 
     public EMMessage sendImageMessage(IMMessage imMessage) {
@@ -113,9 +114,9 @@ public class IMModel implements EMCallBack {
         //如果是群聊，设置chattype，默认是单聊
         if (imMessage.getChatType() == 1)
             message.setChatType(EMMessage.ChatType.GroupChat);
-        message.setMessageStatusCallback(this);
+        message.setMessageStatusCallback(new MyEmCallBack(message));
         EMClient.getInstance().chatManager().sendMessage(message);
-        return  message;
+        return message;
     }
 
     public EMMessage sendLocationMessage(IMMessage imMessage) {
@@ -124,9 +125,9 @@ public class IMModel implements EMCallBack {
         //如果是群聊，设置chattype，默认是单聊
         if (imMessage.getChatType() == 1)
             message.setChatType(EMMessage.ChatType.GroupChat);
-        message.setMessageStatusCallback(this);
+        message.setMessageStatusCallback(new MyEmCallBack(message));
         EMClient.getInstance().chatManager().sendMessage(message);
-        return  message;
+        return message;
     }
 
     public EMMessage sendFileMessage(IMMessage imMessage) {
@@ -134,7 +135,7 @@ public class IMModel implements EMCallBack {
         // 如果是群聊，设置chattype，默认是单聊
         if (imMessage.getChatType() == 1)
             message.setChatType(EMMessage.ChatType.GroupChat);
-        message.setMessageStatusCallback(this);
+        message.setMessageStatusCallback(new MyEmCallBack(message));
         EMClient.getInstance().chatManager().sendMessage(message);
         return message;
     }
@@ -148,7 +149,7 @@ public class IMModel implements EMCallBack {
         String toUsername = "test1";//发送给某个人
         cmdMsg.setTo(toUsername);
         cmdMsg.addBody(cmdBody);
-        cmdMsg.setMessageStatusCallback(this);
+        cmdMsg.setMessageStatusCallback(new MyEmCallBack(cmdMsg));
         EMClient.getInstance().chatManager().sendMessage(cmdMsg);
     }
 
@@ -163,7 +164,7 @@ public class IMModel implements EMCallBack {
         //获取自定义的属性，第2个参数为没有此定义的属性时返回的默认值
         message.getStringAttribute("attribute1", null);
         message.getBooleanAttribute("attribute2", false);
-        message.setMessageStatusCallback(this);
+        message.setMessageStatusCallback(new MyEmCallBack(message));
     }
 
 
@@ -179,13 +180,19 @@ public class IMModel implements EMCallBack {
     }
 
 
-    public List<EMMessage> getEMMessage(String username, String startMsgId, int pagesize) {
+    public List<EMMessage> getEMMessage(String username) {
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(username);
         //获取此会话的所有消息
-        //List<EMMessage> messages = conversation.getAllMessages();
+        List<EMMessage> messages;
+        if (conversation != null) {
+            messages = conversation.getAllMessages();
+        } else {
+            messages = new ArrayList<>();
+        }
+
         //SDK初始化加载的聊天记录为20条，到顶时需要去DB里获取更多
         //获取startMsgId之前的pagesize条消息，此方法获取的messages SDK会自动存入到此会话中，APP中无需再次把获取到的messages添加到会话中
-        List<EMMessage> messages = conversation.loadMoreMsgFromDB(startMsgId, pagesize);
+//        List<EMMessage> messages = conversation.loadMoreMsgFromDB(startMsgId, pagesize);
         return messages;
     }
 
@@ -246,18 +253,17 @@ public class IMModel implements EMCallBack {
 //                }
 //            }
 //        }).start();
-
         return null;
     }
 
     /**
      * 添加好友
+     *
      * @param toAddUsername
      * @param content
      * @param imFriendCallBack
      */
-    public void addFriend(final String toAddUsername,final String content,final IMFriendCallBack imFriendCallBack)
-    {
+    public void addFriend(final String toAddUsername, final String content, final IMFriendCallBack imFriendCallBack) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -274,8 +280,7 @@ public class IMModel implements EMCallBack {
     }
 
 
-    public void deleteFriend(String username)
-    {
+    public void deleteFriend(String username) {
         try {
             EMClient.getInstance().contactManager().deleteContact(username);
         } catch (HyphenateException e) {
@@ -283,8 +288,7 @@ public class IMModel implements EMCallBack {
         }
     }
 
-    public  void  agreeFriend(final String username,final IMFriendCallBack imFriendCallBack)
-    {
+    public void agreeFriend(final String username, final IMFriendCallBack imFriendCallBack) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -301,25 +305,50 @@ public class IMModel implements EMCallBack {
     }
 
 
-
-    public  void setContactListener()
-    {
+    public void setContactListener() {
         EMClient.getInstance().contactManager().setContactListener(new MyEMContactListener());
     }
 
 
-    @Override
-    public void onSuccess() {
-        EventBus.getDefault().post(new IMRefreshEvent());
+    class MyEmCallBack implements EMCallBack {
+        EMMessage emMessage;
+
+        public MyEmCallBack(EMMessage emMessage) {
+            this.emMessage = emMessage;
+        }
+
+        @Override
+        public void onSuccess() {
+            emMessage.setStatus(EMMessage.Status.SUCCESS);
+            EventBus.getDefault().post(new IMRefreshEvent(emMessage));
+        }
+
+        @Override
+        public void onError(int code, String error) {
+            emMessage.setStatus(EMMessage.Status.FAIL);
+            EventBus.getDefault().post(new IMRefreshEvent(emMessage));
+        }
+
+        @Override
+        public void onProgress(int progress, String status) {
+            emMessage.setStatus(EMMessage.Status.INPROGRESS);
+            emMessage.setProgress(progress);
+            EventBus.getDefault().post(new IMRefreshEvent(emMessage));
+        }
     }
 
-    @Override
-    public void onError(int code, String error) {
-        EventBus.getDefault().post(new IMRefreshEvent());
-    }
-
-    @Override
-    public void onProgress(int progress, String status) {
-        EventBus.getDefault().post(new IMRefreshEvent());
-    }
+//    @Override
+//    public void onSuccess() {
+//        EventBus.getDefault().post(new IMRefreshEvent());
+//    }
+//
+//    @Override
+//    public void onError(int code, String error) {
+//        EventBus.getDefault().post(new IMRefreshEvent());
+//    }
+//
+//    @Override
+//    public void onProgress(int progress, String status) {
+//        EventBus.getDefault().post(new IMRefreshEvent());
+//    }
 }

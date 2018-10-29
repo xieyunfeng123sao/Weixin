@@ -19,7 +19,9 @@ import com.ityun.weixin.myapplication.base.BaseFragment;
 import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.event.IMNewFriendEvent;
+import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.listener.AdapterItemOnClickListener;
+import com.ityun.weixin.myapplication.ui.chat.ChatActivity;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.FriendAdapter;
 import com.ityun.weixin.myapplication.ui.friend.SearContract;
 import com.ityun.weixin.myapplication.ui.friend.SearchPrensenter;
@@ -86,9 +88,9 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
 //                BmobIMUserInfo info = new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
 //                //TODO 会话：4.1、创建一个常态会话入口，好友聊天
 //                BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(info, null);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("c", conversationEntrance);
-//                startActivity(ChatActivity.class, bundle);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("friend", user);
+                startActivity(ChatActivity.class, bundle);
             }
         });
         mlist.clear();

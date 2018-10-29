@@ -5,14 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseFragment;
 import com.ityun.weixin.myapplication.bean.User;
@@ -21,14 +17,9 @@ import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.listener.AdapterItemOnClickListener;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.WeixinAdapter;
 import com.ityun.weixin.myapplication.util.SpUtil;
-import com.orhanobut.logger.Logger;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

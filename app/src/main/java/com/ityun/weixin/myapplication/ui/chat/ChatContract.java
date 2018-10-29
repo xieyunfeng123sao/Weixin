@@ -18,13 +18,16 @@ public interface ChatContract {
     interface View extends BaseView<ChatContract.Presenter> {
 
     }
-
+//
 //    interface SendMeeageView extends BaseView<Presenter> {
-//        void searchSucess(List<Friend> mlist);
-//        void  searchError();
+//        void sendSucess(EMMessage emMessage);
+//
+//        void sendError(EMMessage emMessage);
+//
+//        void sendProgress(EMMessage emMessage);
 //    }
 
     interface Presenter extends BasePresenter {
-        void sendMessage(IMMessage imMessage);
+        EMMessage sendMessage(IMMessage imMessage);
     }
 }
