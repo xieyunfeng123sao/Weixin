@@ -15,6 +15,7 @@ import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.event.IMLoginEvent;
 import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.listener.AdapterItemOnClickListener;
+import com.ityun.weixin.myapplication.listener.MyEMMessageListener;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.WeixinAdapter;
 import com.ityun.weixin.myapplication.util.SpUtil;
 import org.greenrobot.eventbus.EventBus;
@@ -64,6 +65,7 @@ public class WeixinFragment extends BaseFragment {
     private void loginIM() {
         User user = SpUtil.getUser();
         IMModel.getInstance().login(user.getUsername(), "123456");
+        IMModel.getInstance().addMessageListener(new MyEMMessageListener());
     }
 
 

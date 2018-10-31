@@ -137,7 +137,6 @@ public class UserModel {
                     @Override
                     public void done(List<User> list, BmobException e) {
                         if (e == null) {
-
                             if (list != null && list.size() > 0) {
                                 listener.onSucess(list.get(0));
                             } else {

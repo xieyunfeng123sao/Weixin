@@ -44,48 +44,92 @@ import butterknife.OnClick;
 
 public class ChatActivity extends BaseActivity implements ChatContract.View, TextWatcher {
 
+    /**
+     * 刷新
+     */
     @BindView(R.id.sw_refresh)
     SwipeRefreshLayout sw_refresh;
 
+    /**
+     * 消息列表
+     */
     @BindView(R.id.rc_view)
     RecyclerView rc_view;
 
+    /**
+     * 音量布局
+     */
     @BindView(R.id.layout_record)
     RelativeLayout layout_record;
 
+    /**
+     * 音量图标
+     */
     @BindView(R.id.iv_record)
     ImageView iv_record;
 
+    /**
+     * 音量文字
+     */
     @BindView(R.id.tv_voice_tips)
     TextView tv_voice_tips;
 
+    /**
+     * 语音button
+     */
     @BindView(R.id.btn_chat_voice)
     Button btn_chat_voice;
 
+    /**
+     * 键盘button
+     */
     @BindView(R.id.btn_chat_keyboard)
     Button btn_chat_keyboard;
+
+
     //文字编辑
     @BindView(R.id.edit_msg)
     EditText edit_msg;
 
+    /**
+     * 语音按键
+     */
     @BindView(R.id.btn_speak)
     Button btn_speak;
 
+    /**
+     * 其他功能的显示
+     */
     @BindView(R.id.btn_chat_add)
     Button btn_chat_add;
 
+    /**
+     * 文字的发送
+     */
     @BindView(R.id.btn_chat_send)
     Button btn_chat_send;
 
+    /**
+     * 其他功能include布局
+     */
     @BindView(R.id.include_chat_add)
     LinearLayout include_chat_add;
 
+    /**
+     * 图片
+     */
     @BindView(R.id.tv_picture)
     TextView tv_picture;
 
+    /**
+     * 视频
+     */
     @BindView(R.id.tv_camera)
     TextView tv_camera;
 
+    /**
+     * 位置
+     */
     @BindView(R.id.tv_location)
     TextView tv_location;
 
@@ -116,17 +160,17 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
         mActionBar.setDisplayHomeAsUpEnabled(true);
         if (friend != null) {
             mActionBar.setTitle(friend.getNickname());
-            List<EMMessage> emMessages = IMModel.getInstance().getEMMessage(friend.getObjectId());
+            List<EMMessage> emMessages = IMModel.getInstance().getEMMessage(friend.getUsername());
             if (emMessages != null) {
                 messageList.addAll(emMessages);
             }
         }
-//        adapter = new ChatMessageAdapter(this);
-//        adapter.setData(messageList);
-//        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-//        rc_view.setLayoutManager(manager);
-//        rc_view.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
+        adapter = new ChatMessageAdapter(this);
+        adapter.setData(messageList);
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rc_view.setLayoutManager(manager);
+        rc_view.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -135,15 +179,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
         switch (v.getId()) {
             case R.id.btn_chat_send:
                 //发送文本消息
-                if (friend != null) {
-                    IMMessage imMessage = new IMMessage();
-                    imMessage.setChatType(0);
-                    imMessage.setFriendId(friend.getObjectId());
-                    imMessage.setContent(edit_msg.getText().toString());
-                    EMMessage emMessage = presenter.sendMessage(imMessage);
-                    messageList.add(emMessage);
-//                    adapter.notifyDataSetChanged();
-                }
+                sendTXT();
                 //发送完成后清空状态
                 hideSoftInput(edit_msg);
                 edit_msg.setText("");
@@ -155,7 +191,6 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
                 } else {
                     include_chat_add.setVisibility(View.VISIBLE);
                 }
-
                 hideSoftInput(edit_msg);
                 break;
             case R.id.btn_chat_voice:
@@ -181,6 +216,21 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
         }
     }
 
+    /**
+     * 发送文字
+     */
+    private void sendTXT() {
+        if (friend != null) {
+            IMMessage imMessage = new IMMessage();
+            imMessage.setChatType(0);
+            imMessage.setFriendId(friend.getUsername());
+            imMessage.setContent(edit_msg.getText().toString());
+            EMMessage emMessage = presenter.sendMessage(imMessage);
+            messageList.add(emMessage);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 
     /**
      * 刷新message
@@ -196,11 +246,9 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
             }
             position++;
         }
-        Log.e("insert","=============");
-//        messageList.set(position, event.emMessage);
-//        adapter.notifyDataSetChanged();
+        messageList.set(position, event.emMessage);
+        adapter.notifyItemChanged(position);
     }
-
 
     @Override
     protected void onDestroy() {

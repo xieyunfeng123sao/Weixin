@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.hyphenate.chat.EMMessage;
+import com.ityun.weixin.myapplication.R;
+import com.ityun.weixin.myapplication.base.BaseViewHolder;
 
 import java.util.List;
 
@@ -62,11 +64,12 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        if (viewType == SEND_TXT) {
-//            return new SendTextHolder(context, parent, R.layout.item_send_text);
-//        } else if (viewType == RECEIVE_TXT) {
-//            return new ReceiveTextHolder(context, parent, R.layout.item_receive_text);
-//        } else if (viewType == SEND_VOICE) {
+        if (viewType == SEND_TXT) {
+            return new SendTextHolder(context, parent, R.layout.item_chat_sent_message);
+        } else if (viewType == RECEIVE_TXT) {
+            return new ReceiveTextHolder(context, parent, R.layout.item_chat_received_message);
+        }
+// else if (viewType == SEND_VOICE) {
 //            return new SendVoiceHolder(context, parent, R.layout.item_send_voice);
 //        } else if (viewType == RECEIVE_VOICE) {
 //            return new ReceiveVoiceHolder(context, parent, R.layout.item_receive_voice);
@@ -90,30 +93,27 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-//        ((BaseViewHolder) holder).bindData(mlist.get(position));
-////        ((BaseViewHolder) holder).setOnItemLongClick(position1 -> {
-////            if (onItemLongClick != null)
-////                onItemLongClick.onClick(position);
-////        });
-//        ((BaseViewHolder) holder).setOnItemLongClick(new BaseViewHolder.OnRecyclerViewListener() {
-//            @Override
-//            public void onItemLongClick(int position) {
-//                if (onItemLongClick != null)
-//                    onItemLongClick.onClick(position);
-//            }
-//
-//            @Override
-//            public void onItemRestartClick(int position) {
-//                if (onItemLongClick != null)
-//                    onItemLongClick.onRestartClick(position);
-//            }
-//        });
-//        if (holder instanceof SendTextHolder) {
-//            ((SendTextHolder) holder).showTime(shouldShowTime(position));
-//            ((SendTextHolder) holder).setUserName(userName);
-//        } else if (holder instanceof ReceiveTextHolder) {
-//            ((ReceiveTextHolder) holder).showTime(shouldShowTime(position));
-//        } else if (holder instanceof SendVoiceHolder) {
+        ((BaseViewHolder) holder).bindData(mlist.get(position));
+
+        ((BaseViewHolder) holder).setOnItemLongClick(new BaseViewHolder.OnRecyclerViewListener() {
+            @Override
+            public void onItemLongClick(int position) {
+                if (onItemLongClick != null)
+                    onItemLongClick.onClick(position);
+            }
+
+            @Override
+            public void onItemRestartClick(int position) {
+                if (onItemLongClick != null)
+                    onItemLongClick.onRestartClick(position);
+            }
+        });
+        if (holder instanceof SendTextHolder) {
+            ((SendTextHolder) holder).showTime(shouldShowTime(position));
+        } else if (holder instanceof ReceiveTextHolder) {
+            ((ReceiveTextHolder) holder).showTime(shouldShowTime(position));
+        }
+// else if (holder instanceof SendVoiceHolder) {
 //            ((SendVoiceHolder) holder).showTime(shouldShowTime(position));
 //            ((SendVoiceHolder) holder).setUserName(userName);
 //        } else if (holder instanceof ReceiveVoiceHolder) {
@@ -179,12 +179,12 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     private boolean shouldShowTime(int position) {
-//        if (position == 0) {
-        return true;
-//        }
-//        long lastTime = mlist.get(position - 1).getCreateTime();
-//        long curTime = mlist.get(position).getCreateTime();
-//        return curTime - lastTime > TIME_INTERVAL;
+        if (position == 0) {
+            return true;
+        }
+        long lastTime = mlist.get(position - 1).getMsgTime();
+        long curTime = mlist.get(position).getMsgTime();
+        return curTime - lastTime > TIME_INTERVAL;
     }
 
     OnItemLongClick onItemLongClick;
