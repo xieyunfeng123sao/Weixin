@@ -166,11 +166,14 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
             }
         }
         adapter = new ChatMessageAdapter(this);
+
         adapter.setData(messageList);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rc_view.setHasFixedSize(true);
         rc_view.setLayoutManager(manager);
         rc_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        rc_view.smoothScrollToPosition(adapter.getItemCount()-1);
     }
 
 
@@ -217,7 +220,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
     }
 
     /**
-     * 发送文字
+     * 发送文字 excel
      */
     private void sendTXT() {
         if (friend != null) {
@@ -229,6 +232,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
             messageList.add(emMessage);
             adapter.notifyDataSetChanged();
         }
+        rc_view.smoothScrollToPosition(adapter.getItemCount()-1);
     }
 
 
@@ -240,14 +244,22 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
     @Subscribe
     public void messageRefru(IMRefreshEvent event) {
         int position = 0;
+        boolean hasMessage = false;
         for (EMMessage emMessage : messageList) {
             if (emMessage.getMsgId().equals(event.emMessage.getMsgId())) {
+                hasMessage = true;
                 break;
             }
             position++;
         }
-        messageList.set(position, event.emMessage);
-        adapter.notifyItemChanged(position);
+        if (hasMessage) {
+            messageList.set(position, event.emMessage);
+            adapter.notifyItemChanged(position);
+        } else {
+            messageList.add(event.emMessage);
+            adapter.notifyItemInserted(adapter.getItemCount());
+            rc_view.smoothScrollToPosition(adapter.getItemCount()-1);
+        }
     }
 
     @Override
