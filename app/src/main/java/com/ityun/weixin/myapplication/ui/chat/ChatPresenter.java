@@ -25,22 +25,22 @@ public class ChatPresenter implements ChatContract.Presenter {
     @Override
     public EMMessage sendMessage(IMMessage imMessage) {
         EMMessage emMessage = null;
-        if (imMessage.getChatType() == 0) {
+        if (imMessage.getMessageType() == 0) {
             emMessage = IMModel.getInstance().sendTextMessage(imMessage);
         }
-        if (imMessage.getChatType() == 1) {
+        if (imMessage.getMessageType() == 1) {
             emMessage = IMModel.getInstance().sendImageMessage(imMessage);
         }
-        if (imMessage.getChatType() == 2) {
+        if (imMessage.getMessageType() == 2) {
             emMessage = IMModel.getInstance().sendVideoMessage(imMessage);
         }
-        if (imMessage.getChatType() == 3) {
+        if (imMessage.getMessageType() == 3) {
             emMessage = IMModel.getInstance().sendLocationMessage(imMessage);
         }
-        if (imMessage.getChatType() == 4) {
+        if (imMessage.getMessageType() == 4) {
             emMessage = IMModel.getInstance().sendVoiceMessage(imMessage);
         }
-        if (imMessage.getChatType() == 5) {
+        if (imMessage.getMessageType() == 5) {
             emMessage = IMModel.getInstance().sendFileMessage(imMessage);
         }
         return emMessage;

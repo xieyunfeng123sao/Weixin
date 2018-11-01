@@ -1,14 +1,18 @@
 package com.ityun.weixin.myapplication;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.github.dfqin.grantor.PermissionListener;
+import com.github.dfqin.grantor.PermissionsUtil;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.model.UserModel;
@@ -37,7 +41,8 @@ public class MainActivity extends BaseActivity {
 
     private User user;
 
-
+    String[] per = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission
+            .WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,32 +53,43 @@ public class MainActivity extends BaseActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+        PermissionsUtil.requestPermission(this, new PermissionListener() {
+            @Override
+            public void permissionGranted(@NonNull String[] permission) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        user = UserModel.getInstance().getUser();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (user != null) {
+                                    wel_login_button.setVisibility(View.GONE);
+                                    wel_add_button.setVisibility(View.GONE);
+                                    wel_login_button.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //如果有缓存的用户信息 就不显示登录和注册
+                                            startActivity(HomeActivity.class, null, true);
+                                        }
+                                    }, 1000);
+                                }
+                            }
+                        });
+
+                    }
+                }).start();
+
+            }
+
+            @Override
+            public void permissionDenied(@NonNull String[] permission) {
+            }
+        }, per);
+
         //加载图片
 //        ImageLoadUtil.getInstance().getResouce(R.mipmap.we_2, wel_img);
         //获取用户信息
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                user = UserModel.getInstance().getUser();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (user != null) {
-                            wel_login_button.setVisibility(View.GONE);
-                            wel_add_button.setVisibility(View.GONE);
-                            wel_login_button.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //如果有缓存的用户信息 就不显示登录和注册
-                                    startActivity(HomeActivity.class, null, true);
-                                }
-                            }, 1000);
-                        }
-                    }
-                });
-
-            }
-        }).start();
 
     }
 

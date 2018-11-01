@@ -68,12 +68,13 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return new SendTextHolder(context, parent, R.layout.item_chat_sent_message);
         } else if (viewType == RECEIVE_TXT) {
             return new ReceiveTextHolder(context, parent, R.layout.item_chat_received_message);
+        } else if (viewType == SEND_VOICE) {
+            return new SendVoiceHolder(context, parent, R.layout.item_chat_sent_voice);
+        } else if (viewType == RECEIVE_VOICE) {
+            return new ReceiveVoiceHolder(context, parent, R.layout.item_chat_received_voice);
         }
-// else if (viewType == SEND_VOICE) {
-//            return new SendVoiceHolder(context, parent, R.layout.item_send_voice);
-//        } else if (viewType == RECEIVE_VOICE) {
-//            return new ReceiveVoiceHolder(context, parent, R.layout.item_receive_voice);
-//        } else if (viewType == SEND_IMG) {
+//
+// else if (viewType == SEND_IMG) {
 //            return new SendImageHolder(context, parent, R.layout.item_send_img);
 //        } else if (viewType == REVEIVE_IMG) {
 //            return new ReceiveImageHolder(context, parent, R.layout.item_receive_img);
@@ -112,13 +113,12 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((SendTextHolder) holder).showTime(shouldShowTime(position));
         } else if (holder instanceof ReceiveTextHolder) {
             ((ReceiveTextHolder) holder).showTime(shouldShowTime(position));
+        } else if (holder instanceof SendVoiceHolder) {
+            ((SendVoiceHolder) holder).showTime(shouldShowTime(position));
+        } else if (holder instanceof ReceiveVoiceHolder) {
+            ((ReceiveVoiceHolder) holder).showTime(shouldShowTime(position));
         }
-// else if (holder instanceof SendVoiceHolder) {
-//            ((SendVoiceHolder) holder).showTime(shouldShowTime(position));
-//            ((SendVoiceHolder) holder).setUserName(userName);
-//        } else if (holder instanceof ReceiveVoiceHolder) {
-//            ((ReceiveVoiceHolder) holder).showTime(shouldShowTime(position));
-//        } else if (holder instanceof SendImageHolder) {
+// else if (holder instanceof SendImageHolder) {
 //            ((SendImageHolder) holder).showTime(shouldShowTime(position));
 //            ((SendImageHolder) holder).setUserName(userName);
 //        } else if (holder instanceof ReceiveImageHolder) {
@@ -141,32 +141,32 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public int getItemViewType(int position) {
         if (mlist.get(position).direct().ordinal() == 0) {
-            if (mlist.get(position).getChatType().ordinal() == 0) {
+            if (mlist.get(position).getType().ordinal() == 0) {
                 return SEND_TXT;
-            } else if (mlist.get(position).getChatType().ordinal() == 1) {
+            } else if (mlist.get(position).getType().ordinal() == 1) {
                 return SEND_IMG;
-            } else if (mlist.get(position).getChatType().ordinal() == 2) {
+            } else if (mlist.get(position).getType().ordinal() == 2) {
                 return SEND_VIDEO;
-            } else if (mlist.get(position).getChatType().ordinal() == 3) {
+            } else if (mlist.get(position).getType().ordinal() == 3) {
                 return SEND_LOC;
-            } else if (mlist.get(position).getChatType().ordinal() == 4) {
+            } else if (mlist.get(position).getType().ordinal() == 4) {
                 return SEND_VOICE;
-            } else if (mlist.get(position).getChatType().ordinal() == 5) {
+            } else if (mlist.get(position).getType().ordinal() == 5) {
                 return SEND_FILE;
             }
 
         } else {
-            if (mlist.get(position).getChatType().ordinal() == 0) {
+            if (mlist.get(position).getType().ordinal() == 0) {
                 return RECEIVE_TXT;
-            } else if (mlist.get(position).getChatType().ordinal() == 1) {
+            } else if (mlist.get(position).getType().ordinal() == 1) {
                 return REVEIVE_IMG;
-            } else if (mlist.get(position).getChatType().ordinal() == 2) {
+            } else if (mlist.get(position).getType().ordinal() == 2) {
                 return RECEIVE_VIDEO;
-            } else if (mlist.get(position).getChatType().ordinal() == 3) {
+            } else if (mlist.get(position).getType().ordinal() == 3) {
                 return RECEIVE_LOC;
-            } else if (mlist.get(position).getChatType().ordinal() == 4) {
+            } else if (mlist.get(position).getType().ordinal() == 4) {
                 return RECEIVE_VOICE;
-            } else if (mlist.get(position).getChatType().ordinal() == 5) {
+            } else if (mlist.get(position).getType().ordinal() == 5) {
                 return RECEIVE_FILE;
             }
         }

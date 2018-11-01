@@ -47,6 +47,7 @@
                 android:text="@string/voice_up_tips"
                 android:textSize="14sp" />
         </RelativeLayout>
+
     </FrameLayout>
 
     <View

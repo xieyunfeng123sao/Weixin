@@ -1,6 +1,9 @@
 package com.ityun.weixin.myapplication.ui.chat;
 
+import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -10,6 +13,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hyphenate.chat.EMConversation;
+import com.github.dfqin.grantor.PermissionListener;
+import com.github.dfqin.grantor.PermissionsUtil;
 import com.hyphenate.chat.EMMessage;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
@@ -27,12 +32,16 @@ import com.ityun.weixin.myapplication.event.IMRefreshEvent;
 import com.ityun.weixin.myapplication.im.IMMessage;
 import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.ui.chat.adapter.ChatMessageAdapter;
+import com.ityun.weixin.myapplication.util.MediaUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +51,7 @@ import butterknife.OnClick;
  * Created by 77367 on 2018/10/17.
  */
 
-public class ChatActivity extends BaseActivity implements ChatContract.View, TextWatcher {
+public class ChatActivity extends BaseActivity implements ChatContract.View, TextWatcher, View.OnTouchListener {
 
     /**
      * 刷新
@@ -140,7 +149,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
     private List<EMMessage> messageList = new ArrayList<>();
 
     private ChatMessageAdapter adapter;
-
+//    String[] per = { Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission
+//            .WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -154,6 +164,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
     private void init() {
         presenter = new ChatPresenter(this);
         edit_msg.addTextChangedListener(this);
+        btn_speak.setOnTouchListener(this);
         friend = (User) getBundle().getSerializable("friend");
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setHomeButtonEnabled(true);
@@ -173,7 +184,38 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
         rc_view.setLayoutManager(manager);
         rc_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        rc_view.smoothScrollToPosition(adapter.getItemCount()-1);
+        rc_view.smoothScrollToPosition(adapter.getItemCount() - 1);
+
+
+        mediaUtil = new MediaUtil(this);
+        mediaUtil.setOnAudioStateChangeListener(i -> runOnUiThread(() -> {
+            switch (i) {
+                case 0:
+                    iv_record.setImageResource(R.mipmap.chat_icon_voice1);
+                    break;
+                case 1:
+                    iv_record.setImageResource(R.mipmap.chat_icon_voice2);
+                    break;
+                case 2:
+                    iv_record.setImageResource(R.mipmap.chat_icon_voice3);
+                    break;
+                case 3:
+                    iv_record.setImageResource(R.mipmap.chat_icon_voice4);
+                    break;
+                case 4:
+                    iv_record.setImageResource(R.mipmap.chat_icon_voice5);
+                    break;
+                case 5:
+                    iv_record.setImageResource(R.mipmap.chat_icon_voice6);
+                    break;
+                case 6:
+                    iv_record.setImageResource(R.mipmap.chat_icon_voice6);
+                    break;
+                case 7:
+                    iv_record.setImageResource(R.mipmap.chat_icon_voice6);
+                    break;
+            }
+        }));
     }
 
 
@@ -232,7 +274,33 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
             messageList.add(emMessage);
             adapter.notifyDataSetChanged();
         }
-        rc_view.smoothScrollToPosition(adapter.getItemCount()-1);
+        rc_view.smoothScrollToPosition(adapter.getItemCount() - 1);
+    }
+
+    /**
+     * 发送语音
+     */
+    private void sendVoice() {
+        File file = new File(voicePath);
+        if (!file.exists()) {
+            return;
+        }
+        if (friend != null) {
+            IMMessage imMessage = new IMMessage();
+            imMessage.setChatType(0);
+            imMessage.setMessageType(4);
+            imMessage.setFriendId(friend.getUsername());
+            imMessage.setPath(voicePath);
+            double voiceLength = MediaUtil.getVoiceLength(voicePath);
+            imMessage.setLength((int) (voiceLength / 1000));
+            EMMessage emMessage = presenter.sendMessage(imMessage);
+            Log.e("insert", emMessage.getChatType().name() + "==========" + emMessage.getChatType().ordinal() + "===========" + emMessage.getChatType().toString() + "=====" + emMessage.getType());
+            messageList.add(emMessage);
+            adapter.notifyDataSetChanged();
+        }
+
+
+        rc_view.smoothScrollToPosition(adapter.getItemCount() - 1);
     }
 
 
@@ -258,7 +326,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
         } else {
             messageList.add(event.emMessage);
             adapter.notifyItemInserted(adapter.getItemCount());
-            rc_view.smoothScrollToPosition(adapter.getItemCount()-1);
+            rc_view.smoothScrollToPosition(adapter.getItemCount() - 1);
         }
     }
 
@@ -287,5 +355,130 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
     @Override
     public void afterTextChanged(Editable editable) {
 
+    }
+
+    //计时
+    private int mTime;
+
+    private float startY = 0;
+
+    private MediaUtil mediaUtil;
+
+    //音频的路径
+    private String voicePath;
+
+    //是否在录音
+    private boolean isMedia;
+
+    private Timer timer;
+
+    private boolean isSend = true;
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (view.getId() == R.id.btn_speak) {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    startY = motionEvent.getY();
+                    layout_record.setVisibility(View.VISIBLE);
+                    mTime = 0;
+                    voicePath = mediaUtil.startRecorder();
+                    isMedia = true;
+                    if (timer != null) {
+                        timer.cancel();
+                        timer = null;
+                    }
+
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            mTime += 1;
+                            runOnUiThread(() -> {
+                                if (mTime > 105 && isMedia) {
+                                    layout_record.setVisibility(View.GONE);
+                                    isMedia = false;
+                                    mediaUtil.stopRecorder();
+                                    sendVoice();
+                                    toast("语音不能超过10秒");
+                                    if (timer != null) {
+                                        timer.cancel();
+                                        timer = null;
+                                    }
+                                }
+                            });
+                        }
+                    }, 0, 100);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    float moveY = motionEvent.getY();
+                    int instance = (int) Math.abs(moveY - startY);
+                    if (instance > 100) {
+                        isSend = false;
+                        isMedia = false;
+                        layout_record.setVisibility(View.GONE);
+                        if (timer != null) {
+                            timer.cancel();
+                            timer = null;
+                        }
+                        break;
+                    }
+                    if (mTime > 100 && isMedia) {
+                        layout_record.setVisibility(View.GONE);
+                        isMedia = false;
+                        isSend = false;
+                        mediaUtil.stopRecorder();
+                        sendVoice();
+                        toast("语音不能超过10秒");
+                        if (timer != null) {
+                            timer.cancel();
+                            timer = null;
+                        }
+                        break;
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (isSend) {
+                        if (mTime < 15 && isMedia) {
+                            mediaUtil.cancel();
+                            layout_record.setVisibility(View.GONE);
+                            toast("语音不能少于1秒");
+                        } else if (isMedia) {
+                            mediaUtil.stopRecorder();
+                            sendVoice();
+                            layout_record.setVisibility(View.GONE);
+                        }
+                        if (timer != null) {
+                            timer.cancel();
+                            timer = null;
+                        }
+                        isMedia = false;
+                    } else {
+                        mediaUtil.cancel();
+                        layout_record.setVisibility(View.GONE);
+                        isSend = true;
+                    }
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                    if (mTime < 15 && isMedia) {
+                        mediaUtil.cancel();
+                    } else if (isMedia) {
+                        mediaUtil.stopRecorder();
+                        sendVoice();
+                    }
+                    if (timer != null) {
+                        timer.cancel();
+                        timer = null;
+                    }
+                    isMedia = false;
+                    layout_record.setVisibility(View.GONE);
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
+
+        return false;
     }
 }
