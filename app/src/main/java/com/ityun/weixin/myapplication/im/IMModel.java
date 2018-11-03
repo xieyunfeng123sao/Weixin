@@ -1,5 +1,6 @@
 package com.ityun.weixin.myapplication.im;
 
+import android.util.ArrayMap;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -23,6 +24,7 @@ import com.orhanobut.logger.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -225,7 +227,9 @@ public class IMModel {
 
     public Map<String, EMConversation> allConversation() {
         Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
-        return conversations;
+        if (conversations != null)
+            return conversations;
+        return new HashMap<>();
     }
 
 

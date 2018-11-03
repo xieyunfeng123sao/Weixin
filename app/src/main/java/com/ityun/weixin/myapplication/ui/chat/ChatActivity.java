@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.phontolibrary.AlbumActivity;
 import com.github.dfqin.grantor.PermissionListener;
 import com.github.dfqin.grantor.PermissionsUtil;
 import com.hyphenate.chat.EMMessage;
@@ -177,14 +178,15 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
             }
         }
         adapter = new ChatMessageAdapter(this);
-
         adapter.setData(messageList);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rc_view.setHasFixedSize(true);
         rc_view.setLayoutManager(manager);
         rc_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        rc_view.smoothScrollToPosition(adapter.getItemCount() - 1);
+        if (messageList != null && messageList.size() != 0) {
+            rc_view.smoothScrollToPosition(adapter.getItemCount() - 1);
+        }
 
 
         mediaUtil = new MediaUtil(this);
@@ -219,7 +221,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
     }
 
 
-    @OnClick({R.id.btn_chat_send, R.id.btn_chat_add, R.id.btn_chat_voice, R.id.btn_chat_keyboard})
+    @OnClick({R.id.btn_chat_send, R.id.btn_chat_add, R.id.btn_chat_voice, R.id.btn_chat_keyboard, R.id.tv_picture})
     public void viewOnClick(View v) {
         switch (v.getId()) {
             case R.id.btn_chat_send:
@@ -258,6 +260,12 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
                 btn_chat_voice.setVisibility(View.VISIBLE);
                 btn_chat_keyboard.setVisibility(View.GONE);
                 break;
+            case R.id.tv_picture:
+                Intent intent = new Intent(ChatActivity.this, AlbumActivity.class);
+                startActivityForResult(intent, 0);
+                include_chat_add.setVisibility(View.GONE);
+                hideSoftInput(edit_msg);
+                break;
         }
     }
 
@@ -294,12 +302,9 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
             double voiceLength = MediaUtil.getVoiceLength(voicePath);
             imMessage.setLength((int) (voiceLength / 1000));
             EMMessage emMessage = presenter.sendMessage(imMessage);
-            Log.e("insert", emMessage.getChatType().name() + "==========" + emMessage.getChatType().ordinal() + "===========" + emMessage.getChatType().toString() + "=====" + emMessage.getType());
             messageList.add(emMessage);
             adapter.notifyDataSetChanged();
         }
-
-
         rc_view.smoothScrollToPosition(adapter.getItemCount() - 1);
     }
 

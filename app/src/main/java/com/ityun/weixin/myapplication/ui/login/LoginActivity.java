@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     User user;
 
     String[] per = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission
-            .WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
+            .WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA,Manifest.permission.READ_PHONE_STATE};
 
 
     @Override

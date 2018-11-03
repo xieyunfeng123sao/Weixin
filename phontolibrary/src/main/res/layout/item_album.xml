@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/fl_folder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/folder_bg"
+            android:layout_margin="5dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="3dp">
+        <ImageView
+            android:scaleType="fitXY"
+            android:id="@+id/item_album_first_img"
+            android:background="#F8F8F8"
+            android:layout_width="72dp"
+            android:layout_height="72dp" />
+        </FrameLayout>
+
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/file_name"
+            android:textSize="16sp"
+            android:textColor="#9C9C9C"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:id="@+id/item_album_first_img_selected"
+            android:visibility="gone"
+            android:src="@mipmap/selected"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#b5b5b5"
+        ></View>
+
+
+</LinearLayout>

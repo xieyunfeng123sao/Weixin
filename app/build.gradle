@@ -43,27 +43,22 @@ buildscript {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
-
     compile 'cn.bmob.android:bmob-sdk:3.5.6'
-
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
     compile 'com.android.support:support-v4:23.2.1'
-//    compile 'cn.bmob.android:http-legacy:1.0'
-
+    //    compile 'cn.bmob.android:http-legacy:1.0'
     //注解
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //图片
     compile 'com.github.bumptech.glide:glide:3.7.0'
-
     compile 'com.orhanobut:logger:1.15'
     //郭神的数据库
     compile 'org.litepal.android:core:1.6.1'
@@ -71,13 +66,11 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     //汉字转拼音
     compile 'com.github.promeg:tinypinyin:1.0.0'
-
     compile 'com.google.android.gms:play-services-gcm:9.4.0'
     compile 'com.hyphenate:hyphenate-sdk-lite:3.3.0'
-
     //wesker add GreenDao start
     compile 'org.greenrobot:greendao:3.1.0'
-
     //权限
     compile 'com.github.dfqin:grantor:2.5'
+    implementation project(':phontolibrary')
 }

@@ -149,6 +149,18 @@ public class App extends Application {
         return friends;
     }
 
+
+    public Friend getFriend(String username) {
+        if (friends != null) {
+            for (Friend f : friends) {
+                if (f.getFriendUser().getUsername().equals(username)) {
+                    return f;
+                }
+            }
+        }
+        return null;
+    }
+
     public void setFriends(List<Friend> friends) {
         this.friends = friends;
     }

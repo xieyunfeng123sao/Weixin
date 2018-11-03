@@ -3,35 +3,23 @@ package com.ityun.weixin.myapplication.ui.album;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBar;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
-import com.ityun.weixin.myapplication.conn.FileConstance;
-import com.ityun.weixin.myapplication.ui.adduser.AddUserActivity;
 import com.ityun.weixin.myapplication.ui.album.adapter.AlbumAdapter;
 import com.ityun.weixin.myapplication.util.DataUtils;
 import com.ityun.weixin.myapplication.util.PermissionUtil;
@@ -40,11 +28,7 @@ import com.ityun.weixin.myapplication.util.addpic.LocalMedia;
 import com.ityun.weixin.myapplication.util.addpic.LocalMediaFolder;
 import com.ityun.weixin.myapplication.util.addpic.LocalMediaLoader;
 import com.ityun.weixin.myapplication.view.AlbumPopwindow;
-import com.orhanobut.logger.Logger;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,7 +43,6 @@ import butterknife.OnClick;
 
 public class AlbumActivity extends BaseActivity {
 
-
     @BindView(R.id.picture_file_name)
     TextView picture_file_name;
 
@@ -72,6 +55,7 @@ public class AlbumActivity extends BaseActivity {
     private List<LocalMediaFolder> mediaFolderList;
 
     private List<LocalMedia> localMediaList;
+
     private int sType = 0;
 
     public int MY_PERMISSIONS_REQUEST_OPEN_ALBUM = 10;

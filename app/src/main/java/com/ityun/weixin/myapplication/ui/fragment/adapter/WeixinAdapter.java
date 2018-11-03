@@ -13,12 +13,20 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.adapter.message.EMAMessage;
 import com.ityun.weixin.myapplication.R;
+import com.ityun.weixin.myapplication.base.App;
+import com.ityun.weixin.myapplication.bean.Friend;
+import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.conn.Constant;
 import com.ityun.weixin.myapplication.listener.AdapterItemOnClickListener;
+import com.ityun.weixin.myapplication.listener.BmobTableListener;
+import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.util.DateUtil;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 
 import java.util.List;
+import java.util.Map;
+
+import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/2/13 0013.
@@ -27,7 +35,7 @@ import java.util.List;
 public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
 
-    private List<EMConversation> mlist;
+    private Map<String, EMConversation> mlist;
 
     private AdapterItemOnClickListener onClickListener;
 
@@ -38,7 +46,7 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    public void setData(List<EMConversation> mlist) {
+    public void setData(Map<String, EMConversation> mlist) {
         this.mlist = mlist;
     }
 
@@ -53,33 +61,39 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        EMMessage message = mlist.get(position).getLastMessage();
+
+        EMConversation obj = null;
+        int po = 0;
+        for (Map.Entry<String, EMConversation> entry : mlist.entrySet()) {
+            obj = entry.getValue();
+            if (obj != null && position == po) {
+                break;
+            }
+            po++;
+        }
+        EMMessage message = obj.getLastMessage();
         if (message.getType().ordinal() == EMMessage.Type.TXT.ordinal()) {
             ((RecyleItemHolder) holder).user_last_msg.setText(message.getBody().toString());
         } else {
-            ((RecyleItemHolder) holder).user_last_msg.setText(Constant.MessageType.str[message.getType().ordinal() - 1]);
+            ((RecyleItemHolder) holder).user_last_msg.setText("[" + Constant.MessageType.str[message.getType().ordinal() - 1] + "]");
         }
         ((RecyleItemHolder) holder).user_last_msg_time.setText(DateUtil.timeToText(message.getMsgTime()));
         ((RecyleItemHolder) holder).user_nickname.setText(message.getUserName());
-//        ImageLoadUtil.getInstance().loadUrl(mlist.get(position).get, ((RecyleItemHolder) holder).user_img);
-//        UserModel.getInstance().queryById(mlist.get(position).getConversationId(), new BmobTableListener<User>() {
-//            @Override
-//            public void onSucess(User object) {
-//                ((RecyleItemHolder) holder).user_nickname.setText(object.getNickname());
-//            }
-//
-//            @Override
-//            public void onFail(BmobException e) {
-//                ((RecyleItemHolder) holder).user_nickname.setText(mlist.get(position).getConversationTitle());
-//            }
-//        });
-//
-//        ((RecyleItemHolder) holder).item_weixin_ll.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onClickListener.OnClick(position);
-//            }
-//        });
+        Friend friend = App.getInstance().getFriend(message.getUserName());
+        if (friend != null) {
+            ImageLoadUtil.getInstance().loadUrl(friend.getFriendUser().getAvatar(), ((RecyleItemHolder) holder).user_img);
+            ((RecyleItemHolder) holder).user_nickname.setText(friend.getFriendUser().getNickname());
+        }
+        else {
+            ImageLoadUtil.getInstance().getResouce(R.color.txt_color, ((RecyleItemHolder) holder).user_img);
+            ((RecyleItemHolder) holder).user_nickname.setText("");
+        }
+        ((RecyleItemHolder) holder).item_weixin_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.OnClick(position);
+            }
+        });
 
     }
 

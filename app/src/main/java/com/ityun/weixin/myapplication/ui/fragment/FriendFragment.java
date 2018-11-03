@@ -85,9 +85,6 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
             public void OnClick(int position) {
                 Friend friend = mlist.get(position);
                 User user = friend.getFriendUser();
-//                BmobIMUserInfo info = new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
-//                //TODO 会话：4.1、创建一个常态会话入口，好友聊天
-//                BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(info, null);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("friend", user);
                 startActivity(ChatActivity.class, bundle);

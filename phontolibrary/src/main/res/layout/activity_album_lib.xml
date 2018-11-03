@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#303135">
+
+        <ImageView
+            android:onClick="finishActivity"
+            android:id="@+id/select_back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:src="@mipmap/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="图片"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:textColor="#ffffff"
+            android:id="@+id/select_num"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:onClick="PopShow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/picture_file_name_ll"
+        android:layout_weight="1">
+
+        <GridView
+            android:id="@+id/picture_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:columnWidth="90dp"
+            android:horizontalSpacing="3dp"
+            android:listSelector="#9C9C9C"
+            android:numColumns="4"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="3dp" />
+
+        <TextView
+            android:id="@+id/picture_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#80d0d0d0"
+            android:paddingBottom="3dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="3dp"
+            android:textColor="#ffffff"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/picture_file_name_ll"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="#303135">
+
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/picture_file_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/picture_file_name"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/text_indicator" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:onClick="sendPic"
+            android:text="发送"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/send_pic"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+</LinearLayout>

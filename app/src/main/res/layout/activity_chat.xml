@@ -26,7 +26,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
-            android:background="@drawable/chat_top_voice_bg"
+            android:background="@drawable/icon_dialog_backgrounds"
             android:padding="10dp"
             android:visibility="invisible">
 
@@ -44,6 +44,7 @@
                 android:layout_below="@id/iv_record"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/white"
                 android:text="@string/voice_up_tips"
                 android:textSize="14sp" />
         </RelativeLayout>

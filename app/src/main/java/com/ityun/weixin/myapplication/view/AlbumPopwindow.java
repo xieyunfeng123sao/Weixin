@@ -2,7 +2,6 @@ package com.ityun.weixin.myapplication.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -44,7 +43,7 @@ public class AlbumPopwindow {
 
     public   PopupWindow create(List<LocalMediaFolder> mediaFolderList)
     {
-        View popupView = LayoutInflater.from(context).inflate(R.layout.layout_album_popupwindow, null);
+        View popupView = LayoutInflater.from(context).inflate(R.layout.layout_popupwindow, null);
         album_file_list=popupView.findViewById(R.id.album_file_list);
         adapter=new AlbumPopAdapter(context);
         album_file_list.setAdapter(adapter);

@@ -12,10 +12,13 @@ import android.widget.TextView;
 
 import com.hyphenate.chat.EMMessage;
 import com.ityun.weixin.myapplication.R;
+import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseViewHolder;
+import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.listener.BmobTableListener;
 import com.ityun.weixin.myapplication.model.UserModel;
+import com.ityun.weixin.myapplication.ui.fragment.adapter.WeixinAdapter;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 
 import java.io.IOException;
@@ -54,26 +57,17 @@ public class ReceiveTextHolder extends BaseViewHolder<EMMessage> {
         String message = emMessage.getBody().toString();
         String showMessage = message.substring(5, message.length() - 1);
         tv_message.setText(showMessage);
-//        SpannableStringBuilder sb =  handler(tv_message,imMessage.getMessage());
-//        // 对内容做处理
-//        tv_message.setText(sb);
-////        tv_message.setText(imMessage.getMessage());
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm");
         String time = dateFormat.format(emMessage.getMsgTime());
         tv_time.setText(time);
         bindClick(tv_message);
-        UserModel.getInstance().queryByNum(emMessage.getUserName(), new BmobTableListener() {
-            @Override
-            public void onSucess(Object object) {
-                User user = (User) object;
-                ImageLoadUtil.getInstance().loadUrl(user.getAvatar(),iv_avatar);
-            }
+        Friend friend = App.getInstance().getFriend(emMessage.getUserName());
+        if (friend != null) {
+            ImageLoadUtil.getInstance().loadUrl(friend.getFriendUser().getAvatar(), iv_avatar);
+        } else {
+            ImageLoadUtil.getInstance().getResouce(R.color.txt_color, iv_avatar);
+        }
 
-            @Override
-            public void onFail(BmobException e) {
-
-            }
-        });
     }
 
     public void showTime(boolean isShow) {

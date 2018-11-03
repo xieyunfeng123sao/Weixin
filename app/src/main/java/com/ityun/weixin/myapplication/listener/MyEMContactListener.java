@@ -70,9 +70,7 @@ public class MyEMContactListener implements EMContactListener {
         UserModel.getInstance().queryByNum(username, new BmobTableListener<User>() {
             @Override
             public void onSucess(final User object) {
-//                IMModel.getInstance().agreeFriend(object.getUsername(), new IMFriendCallBack() {
-//                    @Override
-//                    public void sendSucess() {
+
                         UserModel.getInstance().addNewFriend(object, new SaveListener<String>() {
                             @Override
                             public void done(String s, BmobException e) {
@@ -83,13 +81,6 @@ public class MyEMContactListener implements EMContactListener {
                             }
                         });
                     }
-//                    @Override
-//                    public void sendFail() {
-//
-//                    }
-//                });
-//            }
-
             @Override
             public void onFail(BmobException e) {
 

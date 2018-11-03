@@ -1,7 +1,6 @@
 package com.ityun.weixin.myapplication.ui.album.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +10,10 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.util.DensityUtil;
-import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 import com.ityun.weixin.myapplication.util.addpic.LocalMedia;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.util.List;
-
-import static com.ityun.weixin.myapplication.base.App.context;
 
 /**
  * Created by Administrator on 2018/1/23 0023.
@@ -59,7 +54,7 @@ public class AlbumAdapter extends BaseAdapter {
         Holder holder=null;
         if(convertView==null)
         {
-            convertView= LayoutInflater.from(context).inflate(R.layout.item_add_user_img,null);
+            convertView= LayoutInflater.from(context).inflate(R.layout.item_add_img,null);
             holder=new Holder();
             holder.imageView=convertView.findViewById(R.id.item_img);
             convertView.setTag(holder);

@@ -60,7 +60,7 @@ public class AlbumPopAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder holder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_album_file, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_album, null);
             holder = new Holder();
             holder.file_img = convertView.findViewById(R.id.item_album_first_img);
             holder.file_select = convertView.findViewById(R.id.item_album_first_img_selected);
