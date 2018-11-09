@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseViewHolder;
@@ -54,9 +55,8 @@ public class ReceiveTextHolder extends BaseViewHolder<EMMessage> {
 
     @Override
     public void bindData(EMMessage emMessage) {
-        String message = emMessage.getBody().toString();
-        String showMessage = message.substring(5, message.length() - 1);
-        tv_message.setText(showMessage);
+        EMTextMessageBody body = (EMTextMessageBody) emMessage.getBody();
+        tv_message.setText(body.getMessage());
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm");
         String time = dateFormat.format(emMessage.getMsgTime());
         tv_time.setText(time);

@@ -1,11 +1,16 @@
 package com.ityun.weixin.myapplication.util;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.widget.ImageView;
+
+import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.conn.Constant;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,12 +38,12 @@ public class MediaUtil {
     // 用于语音播放
     private MediaPlayer mPlayer = null;
 
-    private Context context;
+    private Activity activity;
 
     public boolean isPrepared = false;
 
-    public MediaUtil(Context context) {
-        this.context = context;
+    public MediaUtil(Activity context) {
+        this.activity = context;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             path = Constant.basePath;
             File files = new File(path);
@@ -49,8 +54,8 @@ public class MediaUtil {
         }
 
     }
-    private Timer timer;
 
+    private Timer timer;
 
 
     @SuppressLint("SimpleDateFormat")
@@ -80,13 +85,12 @@ public class MediaUtil {
             }
 
             isPrepared = true;
-            if(timer!=null)
-            {
+            if (timer != null) {
                 timer.cancel();
                 // 一定设置为null，否则定时器不会被回收
                 timer = null;
             }
-            timer=new Timer();
+            timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -95,7 +99,7 @@ public class MediaUtil {
                         audioStateChangeListener.wellPrepared(num);
                     }
                 }
-            },0,300);
+            }, 0, 300);
 
 
         } catch (IOException e) {
@@ -193,8 +197,7 @@ public class MediaUtil {
                 mediaRecorder.release();
                 mediaRecorder = null;
             }
-            if(timer!=null)
-            {
+            if (timer != null) {
                 timer.cancel();
                 // 一定设置为null，否则定时器不会被回收
                 timer = null;
@@ -339,8 +342,43 @@ public class MediaUtil {
 
     public AudioStateChangeListener audioStateChangeListener;
 
-    public void setOnAudioStateChangeListener(AudioStateChangeListener listener) {
-        audioStateChangeListener = listener;
+    public void setOnAudioStateChangeListener(ImageView view) {
+        audioStateChangeListener = new AudioStateChangeListener() {
+            @Override
+            public void wellPrepared(int i) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        switch (i) {
+                            case 0:
+                                view.setImageResource(R.mipmap.chat_icon_voice1);
+                                break;
+                            case 1:
+                                view.setImageResource(R.mipmap.chat_icon_voice2);
+                                break;
+                            case 2:
+                                view.setImageResource(R.mipmap.chat_icon_voice3);
+                                break;
+                            case 3:
+                                view.setImageResource(R.mipmap.chat_icon_voice4);
+                                break;
+                            case 4:
+                                view.setImageResource(R.mipmap.chat_icon_voice5);
+                                break;
+                            case 5:
+                                view.setImageResource(R.mipmap.chat_icon_voice6);
+                                break;
+                            case 6:
+                                view.setImageResource(R.mipmap.chat_icon_voice6);
+                                break;
+                            case 7:
+                                view.setImageResource(R.mipmap.chat_icon_voice6);
+                                break;
+                        }
+                    }
+                });
+            }
+        };
     }
 
 

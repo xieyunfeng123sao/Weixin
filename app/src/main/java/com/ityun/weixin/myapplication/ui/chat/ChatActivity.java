@@ -1,9 +1,7 @@
 package com.ityun.weixin.myapplication.ui.chat;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -12,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -21,10 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.phontolibrary.AlbumActivity;
-import com.github.dfqin.grantor.PermissionListener;
-import com.github.dfqin.grantor.PermissionsUtil;
 import com.hyphenate.chat.EMMessage;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
@@ -34,16 +28,14 @@ import com.ityun.weixin.myapplication.im.IMMessage;
 import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.ui.chat.adapter.ChatMessageAdapter;
 import com.ityun.weixin.myapplication.util.MediaUtil;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
+import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -150,8 +142,6 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
     private List<EMMessage> messageList = new ArrayList<>();
 
     private ChatMessageAdapter adapter;
-//    String[] per = { Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission
-//            .WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -190,34 +180,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
 
 
         mediaUtil = new MediaUtil(this);
-        mediaUtil.setOnAudioStateChangeListener(i -> runOnUiThread(() -> {
-            switch (i) {
-                case 0:
-                    iv_record.setImageResource(R.mipmap.chat_icon_voice1);
-                    break;
-                case 1:
-                    iv_record.setImageResource(R.mipmap.chat_icon_voice2);
-                    break;
-                case 2:
-                    iv_record.setImageResource(R.mipmap.chat_icon_voice3);
-                    break;
-                case 3:
-                    iv_record.setImageResource(R.mipmap.chat_icon_voice4);
-                    break;
-                case 4:
-                    iv_record.setImageResource(R.mipmap.chat_icon_voice5);
-                    break;
-                case 5:
-                    iv_record.setImageResource(R.mipmap.chat_icon_voice6);
-                    break;
-                case 6:
-                    iv_record.setImageResource(R.mipmap.chat_icon_voice6);
-                    break;
-                case 7:
-                    iv_record.setImageResource(R.mipmap.chat_icon_voice6);
-                    break;
-            }
-        }));
+        mediaUtil.setOnAudioStateChangeListener(iv_record);
     }
 
 
@@ -308,13 +271,12 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
         rc_view.smoothScrollToPosition(adapter.getItemCount() - 1);
     }
 
-
     /**
      * 刷新message
      *
      * @param event
      */
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageRefru(IMRefreshEvent event) {
         int position = 0;
         boolean hasMessage = false;
@@ -359,9 +321,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
 
     @Override
     public void afterTextChanged(Editable editable) {
-
     }
-
     //计时
     private int mTime;
 
@@ -483,7 +443,6 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
             }
             return true;
         }
-
         return false;
     }
 }

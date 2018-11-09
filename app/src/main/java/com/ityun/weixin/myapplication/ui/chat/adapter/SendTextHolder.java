@@ -1,30 +1,20 @@
 package com.ityun.weixin.myapplication.ui.chat.adapter;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseViewHolder;
-import com.ityun.weixin.myapplication.bean.User;
-import com.ityun.weixin.myapplication.listener.BmobTableListener;
-import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 import com.ityun.weixin.myapplication.util.SpUtil;
-
 import java.text.SimpleDateFormat;
-
 import butterknife.BindView;
-import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by Administrator on 2018/5/28 0028.
@@ -63,9 +53,8 @@ public class SendTextHolder extends BaseViewHolder<EMMessage> {
     public void bindData(EMMessage emMessage) {
 //        SpannableStringBuilder sb = handler(tv_message, imMessage.getMessage());
         // 对内容做处理
-        String  message=emMessage.getBody().toString();
-        String  showMessage=message.substring(5,message.length()-1);
-        tv_message.setText(showMessage);
+        EMTextMessageBody body = (EMTextMessageBody) emMessage.getBody();
+        tv_message.setText(body.getMessage());
         if (emMessage.status() == EMMessage.Status.SUCCESS) {
             progress_load.setVisibility(View.INVISIBLE);
             iv_fail_resend.setVisibility(View.INVISIBLE);

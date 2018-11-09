@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseFragment;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.event.IMLoginEvent;
+import com.ityun.weixin.myapplication.event.IMRefreshEvent;
 import com.ityun.weixin.myapplication.im.IMModel;
 import com.ityun.weixin.myapplication.listener.AdapterItemOnClickListener;
 import com.ityun.weixin.myapplication.listener.MyEMMessageListener;
@@ -57,6 +59,7 @@ public class WeixinFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weixin, container, false);
         ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         adapter = new WeixinAdapter(getActivity());
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         weixin_message_list.setLayoutManager(manager);
@@ -85,18 +88,19 @@ public class WeixinFragment extends BaseFragment {
 
     @Override
     public void onStart() {
-        EventBus.getDefault().register(this);
+
         super.onStart();
     }
 
     @Override
     public void onStop() {
-        EventBus.getDefault().unregister(this);
+
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -109,6 +113,7 @@ public class WeixinFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onEvent(IMLoginEvent event) {
         if (event.getLoginResult().equals("sucess")) {
+            map.clear();
             IMModel.getInstance().addConnectionListener();
             IMModel.getInstance().setContactListener();
             IMModel.getInstance().getAllFrind();
@@ -117,6 +122,16 @@ public class WeixinFragment extends BaseFragment {
         } else {
 
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageRefru(IMRefreshEvent event) {
+        map.clear();
+        IMModel.getInstance().addConnectionListener();
+        IMModel.getInstance().setContactListener();
+        IMModel.getInstance().getAllFrind();
+        map.putAll(IMModel.getInstance().allConversation());
+        adapter.notifyDataSetChanged();
     }
 
 

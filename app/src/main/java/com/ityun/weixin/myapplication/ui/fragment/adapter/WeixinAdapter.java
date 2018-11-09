@@ -2,6 +2,7 @@ package com.ityun.weixin.myapplication.ui.fragment.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,10 @@ import android.widget.TextView;
 
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMMessageBody;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.chat.adapter.message.EMAMessage;
+import com.hyphenate.chat.adapter.message.EMATextMessageBody;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.bean.Friend;
@@ -73,21 +77,44 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         EMMessage message = obj.getLastMessage();
         if (message.getType().ordinal() == EMMessage.Type.TXT.ordinal()) {
-            ((RecyleItemHolder) holder).user_last_msg.setText(message.getBody().toString());
+            EMTextMessageBody body= (EMTextMessageBody) message.getBody();
+            ((RecyleItemHolder) holder).user_last_msg.setText(body.getMessage());
         } else {
             ((RecyleItemHolder) holder).user_last_msg.setText("[" + Constant.MessageType.str[message.getType().ordinal() - 1] + "]");
         }
-        ((RecyleItemHolder) holder).user_last_msg_time.setText(DateUtil.timeToText(message.getMsgTime()));
+        ((RecyleItemHolder) holder).user_last_msg_time.setText(DateUtil.timeToHHText(message.getMsgTime()));
         ((RecyleItemHolder) holder).user_nickname.setText(message.getUserName());
-        Friend friend = App.getInstance().getFriend(message.getUserName());
+        Friend friend = null;
+        if (message.direct().ordinal() == EMMessage.Direct.RECEIVE.ordinal()) {
+            friend = App.getInstance().getFriend(message.getUserName());
+        } else {
+            friend = App.getInstance().getFriend(message.getTo());
+        }
+
         if (friend != null) {
+
             ImageLoadUtil.getInstance().loadUrl(friend.getFriendUser().getAvatar(), ((RecyleItemHolder) holder).user_img);
             ((RecyleItemHolder) holder).user_nickname.setText(friend.getFriendUser().getNickname());
+        } else {
+            ((RecyleItemHolder) holder).item_weixin_ll.setVisibility(View.GONE);
+            UserModel.getInstance().queryByNum(message.getTo(), new BmobTableListener() {
+                @Override
+                public void onSucess(Object object) {
+                    User user = (User) object;
+                    ImageLoadUtil.getInstance().loadUrl(user.getAvatar(), ((RecyleItemHolder) holder).user_img);
+                    ((RecyleItemHolder) holder).user_nickname.setText(user.getNickname());
+                    ((RecyleItemHolder) holder).item_weixin_ll.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onFail(BmobException e) {
+                    notifyItemRemoved(position);
+                }
+            });
+//            ImageLoadUtil.getInstance().getResouce(R.color.txt_color, ((RecyleItemHolder) holder).user_img);
+//            ((RecyleItemHolder) holder).user_nickname.setText("");
         }
-        else {
-            ImageLoadUtil.getInstance().getResouce(R.color.txt_color, ((RecyleItemHolder) holder).user_img);
-            ((RecyleItemHolder) holder).user_nickname.setText("");
-        }
+
         ((RecyleItemHolder) holder).item_weixin_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

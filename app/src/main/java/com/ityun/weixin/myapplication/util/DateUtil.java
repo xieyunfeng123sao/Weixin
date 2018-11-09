@@ -32,6 +32,28 @@ public class DateUtil {
 
     }
 
+
+    public static String timeToHHText(long sendTime) {
+
+        if (IsToday(sendTime)) {
+            Date date = new Date(sendTime);
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            String time = format.format(date);
+            return time;
+        } else if (IsYesterday(sendTime)) {
+
+            return "昨天";
+
+        } else {
+            Date date = new Date(sendTime);
+            SimpleDateFormat format = new SimpleDateFormat("MM月dd日");
+            String time = format.format(date);
+            return  time;
+
+        }
+
+    }
+
     /**
      * 判断是否为今天(效率比较高)
      *
