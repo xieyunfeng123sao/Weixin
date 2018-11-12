@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/backgroud_light_color">
 
-    <include
-        android:id="@+id/load_view"
-        layout="@layout/layout_loading" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,37 +15,73 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/item_friend_newfriend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/item_selector_gray"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@mipmap/icon_addfriend" />
+                    android:id="@+id/user_img"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="15dp" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="@string/newfriend"
-                    android:textColor="@color/txt_color"
-                    android:textSize="16sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/user_nikename"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/user_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/light_txt_color"
+                        android:textSize="13sp" />
+                </LinearLayout>
 
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@mipmap/icon_addfriend" />
+                    android:id="@+id/user_num_code"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/item_selector_gray"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/wallet" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wallet"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
