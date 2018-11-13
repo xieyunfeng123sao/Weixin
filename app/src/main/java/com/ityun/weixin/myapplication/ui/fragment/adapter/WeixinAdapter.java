@@ -77,7 +77,7 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         EMMessage message = obj.getLastMessage();
         if (message.getType().ordinal() == EMMessage.Type.TXT.ordinal()) {
-            EMTextMessageBody body= (EMTextMessageBody) message.getBody();
+            EMTextMessageBody body = (EMTextMessageBody) message.getBody();
             ((RecyleItemHolder) holder).user_last_msg.setText(body.getMessage());
         } else {
             ((RecyleItemHolder) holder).user_last_msg.setText("[" + Constant.MessageType.str[message.getType().ordinal() - 1] + "]");
@@ -92,7 +92,6 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if (friend != null) {
-
             ImageLoadUtil.getInstance().loadUrl(friend.getFriendUser().getAvatar(), ((RecyleItemHolder) holder).user_img);
             ((RecyleItemHolder) holder).user_nickname.setText(friend.getFriendUser().getNickname());
         } else {
@@ -111,8 +110,8 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     notifyItemRemoved(position);
                 }
             });
-//            ImageLoadUtil.getInstance().getResouce(R.color.txt_color, ((RecyleItemHolder) holder).user_img);
-//            ((RecyleItemHolder) holder).user_nickname.setText("");
+            ImageLoadUtil.getInstance().getResouce(R.color.txt_color, ((RecyleItemHolder) holder).user_img);
+            ((RecyleItemHolder) holder).user_nickname.setText("");
         }
 
         ((RecyleItemHolder) holder).item_weixin_ll.setOnClickListener(new View.OnClickListener() {

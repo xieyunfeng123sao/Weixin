@@ -23,6 +23,7 @@ import com.hyphenate.util.NetUtils;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.base.BaseActivity;
+import com.ityun.weixin.myapplication.bean.Friend;
 import com.ityun.weixin.myapplication.bean.User;
 import com.ityun.weixin.myapplication.dao.NewFriendUtil;
 import com.ityun.weixin.myapplication.im.IMModel;
@@ -92,12 +93,16 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         initFragment();
+        List<Friend> mlist = SpUtil.getFriends();
+        if (mlist != null && mlist.size() != 0) {
+            App.getInstance().setFriends(mlist);
+        }
+
         userInfo = UserModel.getInstance().getUser();
         initDb();
     }
 
-    private void initDb()
-    {
+    private void initDb() {
         NewFriendUtil.getInstance().init();
     }
 
@@ -232,7 +237,6 @@ public class HomeActivity extends BaseActivity {
     public void EventOnMainThread() {
 
     }
-
 
 
 }

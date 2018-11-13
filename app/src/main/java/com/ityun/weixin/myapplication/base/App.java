@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.ityun.weixin.myapplication.bean.Friend;
+import com.ityun.weixin.myapplication.util.SpUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -163,9 +165,18 @@ public class App extends Application {
 
     public void setFriends(List<Friend> friends) {
         this.friends = friends;
+        if (friends != null && friends.size() != 0) {
+            SpUtil.saveFriends(friends);
+        }
     }
 
     public void addFriend(Friend friend) {
+        if (friends == null) {
+            friends = new ArrayList<>();
+        }
         friends.add(friend);
+        if (friends != null && friends.size() != 0) {
+            SpUtil.saveFriends(friends);
+        }
     }
 }
