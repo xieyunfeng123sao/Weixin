@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <include
-        android:id="@+id/load_view"
-        layout="@layout/layout_loading" />
+    android:layout_height="match_parent"
+    android:background="@color/backgroud_light_color">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,20 +14,19 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/item_friend_circle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/item_selector_gray"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@mipmap/circle_img" />
+                    android:layout_height="28dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/cff" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -38,17 +34,79 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/friend_circle"
-                    android:textColor="@color/txt_color"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/new_circle_user_img"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="8dp" />
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_launcher" />
+
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/item_selector_gray"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="28dp"
+                        android:layout_marginRight="15dp"
+                        android:src="@mipmap/scan" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/scan"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginRight="36dp"
+                    android:background="@color/backgroud_light_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/item_selector_gray"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="28dp"
+                        android:layout_marginRight="15dp"
+                        android:src="@mipmap/shake" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/shake"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

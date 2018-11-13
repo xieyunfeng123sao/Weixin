@@ -64,8 +64,12 @@
     <string name="voice_short_tips">录音时间太短</string>
 
 
-
     <string name="friend_circle">朋友圈</string>
     <string name="wallet">钱包</string>
-
+    <string name="collection">收藏</string>
+    <string name="album">相册</string>
+    <string name="expression">表情</string>
+    <string name="scan">扫一扫</string>
+    <string name="setting">设置</string>
+    <string name="shake">摇一摇</string>
 </resources>
