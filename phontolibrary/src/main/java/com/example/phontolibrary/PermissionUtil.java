@@ -12,9 +12,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import java.lang.reflect.Method;
-
 /**
- * Created by Administrator on 2018/6/5 0005.
+ * @user xie
+ * @date 2018/11/12 0012
+ * @email 773675907@qq.com.
  */
 
 public class PermissionUtil {

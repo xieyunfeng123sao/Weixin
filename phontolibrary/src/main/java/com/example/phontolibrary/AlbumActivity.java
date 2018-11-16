@@ -19,14 +19,14 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2018/1/22 0022.
+ * @user xie
+ * @date 2018/11/12 0012
+ * @email 773675907@qq.com.
  */
 
 public class AlbumActivity extends AppCompatActivity {
@@ -133,7 +133,7 @@ public class AlbumActivity extends AppCompatActivity {
         picture_gridview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                changeTime();
+//                changeTime();
             }
 
             @Override

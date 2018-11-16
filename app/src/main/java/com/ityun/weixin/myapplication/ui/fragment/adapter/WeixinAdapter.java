@@ -2,7 +2,6 @@ package com.ityun.weixin.myapplication.ui.fragment.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,7 @@ import android.widget.TextView;
 
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMMessageBody;
 import com.hyphenate.chat.EMTextMessageBody;
-import com.hyphenate.chat.adapter.message.EMAMessage;
-import com.hyphenate.chat.adapter.message.EMATextMessageBody;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.App;
 import com.ityun.weixin.myapplication.bean.Friend;
@@ -27,7 +23,6 @@ import com.ityun.weixin.myapplication.model.UserModel;
 import com.ityun.weixin.myapplication.util.DateUtil;
 import com.ityun.weixin.myapplication.util.ImageLoadUtil;
 
-import java.util.List;
 import java.util.Map;
 
 import cn.bmob.v3.exception.BmobException;
@@ -90,29 +85,8 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             friend = App.getInstance().getFriend(message.getTo());
         }
-
-        if (friend != null) {
-            ImageLoadUtil.getInstance().loadUrl(friend.getFriendUser().getAvatar(), ((RecyleItemHolder) holder).user_img);
-            ((RecyleItemHolder) holder).user_nickname.setText(friend.getFriendUser().getNickname());
-        } else {
-            ((RecyleItemHolder) holder).item_weixin_ll.setVisibility(View.GONE);
-            UserModel.getInstance().queryByNum(message.getTo(), new BmobTableListener() {
-                @Override
-                public void onSucess(Object object) {
-                    User user = (User) object;
-                    ImageLoadUtil.getInstance().loadUrl(user.getAvatar(), ((RecyleItemHolder) holder).user_img);
-                    ((RecyleItemHolder) holder).user_nickname.setText(user.getNickname());
-                    ((RecyleItemHolder) holder).item_weixin_ll.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onFail(BmobException e) {
-                    notifyItemRemoved(position);
-                }
-            });
-            ImageLoadUtil.getInstance().getResouce(R.color.txt_color, ((RecyleItemHolder) holder).user_img);
-            ((RecyleItemHolder) holder).user_nickname.setText("");
-        }
+        ImageLoadUtil.getInstance().loadUrl(friend.getFriendUser().getAvatar(), ((RecyleItemHolder) holder).user_img);
+        ((RecyleItemHolder) holder).user_nickname.setText(friend.getFriendUser().getNickname());
 
         ((RecyleItemHolder) holder).item_weixin_ll.setOnClickListener(new View.OnClickListener() {
             @Override

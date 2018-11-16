@@ -16,7 +16,9 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Created by Administrator on 2018/1/23 0023.
+ * @user xie
+ * @date 2018/11/12 0012
+ * @email 773675907@qq.com.
  */
 
 public class AlbumAdapter extends BaseAdapter {

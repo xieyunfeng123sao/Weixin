@@ -4,7 +4,11 @@ import android.net.ParseException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/**
+ * @user xie
+ * @date 2018/11/12 0012
+ * @email 773675907@qq.com.
+ */
 public class DataUtils {
 
 	

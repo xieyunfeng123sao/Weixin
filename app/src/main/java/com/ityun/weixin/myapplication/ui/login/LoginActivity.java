@@ -2,7 +2,6 @@ package com.ityun.weixin.myapplication.ui.login;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 
 import com.github.dfqin.grantor.PermissionListener;
 import com.github.dfqin.grantor.PermissionsUtil;
-import com.google.gson.Gson;
 import com.ityun.weixin.myapplication.R;
 import com.ityun.weixin.myapplication.base.BaseActivity;
 import com.ityun.weixin.myapplication.bean.User;
@@ -25,8 +23,6 @@ import com.ityun.weixin.myapplication.ui.HomeActivity;
 import com.ityun.weixin.myapplication.util.DecideUtil;
 import com.ityun.weixin.myapplication.util.SpUtil;
 import com.ityun.weixin.myapplication.view.LoadDialog;
-import com.orhanobut.logger.Logger;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

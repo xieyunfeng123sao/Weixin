@@ -3,7 +3,11 @@ package com.example.phontolibrary;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
-
+/**
+ * @user xie
+ * @date 2018/11/12 0012
+ * @email 773675907@qq.com.
+ */
 public class Utils {
     /**
      * This method converts  dp unit to equivalent pixels, depending on device density.

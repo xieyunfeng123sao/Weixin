@@ -3,7 +3,11 @@ package com.example.phontolibrary;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @user xie
+ * @date 2018/11/12 0012
+ * @email 773675907@qq.com.
+ */
 @SuppressWarnings("serial")
 public class LocalMediaFolder implements Serializable {
     private String name;

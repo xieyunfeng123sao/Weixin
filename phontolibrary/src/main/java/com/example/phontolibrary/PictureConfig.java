@@ -4,7 +4,11 @@ import android.app.Activity;
 
 import java.util.List;
 
-
+/**
+ * @user xie
+ * @date 2018/11/12 0012
+ * @email 773675907@qq.com.
+ */
 public class PictureConfig {
     public FunctionOptions options;
     public static PictureConfig sInstance;

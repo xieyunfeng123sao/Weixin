@@ -25,6 +25,7 @@ import com.ityun.weixin.myapplication.ui.chat.ChatActivity;
 import com.ityun.weixin.myapplication.ui.fragment.adapter.FriendAdapter;
 import com.ityun.weixin.myapplication.ui.friend.SearContract;
 import com.ityun.weixin.myapplication.ui.friend.SearchPrensenter;
+import com.ityun.weixin.myapplication.util.SpUtil;
 import com.ityun.weixin.myapplication.view.SideBar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,7 +80,19 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
         friend_recycle.setAdapter(adapter);
         adapter.setData(mlist);
         adapter.notifyDataSetChanged();
-        prensenter.searchFriend();
+        List<Friend> friendList = App.getInstance().getFriends();
+        if (friendList != null && friendList.size() != 0) {
+            User friendUser = friendList.get(0).getFriendUser();
+            if (friendUser.getUsername().equals(SpUtil.getUser().getUsername())) {
+                mlist.clear();
+                updataFriends(friendList);
+            } else {
+                prensenter.searchFriend();
+            }
+        } else {
+            prensenter.searchFriend();
+        }
+
         adapter.setFriendItemOnClick(new AdapterItemOnClickListener() {
             @Override
             public void OnClick(int position) {
@@ -101,32 +114,40 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                List<String> sort = new ArrayList<>();
-                for (int i = 0; i < mlistFriend.size(); i++) {
-                    Friend friend = mlistFriend.get(i);
-                    String username = friend.getFriendUser().getNickname();
-                    if (username != null) {
-                        String pinyin = Pinyin.toPinyin(username.charAt(0));
-                        String aString = pinyin.substring(0, 1).toUpperCase();
-                        if (aString.matches("[A-Z]")) {
-                            if (!sort.contains(aString)) {
-                                sort.add(aString);
-                            }
-                            friend.setPinyin(aString);
-                        } else {
-                            if (!sort.contains("#")) {
-                                sort.add("#");
-                            }
-                            friend.setPinyin("#");
-                        }
-                        mlist.add(friend);
-                    }
+                updataFriends(mlistFriend);
+                if (mlistFriend != null && mlistFriend.size() != 0) {
+                    SpUtil.saveFriends(mlistFriend);
                 }
-                App.getInstance().setFriends(mlistFriend);
-                adapter.setData(mlist);
-                adapter.notifyDataSetChanged();
             }
         });
+    }
+
+
+    private void updataFriends(List<Friend> mlistFriend) {
+        List<String> sort = new ArrayList<>();
+        for (int i = 0; i < mlistFriend.size(); i++) {
+            Friend friend = mlistFriend.get(i);
+            String username = friend.getFriendUser().getNickname();
+            if (username != null) {
+                String pinyin = Pinyin.toPinyin(username.charAt(0));
+                String aString = pinyin.substring(0, 1).toUpperCase();
+                if (aString.matches("[A-Z]")) {
+                    if (!sort.contains(aString)) {
+                        sort.add(aString);
+                    }
+                    friend.setPinyin(aString);
+                } else {
+                    if (!sort.contains("#")) {
+                        sort.add("#");
+                    }
+                    friend.setPinyin("#");
+                }
+                mlist.add(friend);
+            }
+        }
+        App.getInstance().setFriends(mlistFriend);
+        adapter.setData(mlist);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

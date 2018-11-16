@@ -6,7 +6,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @user xie
+ * @date 2018/11/12 0012
+ * @email 773675907@qq.com.
+ */
 public class FunctionOptions implements Serializable {
 
     /**

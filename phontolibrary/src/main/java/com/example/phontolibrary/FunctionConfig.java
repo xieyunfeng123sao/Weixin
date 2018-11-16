@@ -2,7 +2,11 @@ package com.example.phontolibrary;
 
 import java.io.Serializable;
 
-
+/**
+ * @user xie
+ * @date 2018/11/12 0012
+ * @email 773675907@qq.com.
+ */
 public class FunctionConfig implements Serializable {
     /**
      * serialVersionUID
