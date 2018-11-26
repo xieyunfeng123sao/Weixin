@@ -2,6 +2,7 @@ package com.ityun.weixin.myapplication.ui.fragment.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,11 +61,13 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-
+        String name = "";
         EMConversation obj = null;
         int po = 0;
         for (Map.Entry<String, EMConversation> entry : mlist.entrySet()) {
             obj = entry.getValue();
+            name = entry.getKey();
+            Log.e("wechat", name);
             if (obj != null && position == po) {
                 break;
             }
@@ -81,17 +84,18 @@ public class WeixinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((RecyleItemHolder) holder).user_nickname.setText(message.getUserName());
         Friend friend = null;
         if (message.direct().ordinal() == EMMessage.Direct.RECEIVE.ordinal()) {
-            friend = App.getInstance().getFriend(message.getUserName());
+            friend = App.getInstance().getFriend(name);
         } else {
             friend = App.getInstance().getFriend(message.getTo());
         }
         ImageLoadUtil.getInstance().loadUrl(friend.getFriendUser().getAvatar(), ((RecyleItemHolder) holder).user_img);
         ((RecyleItemHolder) holder).user_nickname.setText(friend.getFriendUser().getNickname());
-
+        final Friend finalFriend = friend;
         ((RecyleItemHolder) holder).item_weixin_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickListener.OnClick(position);
+                onClickListener.OnClickObj(finalFriend.getFriendUser());
             }
         });
 

@@ -322,6 +322,14 @@ public class ChatActivity extends BaseActivity implements ChatContract.View, Tex
     @Override
     public void afterTextChanged(Editable editable) {
     }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
+    }
+
     //计时
     private int mTime;
 

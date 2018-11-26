@@ -102,6 +102,11 @@ public class FriendFragment extends BaseFragment implements SearContract.SearchF
                 bundle.putSerializable("friend", user);
                 startActivity(ChatActivity.class, bundle);
             }
+
+            @Override
+            public void OnClickObj(Object object) {
+
+            }
         });
         mlist.clear();
     }

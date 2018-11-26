@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -78,6 +79,7 @@ public class AlbumActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_lib);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         picture_file_name = findViewById(R.id.picture_file_name);
         picture_file_name_ll = findViewById(R.id.picture_file_name_ll);
         picture_gridview = findViewById(R.id.picture_gridview);

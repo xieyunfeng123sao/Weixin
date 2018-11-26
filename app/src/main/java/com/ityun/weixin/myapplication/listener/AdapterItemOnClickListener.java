@@ -7,4 +7,6 @@ package com.ityun.weixin.myapplication.listener;
 public interface AdapterItemOnClickListener {
 
     void  OnClick(int position);
+
+    void  OnClickObj(Object object);
 }

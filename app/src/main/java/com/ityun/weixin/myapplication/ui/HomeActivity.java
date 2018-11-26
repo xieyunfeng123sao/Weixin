@@ -97,7 +97,6 @@ public class HomeActivity extends BaseActivity {
         if (mlist != null && mlist.size() != 0) {
             App.getInstance().setFriends(mlist);
         }
-
         userInfo = UserModel.getInstance().getUser();
         initDb();
     }
@@ -200,7 +199,6 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        NewFriendManager.getInstance(this).hasNewFriendInvitation();
     }
 
     @Override

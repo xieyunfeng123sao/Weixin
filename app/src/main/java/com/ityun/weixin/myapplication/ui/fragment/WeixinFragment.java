@@ -79,9 +79,13 @@ public class WeixinFragment extends BaseFragment {
         adapter.setonItemOnClick(new AdapterItemOnClickListener() {
             @Override
             public void OnClick(int position) {
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("friend", user);
-//                startActivity(ChatActivity.class, bundle);
+            }
+
+            @Override
+            public void OnClickObj(Object object) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("friend", (User) object);
+                startActivity(ChatActivity.class, bundle);
             }
         });
         loginIM();
@@ -92,12 +96,7 @@ public class WeixinFragment extends BaseFragment {
         User user = SpUtil.getUser();
         IMModel.getInstance().login(user.getUsername(), "123456");
         IMModel.getInstance().addMessageListener(new MyEMMessageListener());
-//        map.putAll(IMModel.getInstance().allConversation());
-//        for (String string : map.keySet())
-//        {
-//            Log.e("Ceshhi",string);
-//        }
-//        adapter.notifyDataSetChanged();
+
     }
 
 
@@ -129,25 +128,8 @@ public class WeixinFragment extends BaseFragment {
     public void onEvent(IMLoginEvent event) {
         if (event.getLoginResult().equals("sucess")) {
             map.clear();
-//            IMModel.getInstance().addConnectionListener();
-//            IMModel.getInstance().setContactListener();
-//            IMModel.getInstance().getAllFrind();
-            Map<String, EMConversation> allMap = new ArrayMap<>();
-            allMap.putAll(IMModel.getInstance().allConversation());
-            //是好友才会显示
-            for (String string : allMap.keySet()) {
-                if (friendList != null && friendList.size() != 0) {
-                    boolean isFriend = false;
-                    for (Friend friend : friendList) {
-                        if (friend.getFriendUser().getUsername().equals(string)) {
-                            isFriend = true;
-                        }
-                    }
-                    if (isFriend) {
-                        map.put(string, allMap.get(string));
-                    }
-                }
-            }
+//            Map<String, EMConversation> allMap = new ArrayMap<>();
+            map.putAll(IMModel.getInstance().allConversation());
             adapter.notifyDataSetChanged();
         } else {
 
@@ -157,10 +139,22 @@ public class WeixinFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageRefru(IMRefreshEvent event) {
         map.clear();
-//        IMModel.getInstance().addConnectionListener();
-//        IMModel.getInstance().setContactListener();
-//        IMModel.getInstance().getAllFrind();
+//        Map<String, EMConversation> allMap = new ArrayMap<>();
         map.putAll(IMModel.getInstance().allConversation());
+//        //是好友才会显示
+//        for (String string : allMap.keySet()) {
+//            if (friendList != null && friendList.size() != 0) {
+//                boolean isFriend = false;
+//                for (Friend friend : friendList) {
+//                    if (friend.getFriendUser().getUsername().equals(string)) {
+//                        isFriend = true;
+//                    }
+//                }
+//                if (isFriend) {
+//                    map.put(string, allMap.get(string));
+//                }
+//            }
+//        }
         adapter.notifyDataSetChanged();
     }
 
